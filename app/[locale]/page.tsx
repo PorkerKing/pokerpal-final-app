@@ -38,7 +38,7 @@ export default function HomePage() {
   const t = useTranslations('HomePage');
   const locale = useLocale();
   const { data: session, status } = useSession();
-  const { setSession, clearSession, user, selectedClub, clubId, aiPersonaName, setClub, setClubs } = useUserStore();
+  const { setSession, clearSession, user, selectedClub, setClubs, setSelectedClub } = useUserStore();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasMounted, setHasMounted] = useState(false);
@@ -53,6 +53,9 @@ export default function HomePage() {
           const data = await res.json();
           setSession(session);
           setClubs(data.clubs);
+          if (data.clubs && data.clubs.length > 0) {
+            setSelectedClub(data.clubs[0]);
+          }
         } else {
            console.error("Failed to fetch clubs for user.");
            clearSession();
@@ -68,16 +71,14 @@ export default function HomePage() {
 
   useEffect(() => {
     const initialize = async () => {
-      // Only initialize if no club is selected yet
-      if (!clubId) {
+      // Only initialize if no club is selected yet (for guests)
+      if (!selectedClub) {
         try {
           const response = await fetch('/api/user/get-clubs');
           const data = await response.json();
           if (data.clubs && data.clubs.length > 0) {
             setClubs(data.clubs);
-            // Set the first club as the default
-            const defaultClub = data.clubs[0];
-            setClub(defaultClub.id, defaultClub.name, defaultClub.aiPersona.name);
+            setSelectedClub(data.clubs[0]);
           }
         } catch (error) {
           console.error("Failed to initialize clubs:", error);
@@ -86,7 +87,7 @@ export default function HomePage() {
       setIsLoading(false);
     };
     initialize();
-  }, [clubId, setClub, setClubs]);
+  }, [selectedClub, setClubs, setSelectedClub]);
 
   const handleSendMessage = async (text: string) => {
     if (!text.trim() || !user || !selectedClub) return;
@@ -182,7 +183,7 @@ export default function HomePage() {
               <div className="w-full max-w-2xl text-center z-10">
                 <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
                   {t('welcomeMessage')} 
-                  <span className="text-purple-400">{aiPersonaName || '...'}</span>
+                  <span className="text-purple-400">{selectedClub?.aiPersona?.name || '...'}</span>
                 </h1>
                 <p className="mt-4 text-xl text-gray-400">{t('subheading')}</p>
                 <div className="mt-8 space-y-4 text-left">

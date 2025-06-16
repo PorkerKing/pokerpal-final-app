@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Building, ChevronsUpDown } from 'lucide-react';
 
 export default function ClubSwitcher() {
-  const { clubs, selectedClub, setClub } = useUserStore();
+  const { clubs, selectedClub, setSelectedClub } = useUserStore();
   const t = useTranslations('Header');
 
   if (!selectedClub || clubs.length <= 1) {
@@ -23,8 +23,8 @@ export default function ClubSwitcher() {
         value={selectedClub.id}
         onChange={(e) => {
             const newClub = clubs.find(c => c.id === e.target.value);
-            if (newClub && newClub.aiPersona) {
-                setClub(newClub.id, newClub.name, newClub.aiPersona.name);
+            if (newClub) {
+                setSelectedClub(newClub);
             }
         }}
         aria-label={t('clubSwitcherLabel')}
