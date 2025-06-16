@@ -44,6 +44,15 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
+    async signIn({ account }) {
+      // For credentials provider, we've already authorized the user.
+      // This callback prevents the PrismaAdapter from trying to handle it.
+      if (account?.provider === 'credentials') {
+        return true;
+      }
+      // For OAuth providers, let the adapter handle user creation/linking.
+      return true; 
+    },
     async jwt({ token, user }) {
         if (user) {
             const clubMember = await prisma.clubMember.findFirst({
