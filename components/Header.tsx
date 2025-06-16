@@ -42,12 +42,15 @@ export default function Header() {
 
   return (
     <header className="absolute top-0 right-0 p-4 md:p-6 z-20">
-      <button 
-        onClick={() => signIn()} 
-        className="bg-purple-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-purple-500 transition-colors"
-      >
-        {t('signInOrSignUp')}
-      </button>
+      <div className="flex items-center space-x-4">
+        <LanguageSwitcher />
+        <button 
+          onClick={() => signIn()} 
+          className="bg-purple-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-purple-500 transition-colors"
+        >
+          {t('signInOrSignUp')}
+        </button>
+      </div>
     </header>
   );
 }; 
