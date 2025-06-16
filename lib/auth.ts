@@ -1,4 +1,4 @@
-import NextAuth, { type AuthOptions } from 'next-auth';
+import { AuthOptions } from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Email from 'next-auth/providers/email';
 import { PrismaAdapter } from '@auth/prisma-adapter';
