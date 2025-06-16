@@ -34,6 +34,16 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt", // The definitive strategy for this use case
   },
   callbacks: {
+    async signIn({ account }) {
+      // This gatekeeper callback is the key to solving the conflict.
+      // Allow OAuth to be handled by the adapter.
+      if (account?.provider !== 'credentials') {
+        return true;
+      }
+      // For credentials, we've already authorized, so we just allow the sign-in.
+      // This prevents the adapter from trying to create a session for a credentials user.
+      return true;
+    },
     // This callback is crucial for JWT strategy with custom properties
     async jwt({ token, user }) {
       if (user) { // user object is only available on first sign in

@@ -198,7 +198,7 @@ export default function HomePage() {
                 <p className="mt-4 text-xl text-gray-400">{t('subheading')}</p>
                 <div className="mt-8 space-y-4 text-left">
                    {promptSuggestions.map((text, index) => (
-                     <div key={index} onClick={() => status === 'authenticated' ? handleSendMessage(text.replace(/"|"|「|」/g, '')) : signIn()} className="group bg-white/5 border border-transparent rounded-lg p-4 hover:border-white/10 hover:bg-white/10 transition-all duration-300 cursor-pointer">
+                     <div key={index} onClick={() => handleSendMessage(text.replace(/"|"|「|」/g, ''))} className="group bg-white/5 border border-transparent rounded-lg p-4 hover:border-white/10 hover:bg-white/10 transition-all duration-300 cursor-pointer">
                        <p className="text-lg text-gray-300 group-hover:text-white">{text}</p>
                      </div>
                    ))}
