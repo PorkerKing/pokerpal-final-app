@@ -45,7 +45,7 @@ export default function Header() {
       <div className="flex items-center space-x-4">
         <LanguageSwitcher />
         <button 
-          onClick={() => signIn()} 
+          onClick={() => signIn('credentials')} 
           className="bg-purple-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-purple-500 transition-colors"
         >
           {t('signInOrSignUp')}
