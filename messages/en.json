@@ -1,0 +1,19 @@
+{
+  "HomePage": {
+    "welcomeTitle": "I am {span}",
+    "defaultAIName": "AI Assistant",
+    "subheading": "You can ask me something like this:",
+    "promptSuggestion1": "\"Hi Aisha, how are my leaderboard points looking this month?\"",
+    "promptSuggestion2": "\"Can you show me the deepstack tournament for tonight, please?\"",
+    "promptSuggestion3": "\"Help me book a seat for the $2/$5 cash game, lah.\"",
+    "promptSuggestion4": "\"What were my results from last week?\""
+  },
+  "Header": {
+    "welcome": "Welcome",
+    "signOut": "Sign Out",
+    "signInWithGithub": "Sign in with GitHub",
+    "signInOrSignUp": "Sign In / Sign Up",
+    "clubSwitcherLabel": "Select Club",
+    "languageSwitcherLabel": "Select Language"
+  }
+} 

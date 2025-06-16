@@ -1,0 +1,19 @@
+{
+  "HomePage": {
+    "welcomeTitle": "我是{span}",
+    "defaultAIName": "AI助手",
+    "subheading": "您可以这样问我：",
+    "promptSuggestion1": "\"Stella，帮我查下这个月积分，晓得伐？\"",
+    "promptSuggestion2": "\"今晚的深筹赛信息有伐？发我看看。\"",
+    "promptSuggestion3": "\"阿拉想订个$2/$5的位子，能安排吗？\"",
+    "promptSuggestion4": "\"上礼拜我打得哪能？帮我复盘下。\""
+  },
+  "Header": {
+    "welcome": "欢迎",
+    "signOut": "退出登录",
+    "signInWithGithub": "使用GitHub登录",
+    "signInOrSignUp": "登入 / 注册",
+    "clubSwitcherLabel": "选择俱乐部",
+    "languageSwitcherLabel": "选择语言"
+  }
+} 

@@ -1,0 +1,19 @@
+{
+  "HomePage": {
+    "welcomeTitle": "うちは{span}やで！",
+    "defaultAIName": "AIアシスタント",
+    "subheading": "うちには、こんな風に聞いてみてな！",
+    "promptSuggestion1": "\"由美ちゃん、今月のポイント、なんぼになったん？教えてや！\"",
+    "promptSuggestion2": "\"今夜のディープスタック、情報見せてくれへん？\"",
+    "promptSuggestion3": "\"$2/$5の席、一つ確保しといてー！頼むで！\"",
+    "promptSuggestion4": "\"先週の結果、どうやった？はよ見たいわ。\""
+  },
+  "Header": {
+    "welcome": "ようこそ",
+    "signOut": "ログアウト",
+    "signInWithGithub": "GitHubでログイン",
+    "signInOrSignUp": "ログイン / 新規登録",
+    "clubSwitcherLabel": "クラブを選択",
+    "languageSwitcherLabel": "言語を選択"
+  }
+} 
