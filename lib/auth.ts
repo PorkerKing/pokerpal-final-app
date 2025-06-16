@@ -20,15 +20,6 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
 
-  // 对于 v4 和数据库适配器，明确指定 session 策略是好习惯
-  session: {
-    strategy: "database", 
-  },
-
-  pages: {
-    signIn: "/login",
-  },
-
   callbacks: {
     async session({ session, user }) {
       if (session?.user) {
@@ -42,9 +33,6 @@ export const authOptions: NextAuthOptions = {
         }
       }
       return session;
-    },
-    redirect() {
-      return "/";
     },
   },
 };
