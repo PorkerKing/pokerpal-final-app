@@ -21,39 +21,38 @@ export const authOptions: NextAuthOptions = {
           password: {  label: "Password", type: "password" }
         },
         async authorize(credentials) {
-            if (!credentials?.email || !credentials?.password) {
-                return null;
-            }
-
-            // Check if the user exists
-            const user = await prisma.user.findUnique({
-                where: { email: credentials.email }
-            });
-
-            if (user && credentials.password === 'password123') {
-                // Return user object if password matches
-                return user;
-            }
-            
-            // Return null if user not found or password doesn't match
+            if (!credentials?.email || !credentials?.password) return null;
+            const user = await prisma.user.findUnique({ where: { email: credentials.email }});
+            // IMPORTANT: In a real app, you'd hash and compare passwords.
+            // For this project, we use a plain text password for testing.
+            if (user && credentials.password === 'password123') return user;
             return null;
         }
     })
   ],
   session: {
-    strategy: "database",
+    strategy: "jwt", // The definitive strategy for this use case
   },
   callbacks: {
-    async session({ session, user }) {
-      if (session.user) {
+    // This callback is crucial for JWT strategy with custom properties
+    async jwt({ token, user }) {
+      if (user) { // user object is only available on first sign in
         const clubMember = await prisma.clubMember.findFirst({
             where: { userId: user.id },
             select: { role: true }
         });
-        (session.user as any).id = user.id;
+        token.id = user.id;
         if (clubMember) {
-            (session.user as any).role = clubMember.role;
+            token.role = clubMember.role;
         }
+      }
+      return token;
+    },
+    // This callback makes the custom properties available in the client-side session
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as any).id = token.id;
+        (session.user as any).role = token.role;
       }
       return session;
     },

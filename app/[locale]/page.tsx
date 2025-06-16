@@ -90,17 +90,27 @@ export default function HomePage() {
   }, [selectedClub, setClubs, setSelectedClub]);
 
   const handleSendMessage = async (text: string) => {
-    if (!text.trim() || !user || !selectedClub) return;
+    if (!text.trim() || !selectedClub) return;
+
     const newUserMessage: Message = { role: 'user', content: text, type: 'text' };
-    const currentHistory = [...messages, newUserMessage];
-    setMessages(currentHistory);
+    setMessages(prev => [...prev, newUserMessage]);
     setIsLoading(true);
+    
     try {
+      const payload = {
+        message: text,
+        history: messages,
+        clubId: selectedClub.id,
+        locale: locale,
+        userId: user?.id || null,
+      };
+
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, history: messages, userId: user.id, clubId: selectedClub.id, locale: locale }),
+        body: JSON.stringify(payload),
       });
+
       if (!response.ok) throw new Error('API request failed');
       const data = await response.json();
       const assistantMessage: Message = { role: 'assistant', content: data.data || data.reply, type: data.type || 'text' };
