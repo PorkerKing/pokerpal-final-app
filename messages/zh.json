@@ -1,19 +1,15 @@
 {
-  "HomePage": {
-    "welcomeTitle": "我是{span}",
-    "defaultAIName": "AI助手",
-    "subheading": "您可以这样问我：",
-    "promptSuggestion1": "\"Stella，帮我查下这个月积分，晓得伐？\"",
-    "promptSuggestion2": "\"今晚的深筹赛信息有伐？发我看看。\"",
-    "promptSuggestion3": "\"阿拉想订个$2/$5的位子，能安排吗？\"",
-    "promptSuggestion4": "\"上礼拜我打得哪能？帮我复盘下。\""
-  },
   "Header": {
-    "welcome": "欢迎",
+    "clubSwitcherLabel": "切换俱乐部",
     "signOut": "退出登录",
-    "signInWithGithub": "使用GitHub登录",
-    "signInOrSignUp": "登入 / 注册",
-    "clubSwitcherLabel": "选择俱乐部",
-    "languageSwitcherLabel": "选择语言"
+    "signInOrSignUp": "登录 / 注册"
+  },
+  "HomePage": {
+    "welcomeMessage": "我是",
+    "subheading": "您的俱乐部运营AI助理。今天有什么可以帮您的？",
+    "promptSuggestion1": "\"本周有哪些锦标赛？\"",
+    "promptSuggestion2": "\"查一下我这个月的积分和排名。\"",
+    "promptSuggestion3": "\"我想预订一个$2/$5的座位，能安排吗？\"",
+    "promptSuggestion4": "\"帮我复盘一下昨晚的牌局记录。\""
   }
 } 

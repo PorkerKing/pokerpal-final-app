@@ -1,19 +1,15 @@
 {
-  "HomePage": {
-    "welcomeTitle": "我是{span}喔！",
-    "defaultAIName": "AI助理",
-    "subheading": "可以這樣問我看看耶：",
-    "promptSuggestion1": "「心怡心怡～我的積分有多少啦？」",
-    "promptSuggestion2": "「想看看今晚的比賽，可以嗎？」",
-    "promptSuggestion3": "「可以幫我預約一個$2/$5的位子嗎？拜託拜託～」",
-    "promptSuggestion4": "「我上週的牌打得好不好呀？給我一點鼓勵嘛！」"
-  },
   "Header": {
-    "welcome": "歡迎",
+    "clubSwitcherLabel": "切換俱樂部",
     "signOut": "登出",
-    "signInWithGithub": "使用GitHub登入",
-    "signInOrSignUp": "登入 / 註冊",
-    "clubSwitcherLabel": "選擇俱樂部",
-    "languageSwitcherLabel": "選擇語言"
+    "signInOrSignUp": "登入 / 註冊"
+  },
+  "HomePage": {
+    "welcomeMessage": "我是",
+    "subheading": "您的俱樂部運營AI小幫手。今天有什麼可以幫您的嗎？",
+    "promptSuggestion1": "\"這週有哪些比賽可以參加呀？\"",
+    "promptSuggestion2": "\"幫我看看這個月的積分和排名是多少耶？\"",
+    "promptSuggestion3": "\"我想預訂一個$2/$5的位子，可以幫我安排嘛？\"",
+    "promptSuggestion4": "\"幫我回顧一下昨晚的牌局記錄啦。\""
   }
 } 

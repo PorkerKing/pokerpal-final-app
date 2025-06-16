@@ -1,19 +1,15 @@
 {
-  "HomePage": {
-    "welcomeTitle": "I am {span}",
-    "defaultAIName": "AI Assistant",
-    "subheading": "You can ask me something like this:",
-    "promptSuggestion1": "\"Hi Aisha, how are my leaderboard points looking this month?\"",
-    "promptSuggestion2": "\"Can you show me the deepstack tournament for tonight, please?\"",
-    "promptSuggestion3": "\"Help me book a seat for the $2/$5 cash game, lah.\"",
-    "promptSuggestion4": "\"What were my results from last week?\""
-  },
   "Header": {
-    "welcome": "Welcome",
+    "clubSwitcherLabel": "Switch Club",
     "signOut": "Sign Out",
-    "signInWithGithub": "Sign in with GitHub",
-    "signInOrSignUp": "Sign In / Sign Up",
-    "clubSwitcherLabel": "Select Club",
-    "languageSwitcherLabel": "Select Language"
+    "signInOrSignUp": "Sign In / Sign Up"
+  },
+  "HomePage": {
+    "welcomeMessage": "I am",
+    "subheading": "Your AI assistant for club management. How can I help you today?",
+    "promptSuggestion1": "\"What tournaments are available this week?\"",
+    "promptSuggestion2": "\"Check my points balance for this month and my ranking.\"",
+    "promptSuggestion3": "\"I want to reserve a $2/$5 seat, can you arrange it?\"",
+    "promptSuggestion4": "\"Help me review my hand history from last night.\""
   }
 } 

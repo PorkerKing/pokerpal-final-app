@@ -41,35 +41,19 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   session: {
-    strategy: "jwt",
+    strategy: "database",
   },
   callbacks: {
-    async signIn({ account }) {
-      // For credentials provider, we've already authorized the user.
-      // This callback prevents the PrismaAdapter from trying to handle it.
-      if (account?.provider === 'credentials') {
-        return true;
-      }
-      // For OAuth providers, let the adapter handle user creation/linking.
-      return true; 
-    },
-    async jwt({ token, user }) {
-        if (user) {
-            const clubMember = await prisma.clubMember.findFirst({
-                where: { userId: user.id },
-                select: { role: true }
-            });
-            token.id = user.id;
-            if (clubMember) {
-                token.role = clubMember.role;
-            }
-        }
-        return token;
-    },
-    async session({ session, token }) {
+    async session({ session, user }) {
       if (session.user) {
-        (session.user as any).id = token.id;
-        (session.user as any).role = token.role;
+        const clubMember = await prisma.clubMember.findFirst({
+            where: { userId: user.id },
+            select: { role: true }
+        });
+        (session.user as any).id = user.id;
+        if (clubMember) {
+            (session.user as any).role = clubMember.role;
+        }
       }
       return session;
     },
