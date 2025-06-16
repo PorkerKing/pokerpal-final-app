@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-import { authOptions } from '@/lib/auth'; // <-- 从我们新建的auth.ts文件中导入配置
+import { authOptions } from '@/lib/auth';
 
 const handler = NextAuth(authOptions);
 
