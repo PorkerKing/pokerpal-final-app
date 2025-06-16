@@ -51,7 +51,8 @@ export default function HomePage() {
         const res = await fetch('/api/user/get-clubs');
         if (res.ok) {
           const data = await res.json();
-          setSession(session, data.clubs);
+          setSession(session);
+          setClubs(data.clubs);
         } else {
            console.error("Failed to fetch clubs for user.");
            clearSession();
