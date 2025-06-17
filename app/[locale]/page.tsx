@@ -192,7 +192,7 @@ export default function HomePage() {
             <div className="flex-1 flex items-center justify-center -mt-20 px-4">
               <div className="w-full max-w-2xl text-center z-10">
                 <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                  {t('welcomeMessage')} 
+                  [FIXED] {t('welcomeMessage')} 
                   <span className="text-purple-400">{selectedClub?.aiPersona?.name || '...'}</span>
                 </h1>
                 <p className="mt-4 text-xl text-gray-400">{t('subheading')}</p>
