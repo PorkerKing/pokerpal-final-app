@@ -52,7 +52,7 @@ export async function POST(req: Request) {
     if (userId) {
       const lastUserMessage = messages[messages.length - 1];
       if (lastUserMessage && lastUserMessage.role === "user") {
-        // Not saving messages in this version, but logic is here
+        // We are not saving messages in this version
       }
     }
   
