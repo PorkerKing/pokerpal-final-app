@@ -9,42 +9,69 @@ import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
-  
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     }),
     CredentialsProvider({
-        name: 'Credentials',
-        credentials: {
-          email: { label: "Email", type: "email" },
-          password: {  label: "Password", type: "password" }
-        },
-        async authorize(credentials) {
-            if (!credentials?.email || !credentials?.password) return null;
-            const user = await prisma.user.findUnique({ where: { email: credentials.email }});
-            if (user && credentials.password === 'password123') return user;
-            return null;
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
         }
-    })
-  ],
-  session: {
-    strategy: "database", // Use database strategy for sessions
-  },
-  callbacks: {
-    async session({ session, user }) {
-      if (session.user) {
-        const clubMember = await prisma.clubMember.findFirst({
-            where: { userId: user.id },
-            select: { role: true }
+
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
         });
-        (session.user as any).id = user.id;
-        if (clubMember) {
-            (session.user as any).role = clubMember.role;
+
+        if (!user) {
+          return null;
         }
+
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password,
+          user.password || "" // Use empty string if password is null to prevent error
+        );
+
+        // Fallback for our seed users that don't have a hashed password
+        if (!isPasswordValid && credentials.password === 'password123' && user.password === null) {
+            return user;
+        }
+
+        if (!isPasswordValid) {
+          return null;
+        }
+        
+        return user;
+      },
+    }),
+  ],
+  callbacks: {
+    async session({ token, session }) {
+      if (token && session.user) {
+        (session.user as any).id = token.id;
+        (session.user as any).role = token.role;
       }
       return session;
+    },
+    async jwt({ token, user }) {
+        if (user) {
+            token.id = user.id;
+            const clubMember = await prisma.clubMember.findFirst({
+                where: { userId: user.id },
+                select: { role: true }
+            });
+            if(clubMember) token.role = clubMember.role;
+        }
+        return token;
     },
   },
 };
