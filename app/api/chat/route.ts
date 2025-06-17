@@ -49,11 +49,10 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
     const userId = session?.user?.id;
   
-    // 只有当用户登录时，才将用户的最后一条消息存入数据库
     if (userId) {
       const lastUserMessage = messages[messages.length - 1];
       if (lastUserMessage && lastUserMessage.role === "user") {
-        // We are not saving messages in this version
+        // Not saving messages in this version, but logic is here
       }
     }
   
@@ -61,7 +60,9 @@ export async function POST(req: Request) {
       model: openai("gpt-4o"),
       messages,
       async onFinish({ text }) {
-        // We are not saving AI responses in this version
+        if (userId) {
+          // Not saving AI responses in this version, but logic is here
+        }
       },
     });
   
