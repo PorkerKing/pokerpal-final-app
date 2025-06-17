@@ -49,30 +49,15 @@ export async function POST(req: Request) {
 
     const { message, history, clubId, locale, userId } = await req.json();
 
-    // 如果用户未登录 (userId 不存在)
-    if (!userId) {
-        const persona = await prisma.aIPersona.findUnique({ where: { clubId: clubId } });
-        const club = await prisma.club.findUnique({ where: { id: clubId } });
-        if (!persona || !club) {
-            return NextResponse.json({ error: 'Club or Persona not found' }, { status: 404 });
-        }
-
-        const guestResponses: { [key: string]: string } = {
-            'en': `Hello! I'm ${persona.name}, the assistant for ${club.name}. To access all features, please sign in or sign up! We'd also love to see you at our physical location. We're waiting for you!`,
-            'zh': `您好！我是${club.name}的AI助手${persona.name}。请先登录或注册来体验完整功能哦！我们也随时欢迎您来我们的线下会所坐坐，期待您的光临！`,
-            'zh-TW': `哈囉！我是${club.name}的AI小幫手${persona.name}喔。要體驗全部功能的話，要先登入或註冊耶！也歡迎你來我們的實體店面玩，等你喔！`,
-            'ja': `こんにちは！${club.name}のアシスタント、${persona.name}です。全ての機能を使うには、ログインまたは新規登録をお願いしますね！オフラインでのご来店も心よりお待ちしております！`,
-        };
-        const reply = guestResponses[locale] || guestResponses['en'];
-        return NextResponse.json({ reply, type: 'text' });
-    }
-
     if (!message || !clubId || !locale) {
       return NextResponse.json({ error: 'Message, Club ID and locale are required' }, { status: 400 });
     }
     if (!apiKey) {
         return NextResponse.json({ error: 'AI Service API Key not configured' }, { status: 500 });
     }
+
+    // Allow guest access but disable tools that require a user ID
+    const activeTools = userId ? tools : [];
 
     const persona = await prisma.aIPersona.findUnique({ where: { clubId: clubId } });
     if (!persona) {
@@ -92,7 +77,7 @@ export async function POST(req: Request) {
     const initialResponse = await fetch(SILICONFLOW_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify({ model: 'alibaba/Qwen2-7B-Instruct', messages: messagesForAI, tools, tool_choice: 'auto' }),
+      body: JSON.stringify({ model: 'alibaba/Qwen2-7B-Instruct', messages: messagesForAI, tools: activeTools, tool_choice: 'auto' }),
     });
 
     if (!initialResponse.ok) {
