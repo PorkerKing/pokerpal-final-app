@@ -2,12 +2,12 @@
 
 import prisma from "@/lib/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { NextAuthOptions } from "next-auth";
+import { AuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
@@ -35,16 +35,19 @@ export const authOptions: NextAuthOptions = {
         if (!user) {
           return null;
         }
+        
+        // For seed users without a password, allow login with the test password
+        if (!user.password) {
+            if (credentials.password === 'password123') {
+                return user;
+            }
+            return null;
+        }
 
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
-          user.password || "" // Use empty string if password is null to prevent error
+          user.password
         );
-
-        // Fallback for our seed users that don't have a hashed password
-        if (!isPasswordValid && credentials.password === 'password123' && user.password === null) {
-            return user;
-        }
 
         if (!isPasswordValid) {
           return null;
@@ -63,15 +66,17 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
-        if (user) {
-            token.id = user.id;
-            const clubMember = await prisma.clubMember.findFirst({
-                where: { userId: user.id },
-                select: { role: true }
-            });
-            if(clubMember) token.role = clubMember.role;
+      if (user) {
+        token.id = user.id;
+        const clubMember = await prisma.clubMember.findFirst({
+          where: { userId: user.id },
+          select: { role: true },
+        });
+        if (clubMember) {
+          token.role = clubMember.role;
         }
-        return token;
+      }
+      return token;
     },
   },
 };
