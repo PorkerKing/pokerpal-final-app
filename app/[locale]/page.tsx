@@ -12,18 +12,20 @@ import { useRouter } from '@/navigation';
 
 // ==================== 视觉升级：扑克牌花色动态背景 ====================
 const SpadeShape = () => (
-  <Spade
-    className="absolute h-12 w-12 text-zinc-500/20"
-    style={{ shapeRendering: "crispEdges" }} 
-  />
+  <div className="absolute top-0 -left-4 w-72 h-72 lg:w-96 lg:h-96 bg-gray-800/50 rounded-full mix-blend-normal filter blur-md opacity-70 animate-blob">
+    <svg viewBox="0 0 512 512" className="w-full h-full text-gray-900 opacity-80">
+      <path d="M256 421.6c-17.8 0-35.1-3.6-51.5-10.8L165.2 430c-6.3 3.8-13.8 3.8-20.1 0L39.8 375.1c-15.1-9.1-25.2-25.4-27.4-43.2-2.3-17.8 4.2-35.4 16.5-47.8L220.1 63c2-2 4.6-3 7.2-3s5.2 1 7.2 3l191.2 191.2c12.3 12.3 18.8 30 16.5 47.8-2.3 17.8-12.4 34.1-27.4 43.2l-105.3 54.9c-6.3 3.8-13.8 3.8-20.1 0l-39.3-19.2c-16.4-7.2-33.7-10.8-51.5-10.8z"/>
+    </svg>
+  </div>
 );
 
 const DiamondShape = () => (
-  <Diamond
-    className="absolute h-12 w-12 text-red-500/20"
-    style={{ shapeRendering: "crispEdges" }}
-  />
-);
+    <div className="absolute bottom-0 -right-4 w-72 h-72 lg:w-96 lg:h-96 bg-rose-400/50 rounded-full mix-blend-normal filter blur-md opacity-70 animate-blob animation-delay-4000">
+      <svg viewBox="0 0 512 512" className="w-full h-full text-rose-900 opacity-80 -rotate-45 scale-125">
+         <path d="M256 7.4L7.4 256 256 504.6 504.6 256 256 7.4z"/>
+     </svg>
+   </div>
+ );
 // ======================================================================
 
 interface Message {
