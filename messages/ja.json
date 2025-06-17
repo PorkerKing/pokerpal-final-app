@@ -1,4 +1,9 @@
 {
+  "Header": {
+    "clubSwitcherLabel": "クラブを切り替え",
+    "signOut": "サインアウト",
+    "signInOrSignUp": "サインイン / 新規登録"
+  },
   "HomePage": {
     "welcomeTitle": "うちは{span}やで！",
     "defaultAIName": "AIアシスタント",
@@ -8,13 +13,5 @@
     "promptSuggestion2": "\"今月のポイント残高とランキングを確認してください。\"",
     "promptSuggestion3": "\"$2/$5の席を予約したいのですが、手配できますか？\"",
     "promptSuggestion4": "\"昨夜のハンド履歴のレビューを手伝ってください。\""
-  },
-  "Header": {
-    "welcome": "ようこそ",
-    "signOut": "サインアウト",
-    "signInWithGithub": "GitHubでログイン",
-    "signInOrSignUp": "サインイン / 新規登録",
-    "clubSwitcherLabel": "クラブを切り替え",
-    "languageSwitcherLabel": "言語を選択"
   }
 } 
