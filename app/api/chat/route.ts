@@ -43,8 +43,6 @@ const getLanguageName = (locale: string): string => {
   }
 };
 
-export const runtime = "edge";
-
 export async function POST(req: Request) {
   try {
     const { messages }: { messages: CoreMessage[] } = await req.json();
