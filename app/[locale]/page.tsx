@@ -71,7 +71,7 @@ export default function HomePage() {
         history: messages,
         clubId: selectedClub.id,
         locale: locale,
-        userId: session?.user?.id || null, 
+     userId: (session?.user as any)?.id || null,
       };
 
       const response = await fetch('/api/chat', {
