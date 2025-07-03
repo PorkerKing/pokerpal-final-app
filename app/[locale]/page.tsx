@@ -81,14 +81,54 @@ export default function HomePage() {
               setSelectedClub(data.clubs[0]);
               // 如果用户已登录且有俱乐部，重定向到仪表盘
               router.push('/dashboard');
+            } else {
+              // 如果没有俱乐部，创建一个默认的用于访客模式
+              const defaultClub = {
+                id: 'demo',
+                name: '演示俱乐部',
+                description: '这是一个演示俱乐部',
+                aiPersona: { name: 'AI助手' }
+              } as any;
+              setClubs([defaultClub]);
+              setSelectedClub(defaultClub);
             }
+          } else {
+            console.error("Failed to fetch clubs:", response.status);
+            // 数据库连接失败时的降级处理
+            const fallbackClub = {
+              id: 'fallback',
+              name: '演示俱乐部',
+              description: '数据库连接中，请稍后再试',
+              aiPersona: { name: 'AI助手' }
+            } as any;
+            setClubs([fallbackClub]);
+            setSelectedClub(fallbackClub);
           }
         } catch (error) {
           console.error("Failed to initialize clubs:", error);
+          // 网络错误时的降级处理
+          const fallbackClub = {
+            id: 'error',
+            name: '演示俱乐部',
+            description: '网络连接中，请稍后再试',
+            aiPersona: { name: 'AI助手' }
+          } as any;
+          setClubs([fallbackClub]);
+          setSelectedClub(fallbackClub);
         }
       } else if (session && selectedClub) {
         // 如果已经有选中的俱乐部，直接重定向到仪表盘
         router.push('/dashboard');
+      } else if (!session) {
+        // 未登录用户也提供一个默认俱乐部用于访客模式
+        const guestClub = {
+          id: 'guest',
+          name: '访客模式',
+          description: '欢迎体验PokerPal',
+          aiPersona: { name: 'AI助手' }
+        } as any;
+        setClubs([guestClub]);
+        setSelectedClub(guestClub);
       }
     };
     
@@ -224,8 +264,8 @@ export default function HomePage() {
 
   const promptSuggestions = getPromptSuggestions();
 
-  // 加载中状态
-  if (status === 'loading' || !selectedClub) {
+  // 加载中状态 - 只在NextAuth session真正加载时显示
+  if (status === 'loading') {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#0D0F18]">
         <LoaderCircle className="w-12 h-12 text-purple-400 animate-spin" />
