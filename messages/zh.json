@@ -495,5 +495,380 @@
     "personality": "个性设置",
     "capabilities": "功能权限",
     "style": "交互风格"
+  },
+  "Navigation": {
+    "dashboard": "仪表盘",
+    "tournaments": {
+      "main": "锦标赛",
+      "list": "赛事列表",
+      "create": "创建赛事"
+    },
+    "ringGames": {
+      "main": "圆桌游戏",
+      "list": "牌桌列表",
+      "create": "开设牌桌"
+    },
+    "members": {
+      "main": "会员管理",
+      "list": "会员列表",
+      "invite": "邀请会员"
+    },
+    "finance": {
+      "main": "财务中心",
+      "overview": "财务概览",
+      "transactions": "交易记录"
+    },
+    "achievements": "成就系统",
+    "store": "俱乐部商店",
+    "settings": {
+      "main": "俱乐部设置",
+      "club": "基础设置",
+      "ai": "AI配置"
+    },
+    "currentClub": "当前俱乐部",
+    "roles": {
+      "owner": "所有者",
+      "admin": "管理员", 
+      "manager": "经理",
+      "member": "会员",
+      "dealer": "荷官",
+      "cashier": "出纳",
+      "vip": "VIP会员",
+      "guest": "访客"
+    }
+  },
+  "Header": {
+    "clubSwitcherLabel": "切换俱乐部",
+    "clubSwitcherDescription": "选择要管理的俱乐部",
+    "signOut": "退出登录",
+    "signInOrSignUp": "登录 / 注册",
+    "searchPlaceholder": "搜索...",
+    "profile": "个人资料",
+    "settings": "设置",
+    "loading": "加载中...",
+    "noDescription": "暂无描述",
+    "clubCount": "共 {count} 个俱乐部"
+  },
+  "Finance": {
+    "title": "财务管理",
+    "description": "管理俱乐部财务数据和交易记录",
+    "export_report": "导出报告",
+    "export_csv": "导出CSV",
+    "view_all_transactions": "查看所有交易",
+    "view_all": "查看全部",
+    "loading": "加载中...",
+    "vs_last_period": "vs 上期",
+    "system_transaction": "系统交易",
+    "no_permission": {
+      "title": "无权限访问",
+      "description": "您没有权限查看财务数据，请联系管理员"
+    },
+    "stats": {
+      "daily_revenue": "今日收入",
+      "monthly_revenue": "本月收入",
+      "rake_collected": "抽水收入",
+      "tournament_fees": "赛事费用"
+    },
+    "overview": {
+      "title": "财务概览",
+      "total_balance": "账户余额",
+      "pending_withdrawals": "待提现金额"
+    },
+    "revenue_chart": {
+      "title": "收入趋势",
+      "description": "查看收入变化趋势"
+    },
+    "chart": {
+      "placeholder": {
+        "title": "图表占位符",
+        "description": "可集成 Chart.js 或 Recharts 等图表库"
+      }
+    },
+    "metrics": {
+      "revenue": "总收入",
+      "rake": "抽水",
+      "fees": "手续费"
+    },
+    "date_range": {
+      "7d": "最近7天",
+      "30d": "最近30天",
+      "90d": "最近90天",
+      "1y": "最近1年"
+    },
+    "recent_transactions": {
+      "title": "最近交易",
+      "empty": {
+        "title": "暂无交易记录",
+        "description": "还没有任何交易记录"
+      }
+    },
+    "transactions": {
+      "title": "交易记录",
+      "description": "查看所有财务交易记录",
+      "search_placeholder": "搜索交易记录...",
+      "empty": {
+        "title": "暂无交易记录",
+        "description": "当前筛选条件下没有找到交易记录"
+      }
+    },
+    "filters": {
+      "all_types": "所有类型",
+      "all_status": "所有状态"
+    },
+    "transaction_types": {
+      "deposit": "充值",
+      "withdrawal": "提现",
+      "rake": "抽水",
+      "tournament_fee": "赛事费用",
+      "refund": "退款",
+      "transfer": "转账"
+    },
+    "transaction_status": {
+      "completed": "已完成",
+      "pending": "处理中",
+      "failed": "失败",
+      "cancelled": "已取消"
+    },
+    "table": {
+      "transaction": "交易详情",
+      "user": "用户",
+      "type": "类型",
+      "amount": "金额",
+      "status": "状态",
+      "date": "日期",
+      "actions": "操作"
+    },
+    "pagination": {
+      "showing": "显示 {start} - {end} 项，共 {total} 项",
+      "previous": "上一页",
+      "next": "下一页"
+    }
+  },
+  "Members": {
+    "title": "会员管理",
+    "description": "管理俱乐部会员信息",
+    "inviteNew": "邀请新会员",
+    "searchPlaceholder": "搜索会员...",
+    "loading": "加载中...",
+    "filters": {
+      "allRoles": "所有角色",
+      "allStatus": "所有状态"
+    },
+    "roles": {
+      "owner": "所有者",
+      "admin": "管理员",
+      "manager": "经理",
+      "member": "会员",
+      "dealer": "荷官",
+      "cashier": "出纳",
+      "vip": "VIP会员",
+      "guest": "访客"
+    },
+    "status": {
+      "active": "活跃",
+      "inactive": "非活跃",
+      "suspended": "暂停",
+      "pending": "待审核"
+    },
+    "table": {
+      "member": "会员",
+      "role": "角色",
+      "status": "状态",
+      "balance": "余额",
+      "joinDate": "加入日期",
+      "actions": "操作"
+    },
+    "empty": {
+      "title": "暂无会员",
+      "description": "还没有任何会员加入俱乐部",
+      "action": "邀请第一个会员"
+    },
+    "invite": {
+      "title": "邀请会员",
+      "description": "邀请新会员加入俱乐部",
+      "method": {
+        "title": "邀请方式",
+        "email": "邮件邀请",
+        "emailDesc": "发送邀请邮件",
+        "link": "邀请链接",
+        "linkDesc": "生成邀请链接"
+      },
+      "role": {
+        "label": "设置角色",
+        "description": "为被邀请用户设置初始角色"
+      },
+      "email": {
+        "label": "邮箱地址",
+        "placeholder": "输入邮箱地址...",
+        "addMore": "添加更多邮箱"
+      },
+      "message": {
+        "label": "邀请消息",
+        "placeholder": "添加自定义邀请消息...",
+        "description": "可选：添加个人邀请消息"
+      },
+      "link": {
+        "generated": "邀请链接已生成",
+        "copy": "复制链接",
+        "copied": "已复制",
+        "expires": "链接7天内有效",
+        "regenerate": "重新生成链接"
+      },
+      "sending": "发送中...",
+      "generating": "生成中...",
+      "sendInvites": "发送邀请",
+      "generateLink": "生成邀请链接",
+      "validation": {
+        "noValidEmails": "请输入有效的邮箱地址"
+      },
+      "success": {
+        "emailSent": "已成功发送 {count} 封邀请邮件"
+      },
+      "error": {
+        "sendFailed": "发送邀请失败，请稍后重试"
+      }
+    },
+    "pagination": {
+      "showing": "显示 {start} - {end} 项，共 {total} 项",
+      "previous": "上一页",
+      "next": "下一页"
+    }
+  },
+  "Settings": {
+    "title": "俱乐部设置",
+    "description": "管理俱乐部的基本信息和配置",
+    "save": "保存设置",
+    "saving": "保存中...",
+    "reset": "重置",
+    "save_success": "设置保存成功",
+    "save_failed": "保存失败，请重试",
+    "no_permission": {
+      "title": "无权限访问",
+      "description": "只有俱乐部所有者和管理员可以修改设置"
+    },
+    "load_failed": {
+      "title": "加载失败",
+      "description": "无法加载俱乐部设置，请刷新页面重试"
+    },
+    "tabs": {
+      "basic": "基本信息",
+      "game": "游戏设置",
+      "security": "安全设置",
+      "notifications": "通知设置",
+      "ai": "AI配置"
+    },
+    "basic": {
+      "title": "基本信息",
+      "club_name": "俱乐部名称",
+      "description": "俱乐部描述",
+      "description_placeholder": "请输入俱乐部描述...",
+      "address": "俱乐部地址",
+      "address_placeholder": "请输入俱乐部地址...",
+      "phone": "联系电话",
+      "email": "联系邮箱",
+      "website": "官方网站",
+      "timezone": "时区设置",
+      "default_language": "默认语言"
+    },
+    "game": {
+      "title": "游戏设置"
+    },
+    "security": {
+      "title": "安全设置"
+    },
+    "notifications": {
+      "title": "通知设置"
+    },
+    "ai": {
+      "title": "AI助手配置",
+      "configure_ai": "配置AI助手",
+      "description": {
+        "title": "智能AI助手",
+        "text": "为您的俱乐部配置专属的AI助手，提供个性化的服务体验。"
+      },
+      "features": {
+        "personality": "自定义AI助手的性格和说话风格",
+        "welcome_message": "设置专属的欢迎词和介绍信息",
+        "response_style": "调整回复的详细程度和语调",
+        "specialized_knowledge": "配置扑克相关的专业知识库"
+      }
+    },
+    "coming_soon": {
+      "title": "功能开发中",
+      "description": "此功能正在开发中，敬请期待"
+    }
+  },
+  "Store": {
+    "title": "俱乐部商店",
+    "description": "使用积分兑换精美物品和专属服务",
+    "my_points": "我的积分",
+    "points_required": "所需积分",
+    "search_placeholder": "搜索商品...",
+    "stock": "库存",
+    "redeem_now": "立即兑换",
+    "out_of_stock": "库存不足",
+    "insufficient_points": "积分不足",
+    "no_club_selected": {
+      "title": "请选择俱乐部",
+      "description": "选择一个俱乐部来查看专属商店"
+    },
+    "categories": {
+      "all": "全部分类",
+      "beverage": "饮品特调",
+      "merchandise": "纪念商品", 
+      "service": "专属服务",
+      "tournament_ticket": "赛事门票"
+    },
+    "empty": {
+      "title": "暂无商品",
+      "description": "当前筛选条件下没有找到商品"
+    },
+    "redeem": {
+      "success": "兑换成功！请联系俱乐部工作人员领取",
+      "failed": "兑换失败，请稍后重试"
+    },
+    "points_info": {
+      "title": "如何获得积分？",
+      "description": "积分是俱乐部对活跃玩家的奖励，可通过以下方式获得：",
+      "earn_playing": "参与圆桌游戏可获得积分奖励",
+      "earn_tournaments": "参加锦标赛可获得大量积分",
+      "earn_achievements": "完成成就任务可获得额外积分"
+    }
+  },
+  "Achievements": {
+    "title": "成就系统",
+    "description": "完成挑战，解锁成就，获得积分奖励",
+    "completed": "已完成",
+    "earned_points": "获得积分",
+    "progress": "进度",
+    "points": "积分",
+    "no_club_selected": {
+      "title": "请选择俱乐部",
+      "description": "选择一个俱乐部来查看成就系统"
+    },
+    "filters": {
+      "all_categories": "全部分类",
+      "all_difficulties": "全部难度"
+    },
+    "categories": {
+      "tournament": "锦标赛",
+      "social": "社交互动",
+      "skill": "技巧挑战",
+      "milestone": "里程碑",
+      "special": "特殊成就"
+    },
+    "difficulty": {
+      "easy": "简单",
+      "medium": "中等",
+      "hard": "困难",
+      "legendary": "传奇"
+    },
+    "info": {
+      "title": "关于成就系统",
+      "description": "成就系统记录您在俱乐部的各种表现和里程碑：",
+      "earn_points": "完成成就可获得大量积分奖励",
+      "track_progress": "实时追踪您的进度和表现",
+      "show_status": "向其他玩家展示您的成就地位"
+    }
   }
 } 
