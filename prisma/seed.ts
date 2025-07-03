@@ -584,32 +584,32 @@ async function main() {
       clubIndex: 2,
       items: [
         {
-          name: '道頓堀必胜能量饮',
-          description: '由美推荐！比赛前来一罐，保证你元气满满，All-in都有劲！',
+          name: '道頓堀パワードリンク',
+          description: '由美ちゃんおすすめ！試合前に一本飲めば、元気満々、オールインも自信満々！',
           pointsRequired: 1500,
           category: 'BEVERAGE',
           isActive: true,
           stock: 80
         },
         {
-          name: '"一撃必殺"主题棒球帽',
-          description: '设计大胆的棒球帽，正面印有"一撃必殺"书法字样，戴上它，气势上就赢了！',
+          name: '"一撃必殺"キャップ',
+          description: '大胆なデザインの野球帽、正面に"一撃必殺"の書道文字。これを被れば気合十分！',
           pointsRequired: 7000,
           category: 'MERCHANDISE',
           isActive: true,
           stock: 35
         },
         {
-          name: '章鱼烧大师制作券',
-          description: '凭券可到俱乐部吧台，让由美亲自为你制作一份道頓堀最正宗的章鱼烧！',
+          name: 'たこ焼きマスター作成券',
+          description: 'クラブのバーで由美ちゃんが直接作る本場道頓堀のたこ焼きを楽しめます！',
           pointsRequired: 12000,
           category: 'SERVICE',
           isActive: true,
           stock: 25
         },
         {
-          name: 'APPT首尔站主赛资格',
-          description: '兑换下一届亚太扑克巡回赛(APPT)首尔站主赛事第一轮的参赛资格。',
+          name: 'APPTソウル站メインイベント資格',
+          description: '次回アジアパシフィックポーカーツアー（APPT）ソウル站メインイベント第一ラウンドの参加資格。',
           pointsRequired: 500000,
           category: 'TOURNAMENT_TICKET',
           isActive: true,
@@ -623,31 +623,31 @@ async function main() {
       items: [
         {
           name: "Aisha's Signature White Coffee",
-          description: '精选怡保上等咖啡豆，由Aisha亲手冲泡的正宗白咖啡，口感丝滑，提神醒脑。',
+          description: 'Premium Ipoh coffee beans, hand-brewed by Aisha. Smooth, silky taste that refreshes and energizes.',
           pointsRequired: 2000,
           category: 'BEVERAGE',
           isActive: true,
           stock: 45
         },
         {
-          name: 'KL Champions Lounge 纪念筹码套装',
-          description: '一套制作精良、手感厚重的俱乐部定制纪念筹码，附带皮质收藏盒。',
+          name: 'KL Champions Lounge Commemorative Chip Set',
+          description: 'A finely crafted, premium weight custom chip set with leather collection case.',
           pointsRequired: 18000,
           category: 'MERCHANDISE',
           isActive: true,
           stock: 15
         },
         {
-          name: '五星级酒店水疗体验券',
-          description: '与吉隆坡市中心五星级酒店合作，为在牌桌上鏖战后的您提供一次彻底放松的SPA体验。',
+          name: 'Five-Star Hotel Spa Experience',
+          description: 'Partner with KL city center five-star hotel, providing complete relaxation after intense poker sessions.',
           pointsRequired: 80000,
           category: 'SERVICE',
           isActive: true,
           stock: 8
         },
         {
-          name: 'JOPT东南亚拓展赛主赛门票',
-          description: '(顶级兑换) 兑换2025年12月于新加坡举办的JOPT主赛事资格，代表俱乐部出征。',
+          name: 'JOPT Southeast Asia Main Event Ticket',
+          description: '(Premium Redemption) Redeem qualification for JOPT Main Event in Singapore, December 2025. Represent the club!',
           pointsRequired: 1500000,
           category: 'TOURNAMENT_TICKET',
           isActive: true,
@@ -734,8 +734,8 @@ async function main() {
       clubIndex: 2,
       tournaments: [
         {
-          name: '食い倒れHyper-Turbo赛',
-          description: '超快速盲注结构，节奏极快，三十分钟决出胜负！适合寻求刺激的玩家。',
+          name: '食い倒れハイパーターボ',
+          description: '超高速ブラインド構造、テンポ抜群、30分で勝負決定！スリルを求めるプレイヤーに最適。',
           gameType: 'NLH',
           buyIn: 5000.00,
           fee: 500.00,
@@ -747,8 +747,8 @@ async function main() {
           tags: ['hyper-turbo', 'fast', 'action']
         },
         {
-          name: 'Naniwa(难波)周末主赛事',
-          description: '大阪地区周末最受瞩目的赛事，拥有可观的保底奖池。',
+          name: 'なにわウィークエンドメイン',
+          description: '大阪地区週末最注目のイベント、豊富な保証賞金プールあり。',
           gameType: 'NLH',
           buyIn: 30000.00,
           fee: 3000.00,
@@ -766,8 +766,8 @@ async function main() {
       clubIndex: 3,
       tournaments: [
         {
-          name: 'KLCC月度精英赛',
-          description: '每月一度的高额买入赛事，吸引本地区最顶尖的玩家参与。',
+          name: 'KLCC Monthly Elite',
+          description: 'Monthly high-stakes tournament attracting the top players in the region.',
           gameType: 'NLH',
           buyIn: 1000.00,
           fee: 100.00,
@@ -779,8 +779,8 @@ async function main() {
           tags: ['monthly', 'elite', 'high-roller']
         },
         {
-          name: "Ladies' Event (女士专属赛)",
-          description: '一场专为女性玩家设计的特别赛事，氛围友好，旨在鼓励更多女性牌手参与。',
+          name: "Ladies' Event",
+          description: 'A special tournament designed for female players, with a friendly atmosphere to encourage more women to participate.',
           gameType: 'NLH',
           buyIn: 200.00,
           fee: 20.00,
@@ -827,6 +827,166 @@ async function main() {
     }
   }
 
+  // ================== 创建多俱乐部会籍测试用户 ==================
+  
+  // 创建跨俱乐部测试用户
+  const multiClubUser1 = await prisma.user.upsert({
+    where: { email: 'global.player1@pokerpal.com' },
+    update: {},
+    create: {
+      name: '环球玩家 Alex Chen',
+      email: 'global.player1@pokerpal.com',
+      password: hashedPassword,
+      preferredLanguage: 'zh'
+    }
+  });
+
+  const multiClubUser2 = await prisma.user.upsert({
+    where: { email: 'global.player2@pokerpal.com' },
+    update: {},
+    create: {
+      name: '国际牌手 Sarah Kim',
+      email: 'global.player2@pokerpal.com',
+      password: hashedPassword,
+      preferredLanguage: 'en'
+    }
+  });
+
+  const multiClubUser3 = await prisma.user.upsert({
+    where: { email: 'global.player3@pokerpal.com' },
+    update: {},
+    create: {
+      name: '世界旅行者 Hiroshi Tanaka',
+      email: 'global.player3@pokerpal.com',
+      password: hashedPassword,
+      preferredLanguage: 'ja'
+    }
+  });
+
+  const multiClubUser4 = await prisma.user.upsert({
+    where: { email: 'pro.player@pokerpal.com' },
+    update: {},
+    create: {
+      name: '职业牌手 David Wang',
+      email: 'pro.player@pokerpal.com',
+      password: hashedPassword,
+      preferredLanguage: 'zh-TW'
+    }
+  });
+
+  const businessUser = await prisma.user.upsert({
+    where: { email: 'business.manager@pokerpal.com' },
+    update: {},
+    create: {
+      name: '商务经理 Lisa Chen',
+      email: 'business.manager@pokerpal.com',
+      password: hashedPassword,
+      preferredLanguage: 'en'
+    }
+  });
+
+  // 为多俱乐部用户创建会员身份
+  const multiClubUsers = [
+    {
+      user: multiClubUser1,
+      memberships: [
+        { clubIndex: 0, role: 'VIP', points: 15000, balance: 5000 },      // 上海扑克会所 - VIP
+        { clubIndex: 1, role: 'MEMBER', points: 8000, balance: 2000 },    // 台北德州俱乐部 - 普通会员
+        { clubIndex: 3, role: 'MEMBER', points: 12000, balance: 3000 }    // 吉隆坡扑克联盟 - 普通会员
+      ]
+    },
+    {
+      user: multiClubUser2,
+      memberships: [
+        { clubIndex: 0, role: 'MEMBER', points: 6000, balance: 1500 },    // 上海扑克会所 - 普通会员
+        { clubIndex: 1, role: 'VIP', points: 20000, balance: 8000 },      // 台北德州俱乐部 - VIP
+        { clubIndex: 2, role: 'MEMBER', points: 5000, balance: 1000 }     // 大阪ポーカーハウス - 普通会员
+      ]
+    },
+    {
+      user: multiClubUser3,
+      memberships: [
+        { clubIndex: 1, role: 'MEMBER', points: 3000, balance: 800 },     // 台北德州俱乐部 - 普通会员
+        { clubIndex: 2, role: 'VIP', points: 25000, balance: 10000 },     // 大阪ポーカーハウス - VIP
+        { clubIndex: 3, role: 'MEMBER', points: 7000, balance: 2500 }     // 吉隆坡扑克联盟 - 普通会员
+      ]
+    },
+    {
+      user: multiClubUser4,
+      memberships: [
+        { clubIndex: 0, role: 'MANAGER', points: 30000, balance: 15000 }, // 上海扑克会所 - 经理
+        { clubIndex: 1, role: 'MANAGER', points: 25000, balance: 12000 }, // 台北德州俱乐部 - 经理
+        { clubIndex: 2, role: 'VIP', points: 18000, balance: 8000 },      // 大阪ポーカーハウス - VIP
+        { clubIndex: 3, role: 'VIP', points: 22000, balance: 10000 }      // 吉隆坡扑克联盟 - VIP
+      ]
+    },
+    {
+      user: businessUser,
+      memberships: [
+        { clubIndex: 0, role: 'ADMIN', points: 50000, balance: 25000 },   // 上海扑克会所 - 管理员
+        { clubIndex: 3, role: 'ADMIN', points: 45000, balance: 20000 }    // 吉隆坡扑克联盟 - 管理员
+      ]
+    }
+  ];
+
+  // 创建多俱乐部会员关系
+  for (const userData of multiClubUsers) {
+    for (const membership of userData.memberships) {
+      const club = clubs[membership.clubIndex];
+      
+      await prisma.clubMember.upsert({
+        where: {
+          clubId_userId: {
+            clubId: club.id,
+            userId: userData.user.id
+          }
+        },
+        update: {},
+        create: {
+          clubId: club.id,
+          userId: userData.user.id,
+          role: membership.role,
+          status: 'ACTIVE',
+          balance: membership.balance,
+          points: membership.points,
+          totalBuyIn: membership.balance * 2, // 模拟历史买入
+          totalCashOut: membership.balance * 1.5, // 模拟历史提现
+          vipLevel: membership.role === 'VIP' ? 3 : membership.role === 'MANAGER' || membership.role === 'ADMIN' ? 2 : 1
+        }
+      });
+
+      // 为每个会员创建一些历史交易记录
+      await prisma.transaction.create({
+        data: {
+          userId: userData.user.id,
+          clubId: club.id,
+          type: 'DEPOSIT',
+          amount: membership.balance,
+          balanceBefore: 0,
+          balanceAfter: membership.balance,
+          description: '初始充值',
+          reference: `INITIAL-${Date.now()}-${userData.user.id.slice(-4)}`
+        }
+      });
+
+      // 添加积分获取记录
+      if (membership.points > 0) {
+        await prisma.transaction.create({
+          data: {
+            userId: userData.user.id,
+            clubId: club.id,
+            type: 'POINTS_EARNED',
+            amount: membership.points,
+            balanceBefore: 0,
+            balanceAfter: membership.points,
+            description: '历史积分累计',
+            reference: `POINTS-HIST-${Date.now()}-${userData.user.id.slice(-4)}`
+          }
+        });
+      }
+    }
+  }
+
   console.log('种子数据创建完成!');
   console.log('俱乐部信息:');
   clubs.forEach((club, index) => {
@@ -836,12 +996,24 @@ async function main() {
     console.log(`     - 描述: ${club.description}`);
   });
   
-  console.log('\n测试用户:');
+  console.log('\n基础测试用户:');
   console.log(`  - 管理员: ${user1.email} (密码: password123)`);
   console.log(`  - 玩家1: ${user2.email} (密码: password123)`);
   console.log(`  - 玩家2: ${user3.email} (密码: password123)`);
   console.log(`  - 荷官: ${dealerUser.email} (密码: password123)`);
   console.log(`  - 出纳: ${cashierUser.email} (密码: password123)`);
+  
+  console.log('\n多俱乐部测试用户:');
+  console.log(`  - 环球玩家: ${multiClubUser1.email} (3个俱乐部会籍)`);
+  console.log(`    * 上海扑克会所: VIP | 台北德州俱乐部: MEMBER | 吉隆坡扑克联盟: MEMBER`);
+  console.log(`  - 国际牌手: ${multiClubUser2.email} (3个俱乐部会籍)`);
+  console.log(`    * 上海扑克会所: MEMBER | 台北德州俱乐部: VIP | 大阪ポーカーハウス: MEMBER`);
+  console.log(`  - 世界旅行者: ${multiClubUser3.email} (3个俱乐部会籍)`);
+  console.log(`    * 台北德州俱乐部: MEMBER | 大阪ポーカーハウス: VIP | 吉隆坡扑克联盟: MEMBER`);
+  console.log(`  - 职业牌手: ${multiClubUser4.email} (4个俱乐部会籍)`);
+  console.log(`    * 上海扑克会所: MANAGER | 台北德州俱乐部: MANAGER | 大阪ポーカーハウス: VIP | 吉隆坡扑克联盟: VIP`);
+  console.log(`  - 商务经理: ${businessUser.email} (2个俱乐部会籍)`);
+  console.log(`    * 上海扑克会所: ADMIN | 吉隆坡扑克联盟: ADMIN`);
   
   console.log('\n每个俱乐部都包含:');
   console.log('  - 5个测试用户会员');

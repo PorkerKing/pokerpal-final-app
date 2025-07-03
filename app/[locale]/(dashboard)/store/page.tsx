@@ -203,7 +203,7 @@ export default function StorePage() {
       {/* 页面标题和积分显示 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">🛍️ {t('title')}</h1>
           <p className="text-gray-600">{t('description')}</p>
         </div>
         

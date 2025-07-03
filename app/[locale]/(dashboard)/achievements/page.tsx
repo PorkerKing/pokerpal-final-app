@@ -320,7 +320,7 @@ export default function AchievementsPage() {
       {/* 页面标题和统计 */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">🏆 {t('title')}</h1>
           <p className="text-gray-600">{t('description')}</p>
         </div>
         

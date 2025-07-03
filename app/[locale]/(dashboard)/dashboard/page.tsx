@@ -194,25 +194,25 @@ export default function DashboardPage() {
       title: t('quickActions.createTournament'),
       href: '/tournaments/create',
       icon: Trophy,
-      description: '创建新的锦标赛'
+      description: '🏆 创建新的锦标赛'
     },
     {
       title: t('quickActions.openRingGame'),
       href: '/ring-games/create',
       icon: Circle,
-      description: '开设新的圆桌游戏'
+      description: '🎯 开设新的圆桌游戏'
     },
     {
       title: t('quickActions.manageMembers'),
       href: '/members',
       icon: Users,
-      description: '管理俱乐部会员'
+      description: '👥 管理俱乐部会员'
     },
     {
       title: t('quickActions.viewReports'),
       href: '/reports',
       icon: TrendingUp,
-      description: '查看详细报告'
+      description: '📊 查看详细报告'
     }
   ].filter(action => {
     // 根据用户角色过滤快速操作
@@ -315,7 +315,7 @@ export default function DashboardPage() {
         {/* 快速操作 */}
         <div className="bg-white rounded-lg shadow border border-gray-200">
           <div className="p-6 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">{t('quickActions.title')}</h2>
+            <h2 className="text-lg font-semibold text-gray-900">⚡ {t('quickActions.title')}</h2>
           </div>
           <div className="p-6">
             <div className="space-y-3">

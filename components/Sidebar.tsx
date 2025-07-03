@@ -17,7 +17,8 @@ import {
   BarChart3,
   ChevronLeft,
   ChevronRight,
-  Bot
+  Bot,
+  Star
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -88,6 +89,13 @@ export default function Sidebar() {
       label: t('achievements'),
       icon: Award,
       href: '/achievements',
+      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER']
+    },
+    {
+      key: 'points',
+      label: '积分管理',
+      icon: Star,
+      href: '/points',
       requiredRoles: ['OWNER', 'ADMIN', 'MANAGER']
     },
     {

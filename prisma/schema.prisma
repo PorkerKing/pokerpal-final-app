@@ -48,6 +48,8 @@ enum TransactionType {
   RING_GAME_BUYIN 
   RING_GAME_CASHOUT 
   STORE_PURCHASE 
+  POINTS_REDEMPTION
+  POINTS_EARNED
   OPERATIONAL_EXPENSE
   TRANSFER
   BONUS
@@ -141,6 +143,7 @@ model User {
   leaderboardEntries   LeaderboardEntry[]
   achievements         UserAchievement[]
   storePurchases       UserStorePurchase[]
+  storeRedemptions     StoreRedemption[]
   responsibleGaming    ResponsibleGamingSettings?
   notifications        Notification[]
   chatMessages         ChatMessage[]
@@ -159,6 +162,7 @@ model ClubMember {
   balance     Decimal       @default(0) @db.Decimal(10, 2)
   totalBuyIn  Decimal       @default(0) @db.Decimal(10, 2)
   totalCashOut Decimal      @default(0) @db.Decimal(10, 2)
+  points      Int           @default(0)
   vipLevel    Int           @default(0)
   notes       String?       @db.Text
   
@@ -536,7 +540,7 @@ model StoreItem {
   description  String?
   category     String              // "merchandise", "voucher", "service"
   price        Decimal             @db.Decimal(10, 2)
-  pointsCost   Int?                // Alternative payment with points
+  pointsRequired Int?              // Alternative payment with points
   stock        Int                 @default(0)
   imageUrl     String?
   isActive     Boolean             @default(true)
@@ -547,6 +551,7 @@ model StoreItem {
   // Relations
   club         Club                @relation(fields: [clubId], references: [id], onDelete: Cascade)
   purchases    UserStorePurchase[]
+  redemptions  StoreRedemption[]
   
   @@index([clubId, isActive])
 }
@@ -570,6 +575,26 @@ model UserStorePurchase {
   item            StoreItem @relation(fields: [itemId], references: [id])
   
   @@index([userId])
+  @@index([status])
+}
+
+model StoreRedemption {
+  id          String    @id @default(cuid())
+  userId      String
+  clubId      String
+  storeItemId String
+  pointsSpent Int
+  status      String    @default("PENDING") // "PENDING", "FULFILLED", "CANCELLED"
+  redeemedAt  DateTime  @default(now())
+  fulfilledAt DateTime?
+  notes       String?
+  
+  // Relations
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storeItem   StoreItem @relation(fields: [storeItemId], references: [id])
+  
+  @@index([userId])
+  @@index([clubId])
   @@index([status])
 }
 

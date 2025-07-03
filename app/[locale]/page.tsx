@@ -308,10 +308,10 @@ export default function HomePage() {
              <div className="w-full max-w-2xl text-center z-10">
                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
                  {t('welcomeMessage')} 
-                 <span className="text-purple-400">{selectedClub?.aiPersona?.name || 'AI助手'}</span>
+                 <span className="text-purple-400">🤖 {selectedClub?.aiPersona?.name || 'AI助手'}</span>
                </h1>
                <p className="mt-4 text-xl text-gray-400">
-                 {session?.user ? t('subheading') : '我是您的智能扑克助手，随时为您服务'}
+                 {session?.user ? t('subheading') : '🎯 我是您的智能扑克助手，随时为您服务'}
                </p>
                
                {/* 访客提示 */}

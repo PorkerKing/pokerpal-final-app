@@ -64,7 +64,8 @@ export default function FinancePage() {
   const [selectedMetric, setSelectedMetric] = useState('revenue');
 
   // 检查财务权限
-  const hasFinancePermission = user?.role && ['OWNER', 'ADMIN', 'MANAGER'].includes(user.role);
+  const userRole = selectedClub?.membership?.role;
+  const hasFinancePermission = userRole && ['OWNER', 'ADMIN', 'MANAGER', 'CASHIER'].includes(userRole);
 
   // 获取财务数据
   useEffect(() => {
@@ -233,7 +234,7 @@ export default function FinancePage() {
       {/* 页面标题 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">💰 {t('title')}</h1>
           <p className="text-gray-600">{t('description')}</p>
         </div>
         

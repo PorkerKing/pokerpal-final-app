@@ -335,5 +335,312 @@
   "ChatInput": {
     "thinking": "Thinking...",
     "placeholder": "Type your question here..."
+  },
+  "Settings": {
+    "title": "⚙️ Club Settings",
+    "aiConfig": "AI Assistant Configuration",
+    "basic": "Basic Information",
+    "personality": "Personality Settings",
+    "capabilities": "Feature Permissions",
+    "style": "Interaction Style"
+  },
+  "Navigation": {
+    "dashboard": "Dashboard",
+    "tournaments": {
+      "main": "Tournaments",
+      "list": "Tournament List",
+      "create": "Create Tournament"
+    },
+    "ringGames": {
+      "main": "Ring Games",
+      "list": "Table List",
+      "create": "Open Table"
+    },
+    "members": {
+      "main": "Member Management",
+      "list": "Member List",
+      "invite": "Invite Members"
+    },
+    "finance": {
+      "main": "Finance Center",
+      "overview": "Financial Overview",
+      "transactions": "Transaction History"
+    },
+    "achievements": "Achievement System",
+    "store": "Club Store",
+    "settings": {
+      "main": "Club Settings",
+      "club": "Basic Settings",
+      "ai": "AI Configuration"
+    },
+    "currentClub": "Current Club",
+    "roles": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "manager": "Manager",
+      "member": "Member",
+      "dealer": "Dealer",
+      "cashier": "Cashier",
+      "vip": "VIP Member",
+      "guest": "Guest"
+    }
+  },
+  "Finance": {
+    "title": "💰 Financial Management",
+    "description": "Manage club financial data and transaction records",
+    "export_report": "Export Report",
+    "export_csv": "Export CSV",
+    "view_all_transactions": "View All Transactions",
+    "view_all": "View All",
+    "loading": "Loading...",
+    "vs_last_period": "vs Last Period",
+    "system_transaction": "System Transaction",
+    "no_permission": {
+      "title": "No Access Permission",
+      "description": "You don't have permission to view financial data, please contact administrator"
+    },
+    "stats": {
+      "daily_revenue": "Daily Revenue",
+      "monthly_revenue": "Monthly Revenue",
+      "rake_collected": "Rake Collected",
+      "tournament_fees": "Tournament Fees"
+    },
+    "overview": {
+      "title": "Financial Overview",
+      "total_balance": "Account Balance",
+      "pending_withdrawals": "Pending Withdrawals"
+    },
+    "revenue_chart": {
+      "title": "Revenue Trends",
+      "description": "View revenue change trends"
+    },
+    "chart": {
+      "placeholder": {
+        "title": "Chart Placeholder",
+        "description": "Can integrate Chart.js or Recharts chart libraries"
+      }
+    },
+    "metrics": {
+      "revenue": "Total Revenue",
+      "rake": "Rake",
+      "fees": "Fees"
+    },
+    "date_range": {
+      "7d": "Last 7 Days",
+      "30d": "Last 30 Days",
+      "90d": "Last 90 Days",
+      "1y": "Last 1 Year"
+    },
+    "recent_transactions": {
+      "title": "Recent Transactions",
+      "empty": {
+        "title": "No Transaction Records",
+        "description": "No transaction records yet"
+      }
+    },
+    "transactions": {
+      "title": "Transaction Records",
+      "description": "View all financial transaction records",
+      "search_placeholder": "Search transaction records...",
+      "empty": {
+        "title": "No Transaction Records",
+        "description": "No transaction records found under current filter conditions"
+      }
+    },
+    "filters": {
+      "all_types": "All Types",
+      "all_status": "All Status"
+    },
+    "transaction_types": {
+      "deposit": "Deposit",
+      "withdrawal": "Withdrawal",
+      "rake": "Rake",
+      "tournament_fee": "Tournament Fee",
+      "refund": "Refund",
+      "transfer": "Transfer"
+    },
+    "transaction_status": {
+      "completed": "Completed",
+      "pending": "Processing",
+      "failed": "Failed",
+      "cancelled": "Cancelled"
+    },
+    "table": {
+      "transaction": "Transaction Details",
+      "user": "User",
+      "type": "Type",
+      "amount": "Amount",
+      "status": "Status",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "pagination": {
+      "showing": "Showing {start} - {end} of {total} items",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "Members": {
+    "title": "👥 Member Management",
+    "description": "Manage club member information",
+    "inviteNew": "Invite New Member",
+    "searchPlaceholder": "Search members...",
+    "loading": "Loading...",
+    "filters": {
+      "allRoles": "All Roles",
+      "allStatus": "All Status"
+    },
+    "roles": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "manager": "Manager",
+      "member": "Member",
+      "dealer": "Dealer",
+      "cashier": "Cashier",
+      "vip": "VIP Member",
+      "guest": "Guest"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "suspended": "Suspended",
+      "pending": "Pending"
+    },
+    "table": {
+      "member": "Member",
+      "role": "Role",
+      "status": "Status",
+      "balance": "Balance",
+      "joinDate": "Join Date",
+      "actions": "Actions"
+    },
+    "empty": {
+      "title": "No Members",
+      "description": "No members have joined the club yet",
+      "action": "Invite First Member"
+    },
+    "invite": {
+      "title": "Invite Member",
+      "description": "Invite new members to join the club",
+      "method": {
+        "title": "Invitation Method",
+        "email": "Email Invitation",
+        "emailDesc": "Send invitation email",
+        "link": "Invitation Link",
+        "linkDesc": "Generate invitation link"
+      },
+      "role": {
+        "label": "Set Role",
+        "description": "Set initial role for invited user"
+      },
+      "email": {
+        "label": "Email Address",
+        "placeholder": "Enter email address...",
+        "addMore": "Add More Emails"
+      },
+      "message": {
+        "label": "Invitation Message",
+        "placeholder": "Add custom invitation message...",
+        "description": "Optional: Add personal invitation message"
+      },
+      "link": {
+        "generated": "Invitation link generated",
+        "copy": "Copy Link",
+        "copied": "Copied",
+        "expires": "Link valid for 7 days",
+        "regenerate": "Regenerate Link"
+      },
+      "sending": "Sending...",
+      "generating": "Generating...",
+      "sendInvites": "Send Invitations",
+      "generateLink": "Generate Invitation Link",
+      "validation": {
+        "noValidEmails": "Please enter valid email addresses"
+      },
+      "success": {
+        "emailSent": "Successfully sent {count} invitation emails"
+      },
+      "error": {
+        "sendFailed": "Failed to send invitations, please try again later"
+      }
+    },
+    "pagination": {
+      "showing": "Showing {start} - {end} of {total} items",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "Store": {
+    "title": "🛍️ Club Store",
+    "description": "Use points to redeem exquisite items and exclusive services",
+    "my_points": "My Points",
+    "points_required": "Points Required",
+    "search_placeholder": "Search items...",
+    "stock": "Stock",
+    "redeem_now": "Redeem Now",
+    "out_of_stock": "Out of Stock",
+    "insufficient_points": "Insufficient Points",
+    "no_club_selected": {
+      "title": "Please Select Club",
+      "description": "Select a club to view exclusive store"
+    },
+    "categories": {
+      "all": "All Categories",
+      "beverage": "Specialty Drinks",
+      "merchandise": "Merchandise",
+      "service": "Exclusive Services",
+      "tournament_ticket": "Tournament Tickets"
+    },
+    "empty": {
+      "title": "No Items",
+      "description": "No items found under current filter conditions"
+    },
+    "redeem": {
+      "success": "Redemption successful! Please contact club staff to collect item",
+      "failed": "Redemption failed, please try again later"
+    },
+    "points_info": {
+      "title": "How to Earn Points?",
+      "description": "Points are rewards for active players, can be earned through:",
+      "earn_playing": "Participate in ring games to earn point rewards",
+      "earn_tournaments": "Participate in tournaments to earn massive points",
+      "earn_achievements": "Complete achievement tasks to earn extra points"
+    }
+  },
+  "Achievements": {
+    "title": "🏆 Achievement System",
+    "description": "Complete challenges, unlock achievements, and earn point rewards",
+    "completed": "Completed",
+    "earned_points": "Points Earned",
+    "progress": "Progress",
+    "points": "Points",
+    "no_club_selected": {
+      "title": "Please Select Club",
+      "description": "Select a club to view achievement system"
+    },
+    "filters": {
+      "all_categories": "All Categories",
+      "all_difficulties": "All Difficulties"
+    },
+    "categories": {
+      "tournament": "Tournament",
+      "social": "Social",
+      "skill": "Skill Challenge",
+      "milestone": "Milestone",
+      "special": "Special Achievement"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard",
+      "legendary": "Legendary"
+    },
+    "info": {
+      "title": "About Achievement System",
+      "description": "Achievement system records your various performances and milestones in the club:",
+      "earn_points": "Complete achievements to earn massive point rewards",
+      "track_progress": "Real-time tracking of your progress and performance",
+      "show_status": "Show your achievement status to other players"
+    }
   }
 } 

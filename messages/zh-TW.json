@@ -313,5 +313,100 @@
   "ChatInput": {
     "thinking": "思考中...",
     "placeholder": "在這裡輸入您的問題..."
+  },
+  "Finance": {
+    "title": "💰 財務管理",
+    "description": "管理俱樂部財務資料和交易記錄",
+    "export_report": "匯出報告",
+    "export_csv": "匯出CSV",
+    "view_all_transactions": "查看所有交易",
+    "view_all": "查看全部",
+    "loading": "載入中...",
+    "vs_last_period": "vs 上期",
+    "system_transaction": "系統交易",
+    "no_permission": {
+      "title": "無權限訪問",
+      "description": "您沒有權限查看財務資料，請聯絡管理員"
+    },
+    "stats": {
+      "daily_revenue": "今日收入",
+      "monthly_revenue": "本月收入",
+      "rake_collected": "抽水收入",
+      "tournament_fees": "賽事費用"
+    }
+  },
+  "Members": {
+    "title": "👥 會員管理",
+    "description": "管理俱樂部會員資訊",
+    "inviteNew": "邀請新會員",
+    "searchPlaceholder": "搜尋會員...",
+    "loading": "載入中...",
+    "filters": {
+      "allRoles": "所有角色",
+      "allStatus": "所有狀態"
+    },
+    "roles": {
+      "owner": "所有者",
+      "admin": "管理員",
+      "manager": "經理",
+      "member": "會員",
+      "dealer": "荷官",
+      "cashier": "出納",
+      "vip": "VIP會員",
+      "guest": "訪客"
+    },
+    "status": {
+      "active": "活躍",
+      "inactive": "非活躍",
+      "suspended": "暫停",
+      "pending": "待審核"
+    }
+  },
+  "Settings": {
+    "title": "⚙️ 俱樂部設定",
+    "aiConfig": "AI助手配置",
+    "basic": "基本資訊",
+    "personality": "個性設定",
+    "capabilities": "功能權限",
+    "style": "互動風格"
+  },
+  "Store": {
+    "title": "🛍️ 俱樂部商店",
+    "description": "使用積分兌換精美物品和專屬服務",
+    "my_points": "我的積分",
+    "points_required": "所需積分",
+    "search_placeholder": "搜尋商品...",
+    "stock": "庫存",
+    "redeem_now": "立即兌換",
+    "out_of_stock": "庫存不足",
+    "insufficient_points": "積分不足",
+    "categories": {
+      "all": "全部分類",
+      "beverage": "飲品特調",
+      "merchandise": "紀念商品",
+      "service": "專屬服務",
+      "tournament_ticket": "賽事門票"
+    }
+  },
+  "Achievements": {
+    "title": "🏆 成就系統",
+    "description": "完成挑戰，解鎖成就，獲得積分獎勵",
+    "completed": "已完成",
+    "earned_points": "獲得積分",
+    "progress": "進度",
+    "points": "積分",
+    "categories": {
+      "tournament": "錦標賽",
+      "social": "社交互動",
+      "skill": "技巧挑戰",
+      "milestone": "里程碑",
+      "special": "特殊成就"
+    },
+    "difficulty": {
+      "easy": "簡單",
+      "medium": "中等",
+      "hard": "困難",
+      "legendary": "傳奇"
+    }
   }
 }
