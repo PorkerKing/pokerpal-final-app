@@ -9,7 +9,16 @@
     "subheading": "您的俱樂部運營AI小幫手。今天有什麼可以幫您的嗎？",
     "promptSuggestion1": "\"這週有哪些比賽可以參加呀？\"",
     "promptSuggestion2": "\"幫我看看這個月的積分和排名是多少耶？\"",
-    "promptSuggestion3": "\"我想預訂一個$2/$5的位子，可以幫我安排嘛？\"",
+    "promptSuggestion3": "\"我想預訂一個$2/$5的常規桌位子，可以幫我安排嘛？\"",
     "promptSuggestion4": "\"幫我回顧一下昨晚的牌局記錄啦。\""
+  },
+  "Club": {
+    "memberCount": "會員",
+    "tournamentCount": "錦標賽",
+    "tableCount": "常規桌"
+  },
+  "Errors": {
+    "unauthorized": "未授權。請先登入。",
+    "notFound": "找不到資源。"
   }
 } 

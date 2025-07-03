@@ -1,31 +1,72 @@
-import { NextResponse } from 'next/server';
+// API 路由: /api/user/get-clubs
+// 获取用户参与的俱乐部列表
+
+import { NextRequest } from 'next/server';
+import {
+  withErrorHandler,
+  validateSession,
+  createSuccessResponse,
+  ApiError
+} from '@/lib/api-utils';
 import prisma from '@/lib/prisma';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth/next';
+import { MemberStatus } from '@prisma/client';
 
-export async function GET(req: Request) {
-  const session = await getServerSession(authOptions);
+// GET /api/user/get-clubs - 获取用户参与的俱乐部列表
+export const GET = withErrorHandler(async (request: NextRequest) => {
+  const session = await validateSession();
 
-  try {
-    let clubs;
-    // Use type assertion to inform TypeScript about the user id
-    const userId = (session?.user as { id?: string })?.id;
+  // 获取用户参与的俱乐部
+  const memberships = await prisma.clubMember.findMany({
+    where: {
+      userId: session.user.id,
+      status: MemberStatus.ACTIVE
+    },
+    include: {
+      club: {
+        include: {
+          aiPersona: {
+            select: { 
+              name: true, 
+              avatarUrl: true 
+            }
+          },
+          _count: {
+            select: {
+              members: {
+                where: { status: MemberStatus.ACTIVE }
+              },
+              tournaments: true,
+              cashGameTables: true
+            }
+          }
+        }
+      }
+    },
+    orderBy: { joinDate: 'desc' }
+  });
 
-    if (userId) {
-      // User is logged in, fetch their clubs
-      clubs = await prisma.club.findMany({
-        where: { members: { some: { userId: userId }}},
-        include: { aiPersona: { select: { name: true }}},
-      });
-    } else {
-      // User is a guest, fetch all clubs
-      clubs = await prisma.club.findMany({
-        include: { aiPersona: { select: { name: true }}},
-      });
+  // 转换为前端需要的格式
+  const clubs = memberships.map(membership => ({
+    id: membership.club.id,
+    name: membership.club.name,
+    description: membership.club.description,
+    logoUrl: membership.club.logoUrl,
+    coverImageUrl: membership.club.coverImageUrl,
+    timezone: membership.club.timezone,
+    currency: membership.club.currency,
+    isActive: membership.club.isActive,
+    aiPersona: membership.club.aiPersona,
+    memberCount: membership.club._count.members,
+    tournamentCount: membership.club._count.tournaments,
+    cashGameTableCount: membership.club._count.cashGameTables,
+    // 用户在该俱乐部的信息
+    userMembership: {
+      role: membership.role,
+      balance: membership.balance,
+      vipLevel: membership.vipLevel,
+      joinDate: membership.joinDate
     }
-    return NextResponse.json({ clubs });
-  } catch (error) {
-    console.error("Failed to fetch clubs:", error);
-    return NextResponse.json({ error: 'Failed to fetch clubs' }, { status: 500 });
-  }
-} 
+  }));
+
+  return createSuccessResponse({ clubs });
+});

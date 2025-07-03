@@ -1,4 +1,6 @@
-// This is your Prisma schema file for the PokerPal project.
+// PokerPal vNext - Full-featured poker club management platform
+// This schema represents the complete database structure for the next generation platform
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,6 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ==================== ENUMS ====================
+
 enum Role { 
   OWNER 
   ADMIN 
@@ -15,6 +19,8 @@ enum Role {
   MEMBER 
   DEALER 
   CASHIER 
+  VIP
+  GUEST
 }
 
 enum TournamentStatus { 
@@ -23,11 +29,15 @@ enum TournamentStatus {
   IN_PROGRESS 
   COMPLETED 
   CANCELLED 
+  PAUSED
 }
 
 enum GameType { 
-  NLH 
-  PLO 
+  NLH       // No Limit Hold'em
+  PLO       // Pot Limit Omaha
+  PLO5      // 5-Card Pot Limit Omaha
+  MIXED     // Mixed games
+  OTHER
 }
 
 enum TransactionType { 
@@ -35,23 +45,65 @@ enum TransactionType {
   WITHDRAWAL 
   TOURNAMENT_BUYIN 
   TOURNAMENT_CASHOUT 
-  CASH_GAME_BUYIN 
-  CASH_GAME_CASHOUT 
+  RING_GAME_BUYIN 
+  RING_GAME_CASHOUT 
   STORE_PURCHASE 
-  OPERATIONAL_EXPENSE 
+  OPERATIONAL_EXPENSE
+  TRANSFER
+  BONUS
+  ADJUSTMENT
+  RAKE_COLLECTED
 }
+
+enum NotificationType {
+  TOURNAMENT_STARTING
+  TOURNAMENT_REGISTERED
+  ACHIEVEMENT_UNLOCKED
+  PROMOTION
+  SYSTEM
+  CLUB_UPDATE
+  BALANCE_UPDATE
+}
+
+enum TableStatus {
+  WAITING
+  ACTIVE
+  PAUSED
+  CLOSED
+}
+
+enum MemberStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+  PENDING
+}
+
+// ==================== CORE MODELS ====================
 
 model Club {
   id                   String                @id @default(cuid())
   name                 String                @unique
   description          String?               @db.Text
+  logoUrl              String?
+  coverImageUrl        String?
+  address              String?
+  phone                String?
+  email                String?
+  website              String?
+  timezone             String                @default("UTC")
+  currency             String                @default("USD")
+  isActive             Boolean               @default(true)
+  settings             Json?                 // Club-specific settings
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
+  
+  // Relations
   members              ClubMember[]
   aiPersona            AIPersona?
   membershipTiers      MembershipTier[]
   tournaments          Tournament[]
-  cashGameTables       CashGameTable[]
+  cashGameTables       RingGameTable[]
   rakeStructures       RakeStructure[]
   blindStructures      BlindStructure[]
   payoutStructures     PayoutStructure[]
@@ -59,6 +111,10 @@ model Club {
   leaderboards         Leaderboard[]
   achievements         Achievement[]
   storeItems           StoreItem[]
+  announcements        Announcement[]
+  promotions           Promotion[]
+  
+  @@index([isActive])
 }
 
 model User {
@@ -68,43 +124,91 @@ model User {
   emailVerified        DateTime?
   image                String?
   password             String?
+  phone                String?
+  preferredLanguage    String                         @default("zh")
+  isActive             Boolean                        @default(true)
+  lastLoginAt          DateTime?
   createdAt            DateTime                       @default(now())
   updatedAt            DateTime                       @updatedAt
+  
+  // Relations
   accounts             Account[]
   sessions             Session[]
   clubs                ClubMember[]
   tournamentEntries    TournamentPlayer[]
-  cashGameSessions     CashGameSession[]
+  cashGameSessions     RingGameSession[]
   transactions         Transaction[]
   leaderboardEntries   LeaderboardEntry[]
   achievements         UserAchievement[]
   storePurchases       UserStorePurchase[]
   responsibleGaming    ResponsibleGamingSettings?
+  notifications        Notification[]
+  chatMessages         ChatMessage[]
+  
+  @@index([email])
+  @@index([isActive])
 }
 
 model ClubMember {
-  id          String    @id @default(cuid())
+  id          String        @id @default(cuid())
   clubId      String
   userId      String
-  role        Role      @default(MEMBER)
-  joinDate    DateTime  @default(now())
-  balance     Decimal   @default(0) @db.Decimal(10, 2)
-  club        Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role        Role          @default(MEMBER)
+  status      MemberStatus  @default(ACTIVE)
+  joinDate    DateTime      @default(now())
+  balance     Decimal       @default(0) @db.Decimal(10, 2)
+  totalBuyIn  Decimal       @default(0) @db.Decimal(10, 2)
+  totalCashOut Decimal      @default(0) @db.Decimal(10, 2)
+  vipLevel    Int           @default(0)
+  notes       String?       @db.Text
+  
+  // Relations
+  club        Club          @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([clubId, userId])
+  @@index([clubId, status])
+  @@index([userId])
 }
 
+// ==================== AI & CHAT ====================
+
 model AIPersona {
-  id          String    @id @default(cuid())
-  clubId      String    @unique
+  id          String        @id @default(cuid())
+  clubId      String        @unique
   name        String
-  personality String    @db.Text
+  personality String        @db.Text
+  systemPrompt String?      @db.Text
   avatarUrl   String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  club        Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  voiceId     String?       // For future voice integration
+  capabilities Json?        // Defines what the AI can do
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relations
+  club        Club          @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  chatMessages ChatMessage[]
 }
+
+model ChatMessage {
+  id          String        @id @default(cuid())
+  userId      String?
+  aiPersonaId String?
+  clubId      String
+  role        String        // 'user' | 'assistant' | 'system'
+  content     String        @db.Text
+  metadata    Json?         // Store tool calls, attachments, etc.
+  createdAt   DateTime      @default(now())
+  
+  // Relations
+  user        User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  aiPersona   AIPersona?    @relation(fields: [aiPersonaId], references: [id], onDelete: SetNull)
+  
+  @@index([userId, createdAt])
+  @@index([clubId, createdAt])
+}
+
+// ==================== AUTHENTICATION ====================
 
 model Account {
   id                String  @id @default(cuid())
@@ -119,9 +223,12 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
+  
+  // Relations
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -129,7 +236,11 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  
+  // Relations
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
 }
 
 model VerificationToken {
@@ -140,36 +251,40 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model MembershipTier {
-  id                    String    @id @default(cuid())
-  clubId                String
-  name                  String
-  minPointsRequired     Int       @default(0)
-  descriptionOfBenefits String?   @db.Text
-  isActive              Boolean   @default(true)
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
-  club                  Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
-}
+// ==================== TOURNAMENTS ====================
 
 model Tournament {
   id                  String             @id @default(cuid())
   clubId              String
   name                String
+  description         String?            @db.Text
   gameType            GameType           @default(NLH)
   buyIn               Decimal            @db.Decimal(10, 2)
   fee                 Decimal            @db.Decimal(10, 2)
+  rebuyAmount         Decimal?           @db.Decimal(10, 2)
+  addonAmount         Decimal?           @db.Decimal(10, 2)
   startingStack       Int
   startTime           DateTime
+  lateRegEndTime      DateTime?
+  estimatedDuration   Int?               // in minutes
+  minPlayers          Int                @default(2)
+  maxPlayers          Int?
   status              TournamentStatus   @default(SCHEDULED)
   blindStructureId    String
   payoutStructureId   String
+  tags                String[]           @default([])
+  metadata            Json?
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
+  
+  // Relations
   club                Club               @relation(fields: [clubId], references: [id], onDelete: Cascade)
   blindStructure      BlindStructure     @relation(fields: [blindStructureId], references: [id])
   payoutStructure     PayoutStructure    @relation(fields: [payoutStructureId], references: [id])
   players             TournamentPlayer[]
+  
+  @@index([clubId, status])
+  @@index([startTime])
 }
 
 model TournamentPlayer {
@@ -177,119 +292,220 @@ model TournamentPlayer {
   tournamentId     String
   userId           String
   registrationTime DateTime    @default(now())
+  seatNumber       Int?
+  tableNumber      Int?
+  chipCount        Int         @default(0)
+  rebuys           Int         @default(0)
+  addons           Int         @default(0)
   finalRank        Int?
   winnings         Decimal?    @db.Decimal(10, 2)
+  isActive         Boolean     @default(true)
+  bustOutTime      DateTime?
+  
+  // Relations
   tournament       Tournament  @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
   user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([tournamentId, userId])
+  @@index([tournamentId, isActive])
+  @@index([userId])
 }
 
 model BlindStructure {
   id          String       @id @default(cuid())
   clubId      String
   name        String
-  levels      Json
+  description String?
+  levels      Json         // Array of {level, smallBlind, bigBlind, ante, duration}
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  
+  // Relations
   club        Club         @relation(fields: [clubId], references: [id], onDelete: Cascade)
   tournaments Tournament[]
+  
+  @@index([clubId])
 }
 
 model PayoutStructure {
   id          String       @id @default(cuid())
   clubId      String
   name        String
-  payouts     Json
+  description String?
+  payouts     Json         // Array of {position, percentage}
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  
+  // Relations
   club        Club         @relation(fields: [clubId], references: [id], onDelete: Cascade)
   tournaments Tournament[]
+  
+  @@index([clubId])
 }
 
-model CashGameTable {
-  id               String            @id @default(cuid())
-  clubId           String
-  name             String
-  gameType         GameType          @default(NLH)
-  stakes           String
-  minBuyIn         Decimal           @db.Decimal(10, 2)
-  maxBuyIn         Decimal           @db.Decimal(10, 2)
-  isActive         Boolean           @default(true)
-  rakeStructureId  String
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  club             Club              @relation(fields: [clubId], references: [id], onDelete: Cascade)
-  rakeStructure    RakeStructure     @relation(fields: [rakeStructureId], references: [id])
-  sessions         CashGameSession[]
+// ==================== CASH GAMES ====================
+
+model RingGameTable {
+  id                 String                 @id @default(cuid())
+  clubId             String
+  name               String
+  gameType           GameType               @default(NLH)
+  stakes             String
+  minBuyIn           Float
+  maxBuyIn           Float
+  isActive           Boolean                @default(true)
+  serviceFeeStructureId String?
+  createdAt          DateTime               @default(now())
+  updatedAt          DateTime               @updatedAt
+  club               Club                   @relation(fields: [clubId], references: [id])
+  serviceFeeStructure ServiceFeeStructure?   @relation(fields: [serviceFeeStructureId], references: [id])
+  sessions           RingGameSession[]
 }
 
-model CashGameSession {
-  id             String        @id @default(cuid())
+model RingGameSession {
+  id             String          @id @default(cuid())
   tableId        String
   userId         String
-  startTime      DateTime      @default(now())
+  startTime      DateTime        @default(now())
   endTime        DateTime?
-  buyInAmount    Decimal       @db.Decimal(10, 2)
-  cashOutAmount  Decimal?      @db.Decimal(10, 2)
-  table          CashGameTable @relation(fields: [tableId], references: [id], onDelete: Cascade)
-  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  buyInAmount    Float
+  cashOutAmount  Float?
+  table          RingGameTable   @relation(fields: [tableId], references: [id])
+  user           User            @relation(fields: [userId], references: [id])
+}
+
+model ServiceFeeStructure {
+  id          String          @id @default(cuid())
+  clubId      String
+  name        String
+  percentage  Float
+  cap         Float
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  club        Club            @relation(fields: [clubId], references: [id])
+  tables      RingGameTable[]
 }
 
 model RakeStructure {
   id         String          @id @default(cuid())
   clubId     String
   name       String
-  percentage Float
-  cap        Decimal         @db.Decimal(10, 2)
+  percentage Float           // Rake percentage
+  cap        Decimal         @db.Decimal(10, 2) // Max rake per pot
+  noFlop     Boolean         @default(false) // No rake if no flop
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
+  
+  // Relations
   club       Club            @relation(fields: [clubId], references: [id], onDelete: Cascade)
-  tables     CashGameTable[]
+  tables     RingGameTable[]
+  
+  @@index([clubId])
 }
 
+// ==================== FINANCE & TRANSACTIONS ====================
+
 model Transaction {
-  id          String          @id @default(cuid())
-  userId      String
-  type        TransactionType
-  amount      Decimal         @db.Decimal(10, 2)
-  description String?
-  timestamp   DateTime        @default(now())
-  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String          @id @default(cuid())
+  userId        String
+  clubId        String
+  type          TransactionType
+  amount        Decimal         @db.Decimal(10, 2)
+  balanceBefore Decimal         @db.Decimal(10, 2)
+  balanceAfter  Decimal         @db.Decimal(10, 2)
+  description   String?
+  reference     String?         // External reference number
+  metadata      Json?           // Additional transaction data
+  timestamp     DateTime        @default(now())
+  
+  // Relations
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, timestamp])
+  @@index([clubId, timestamp])
+  @@index([type])
 }
 
 model OperationalExpense {
   id          String   @id @default(cuid())
   clubId      String
+  category    String   // e.g., "Rent", "Utilities", "Salaries"
   description String
   amount      Decimal  @db.Decimal(10, 2)
   date        DateTime
+  receiptUrl  String?
+  approvedBy  String?
   createdAt   DateTime @default(now())
+  
+  // Relations
   club        Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  
+  @@index([clubId, date])
+}
+
+// ==================== GAMIFICATION ====================
+
+model MembershipTier {
+  id                    String    @id @default(cuid())
+  clubId                String
+  name                  String
+  level                 Int       // Numeric level for ordering
+  minPointsRequired     Int       @default(0)
+  minGamesRequired      Int       @default(0)
+  benefits              Json      // Array of benefit descriptions
+  badgeUrl              String?
+  color                 String?   // Hex color for UI
+  isActive              Boolean   @default(true)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  
+  // Relations
+  club                  Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  
+  @@unique([clubId, level])
+  @@index([clubId, isActive])
 }
 
 model Leaderboard {
-  id        String             @id @default(cuid())
-  clubId    String
-  name      String
-  startDate DateTime
-  endDate   DateTime
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-  club      Club               @relation(fields: [clubId], references: [id], onDelete: Cascade)
-  entries   LeaderboardEntry[]
+  id           String             @id @default(cuid())
+  clubId       String
+  name         String
+  description  String?
+  type         String             // "tournament", "cash", "overall", "custom"
+  metric       String             // "earnings", "games", "wins", etc.
+  period       String             // "daily", "weekly", "monthly", "yearly", "alltime"
+  startDate    DateTime
+  endDate      DateTime
+  minGames     Int                @default(0)
+  prizes       Json?              // Prize structure
+  isActive     Boolean            @default(true)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  
+  // Relations
+  club         Club               @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  entries      LeaderboardEntry[]
+  
+  @@index([clubId, isActive])
+  @@index([startDate, endDate])
 }
 
 model LeaderboardEntry {
   id            String      @id @default(cuid())
   leaderboardId String
   userId        String
-  points        Int
+  rank          Int
+  value         Decimal     @db.Decimal(10, 2) // Score/earnings/etc
+  gamesPlayed   Int         @default(0)
+  metadata      Json?       // Additional stats
   updatedAt     DateTime    @updatedAt
+  
+  // Relations
   leaderboard   Leaderboard @relation(fields: [leaderboardId], references: [id], onDelete: Cascade)
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([leaderboardId, userId])
+  @@index([leaderboardId, rank])
 }
 
 model Achievement {
@@ -297,10 +513,18 @@ model Achievement {
   clubId           String
   name             String
   description      String
+  category         String            // "tournament", "cash", "social", "special"
   iconUrl          String?
+  points           Int               @default(0)
+  criteria         Json              // Conditions to unlock
+  isActive         Boolean           @default(true)
   createdAt        DateTime          @default(now())
+  
+  // Relations
   club             Club              @relation(fields: [clubId], references: [id], onDelete: Cascade)
   userAchievements UserAchievement[]
+  
+  @@index([clubId, isActive])
 }
 
 model UserAchievement {
@@ -308,44 +532,141 @@ model UserAchievement {
   userId        String
   achievementId String
   unlockedAt    DateTime    @default(now())
+  progress      Int         @default(100) // For progressive achievements
+  
+  // Relations
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
 
   @@unique([userId, achievementId])
+  @@index([userId])
 }
 
+// ==================== CLUB STORE ====================
+
 model StoreItem {
-  id          String              @id @default(cuid())
-  clubId      String
-  name        String
-  description String?
-  price       Decimal             @db.Decimal(10, 2)
-  stock       Int                 @default(0)
-  imageUrl    String?
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-  club        Club                @relation(fields: [clubId], references: [id], onDelete: Cascade)
-  purchases   UserStorePurchase[]
+  id           String              @id @default(cuid())
+  clubId       String
+  name         String
+  description  String?
+  category     String              // "merchandise", "voucher", "service"
+  price        Decimal             @db.Decimal(10, 2)
+  pointsCost   Int?                // Alternative payment with points
+  stock        Int                 @default(0)
+  imageUrl     String?
+  isActive     Boolean             @default(true)
+  metadata     Json?               // Size options, colors, etc.
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  
+  // Relations
+  club         Club                @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  purchases    UserStorePurchase[]
+  
+  @@index([clubId, isActive])
 }
 
 model UserStorePurchase {
-  id           String    @id @default(cuid())
-  userId       String
-  itemId       String
-  quantity     Int
-  totalPrice   Decimal   @db.Decimal(10, 2)
-  purchaseDate DateTime  @default(now())
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  item         StoreItem @relation(fields: [itemId], references: [id])
+  id              String    @id @default(cuid())
+  userId          String
+  itemId          String
+  quantity        Int
+  unitPrice       Decimal   @db.Decimal(10, 2)
+  totalPrice      Decimal   @db.Decimal(10, 2)
+  pointsUsed      Int       @default(0)
+  status          String    @default("pending") // "pending", "confirmed", "shipped", "completed", "cancelled"
+  shippingAddress Json?
+  notes           String?
+  purchaseDate    DateTime  @default(now())
+  completedDate   DateTime?
+  
+  // Relations
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item            StoreItem @relation(fields: [itemId], references: [id])
+  
+  @@index([userId])
+  @@index([status])
 }
+
+// ==================== COMMUNICATIONS ====================
+
+model Announcement {
+  id          String    @id @default(cuid())
+  clubId      String
+  title       String
+  content     String    @db.Text
+  imageUrl    String?
+  priority    Int       @default(0) // Higher = more important
+  isActive    Boolean   @default(true)
+  publishAt   DateTime  @default(now())
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  // Relations
+  club        Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  
+  @@index([clubId, isActive])
+  @@index([publishAt, expiresAt])
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  userId      String
+  type        NotificationType
+  title       String
+  message     String
+  data        Json?            // Related entity IDs, action URLs, etc.
+  isRead      Boolean          @default(false)
+  readAt      DateTime?
+  createdAt   DateTime         @default(now())
+  
+  // Relations
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+model Promotion {
+  id           String    @id @default(cuid())
+  clubId       String
+  name         String
+  description  String    @db.Text
+  type         String    // "deposit_bonus", "rakeback", "tournament_ticket", etc.
+  value        Decimal   @db.Decimal(10, 2)
+  percentage   Float?    // For percentage-based promotions
+  conditions   Json      // Eligibility criteria
+  usageLimit   Int?      // Max times it can be used
+  usageCount   Int       @default(0)
+  startDate    DateTime
+  endDate      DateTime
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  // Relations
+  club         Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  
+  @@index([clubId, isActive])
+  @@index([startDate, endDate])
+}
+
+// ==================== RESPONSIBLE GAMING ====================
 
 model ResponsibleGamingSettings {
   id                   String    @id @default(cuid())
   userId               String    @unique
   depositLimit         Decimal?  @db.Decimal(10, 2)
+  depositLimitPeriod   String?   // "daily", "weekly", "monthly"
   lossLimit            Decimal?  @db.Decimal(10, 2)
-  sessionTimeLimit     Int?
-  selfExclusionUntil   DateTime?
+  lossLimitPeriod      String?   // "daily", "weekly", "monthly"
+  sessionTimeLimit     Int?      // in minutes
+  coolingOffUntil      DateTime? // Temporary break
+  selfExclusionUntil   DateTime? // Complete exclusion
+  realityCheckInterval Int?      // Reminder interval in minutes
   updatedAt            DateTime  @updatedAt
+  
+  // Relations
   user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-} 
+}

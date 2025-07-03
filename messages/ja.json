@@ -11,7 +11,16 @@
     "subheading": "クラブ運営のAIアシスタントです。何かお手伝いできることはありますか？",
     "promptSuggestion1": "\"今週利用可能なトーナメントは何ですか？\"",
     "promptSuggestion2": "\"今月のポイント残高とランキングを確認してください。\"",
-    "promptSuggestion3": "\"$2/$5の席を予約したいのですが、手配できますか？\"",
+    "promptSuggestion3": "\"$2/$5のリングゲームの席を予約してください。\"",
     "promptSuggestion4": "\"昨夜のハンド履歴のレビューを手伝ってください。\""
+  },
+  "Club": {
+    "memberCount": "メンバー",
+    "tournamentCount": "トーナメント",
+    "tableCount": "リングゲーム"
+  },
+  "Errors": {
+    "unauthorized": "認証されていません。サインインしてください。",
+    "notFound": "リソースが見つかりません。"
   }
 } 

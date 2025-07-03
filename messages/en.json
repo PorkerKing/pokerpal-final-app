@@ -8,8 +8,17 @@
     "welcomeMessage": "I am",
     "subheading": "Your AI assistant for club management. How can I help you today?",
     "promptSuggestion1": "\"What tournaments are available this week?\"",
-    "promptSuggestion2": "\"Check my points balance for this month and my ranking.\"",
-    "promptSuggestion3": "\"I want to reserve a $2/$5 seat, can you arrange it?\"",
+    "promptSuggestion2": "\"Check my points balance and ranking.\"",
+    "promptSuggestion3": "\"Book a seat for the $2/$5 Ring Game.\"",
     "promptSuggestion4": "\"Help me review my hand history from last night.\""
+  },
+  "Club": {
+    "memberCount": "Members",
+    "tournamentCount": "Tournaments",
+    "tableCount": "Ring Games"
+  },
+  "Errors": {
+    "unauthorized": "Unauthorized. Please sign in.",
+    "notFound": "Resource not found."
   }
 } 

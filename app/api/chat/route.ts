@@ -5,21 +5,14 @@ import { openai } from "@ai-sdk/openai";
 import { streamText, CoreMessage, CoreTool } from "ai";
 import { NextResponse } from 'next/server';
 import { 
-  listAvailableTournamentsTool, 
-  listAvailableTournaments, 
-  buyInForTournamentTool, 
-  buyInForTournament 
-} from '@/lib/ai-tools/tournamentTools';
-import { 
-  getUserProfileAndStatsTool, 
-  getUserProfileAndStats 
-} from '@/lib/ai-tools/userTools';
+  aiToolsAPI
+} from '@/lib/ai-tools';
 
 // 定义哪些工具需要认证
-const AUTH_REQUIRED_TOOLS = ['buyInForTournament', 'getUserProfileAndStats'];
+const AUTH_REQUIRED_TOOLS = ['tournamentRegister', 'getUserClubInfo'];
 
 // 访客可用的工具
-const GUEST_TOOLS = ['listAvailableTournaments'];
+const GUEST_TOOLS = ['listTournaments', 'getClubStats'];
 
 const getLanguageName = (locale: string): string => {
   switch (locale) {
@@ -131,56 +124,44 @@ export async function POST(req: Request) {
     const coreMessages = convertToCoreMessages(message, history, systemPrompt);
     
     // 根据用户状态选择可用的工具
-    const availableToolDefinitions = isGuest 
-      ? [listAvailableTournamentsTool]
-      : [listAvailableTournamentsTool, getUserProfileAndStatsTool, buyInForTournamentTool];
+    const availableTools = isGuest 
+      ? Object.fromEntries(GUEST_TOOLS.map(name => [name, aiToolsAPI[name as keyof typeof aiToolsAPI]]))
+      : aiToolsAPI;
     
-    // 创建工具执行函数
-    const toolExecutor = async (toolName: string, args: any) => {
-      // 再次检查权限
-      if (isGuest && AUTH_REQUIRED_TOOLS.includes(toolName)) {
-        return JSON.stringify({
-          error: '此功能需要登录才能使用。请先登录。'
-        });
-      }
-      
-      // 注入必要的参数
-      const enhancedArgs = { ...args };
-      if (toolName === 'buyInForTournament' && validUserId) {
-        enhancedArgs.userId = validUserId;
-      }
-      if (toolName === 'getUserProfileAndStats' && validUserId) {
-        enhancedArgs.userId = validUserId;
-      }
-      if (!enhancedArgs.clubId) {
-        enhancedArgs.clubId = clubId;
-      }
-      
-      // 执行工具
-      switch (toolName) {
-        case 'listAvailableTournaments':
-          return await listAvailableTournaments(enhancedArgs);
-        case 'getUserProfileAndStats':
-          return await getUserProfileAndStats(enhancedArgs);
-        case 'buyInForTournament':
-          return await buyInForTournament(enhancedArgs);
-        default:
-          return JSON.stringify({ error: 'Unknown tool' });
-      }
-    };
+    // 为需要认证的工具注入用户ID
+    const enhancedTools = Object.fromEntries(
+      Object.entries(availableTools).map(([name, tool]) => {
+        if (AUTH_REQUIRED_TOOLS.includes(name) && !validUserId) {
+          // 为访客返回需要登录的提示
+          return [name, {
+            ...tool,
+            execute: async () => '此功能需要登录才能使用。请先登录。'
+          }];
+        }
+        
+        return [name, {
+          ...tool,
+          execute: async (args: any) => {
+            // 注入必要的参数
+            const enhancedArgs = { ...args };
+            if (validUserId && (name === 'tournamentRegister' || name === 'getUserClubInfo')) {
+              enhancedArgs.userId = validUserId;
+            }
+            if (!enhancedArgs.clubId) {
+              enhancedArgs.clubId = clubId;
+            }
+            
+            return await tool.execute(enhancedArgs);
+          }
+        }];
+      })
+    );
     
     // 使用 streamText 生成响应
     const result = await streamText({
       model: openai("gpt-4o"),
       messages: coreMessages,
-      tools: availableToolDefinitions.reduce((acc, tool) => {
-        acc[tool.function.name] = {
-          description: tool.function.description,
-          parameters: tool.function.parameters,
-          execute: async (args) => toolExecutor(tool.function.name, args)
-        };
-        return acc;
-      }, {} as Record<string, CoreTool>),
+      tools: enhancedTools,
       maxTokens: 2000,
       temperature: 0.7,
       async onFinish({ text, toolCalls }) {

@@ -3,28 +3,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import Header from '@/components/Header';
 import ChatInput from '@/components/ChatInput';
-import { Bot, User, LoaderCircle, Diamond, Spade, LogIn } from 'lucide-react';
+import { Bot, User, LoaderCircle, LogIn } from 'lucide-react';
+import { PokerBackground } from '@/components/PokerBackground';
 import { useSession, signIn } from 'next-auth/react';
 import { useUserStore } from '@/stores/userStore';
 import { useTranslations, useLocale } from 'next-intl';
 import { TournamentCard } from '@/components/TournamentCard';
 import { useRouter } from '@/navigation';
 
-// ==================== 视觉升级：扑克牌花色动态背景 ====================
-const SpadeShape = () => (
-  <Spade
-    className="absolute h-12 w-12 text-zinc-500/20"
-    style={{ shapeRendering: "crispEdges" }} 
-  />
-);
-
-const DiamondShape = () => (
-  <Diamond
-    className="absolute h-12 w-12 text-red-500/20"
-    style={{ shapeRendering: "crispEdges" }}
-  />
-);
-// ======================================================================
+// ==================== 组件已移至独立文件 ====================
 
 interface Message {
   role: 'user' | 'assistant';
@@ -183,15 +170,8 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-screen w-full flex flex-col text-white font-sans overflow-hidden">
-      {/* 背景装饰 */}
-      <div className="absolute inset-0 -z-10 bg-[#0D0F18]">
-        <div className="absolute top-20 left-10 blur-md opacity-70 mix-blend-normal">
-          <SpadeShape />
-        </div>
-        <div className="absolute bottom-20 right-10 blur-md opacity-70 mix-blend-normal">
-          <DiamondShape />
-        </div>
-      </div>
+      {/* 动态扑克背景 */}
+      <PokerBackground />
       
       <Header />
       
