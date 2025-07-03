@@ -55,7 +55,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
             where: { status: MemberStatus.ACTIVE }
           },
           tournaments: true,
-          cashGameTables: true
+          ringGameTables: true
         }
       },
       ...(userId && {
@@ -213,14 +213,13 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
       }
     });
 
-    // 创建默认抽水结构
-    await tx.rakeStructure.create({
+    // 创建默认服务费结构
+    await tx.serviceFeeStructure.create({
       data: {
         clubId: newClub.id,
-        name: '标准抽水',
+        name: '标准服务费',
         percentage: 5.0,
-        cap: 10.00,
-        noFlop: true
+        cap: 10.00
       }
     });
 
@@ -236,7 +235,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
         select: { 
           members: true,
           tournaments: true,
-          cashGameTables: true
+          ringGameTables: true
         }
       }
     }

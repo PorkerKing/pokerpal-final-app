@@ -103,8 +103,8 @@ model Club {
   aiPersona            AIPersona?
   membershipTiers      MembershipTier[]
   tournaments          Tournament[]
-  cashGameTables       RingGameTable[]
-  rakeStructures       RakeStructure[]
+  ringGameTables       RingGameTable[]
+  serviceFeeStructures ServiceFeeStructure[]
   blindStructures      BlindStructure[]
   payoutStructures     PayoutStructure[]
   operationalExpenses  OperationalExpense[]
@@ -386,22 +386,6 @@ model ServiceFeeStructure {
   tables      RingGameTable[]
 }
 
-model RakeStructure {
-  id         String          @id @default(cuid())
-  clubId     String
-  name       String
-  percentage Float           // Rake percentage
-  cap        Decimal         @db.Decimal(10, 2) // Max rake per pot
-  noFlop     Boolean         @default(false) // No rake if no flop
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
-  
-  // Relations
-  club       Club            @relation(fields: [clubId], references: [id], onDelete: Cascade)
-  tables     RingGameTable[]
-  
-  @@index([clubId])
-}
 
 // ==================== FINANCE & TRANSACTIONS ====================
 

@@ -37,7 +37,7 @@ export const GET = withErrorHandler(async (
             where: { status: MemberStatus.ACTIVE }
           },
           tournaments: true,
-          cashGameTables: true,
+          ringGameTables: true,
           announcements: {
             where: { isActive: true }
           }
@@ -134,7 +134,7 @@ export const PUT = withErrorHandler(async (
             where: { status: MemberStatus.ACTIVE }
           },
           tournaments: true,
-          cashGameTables: true
+          ringGameTables: true
         }
       }
     }
@@ -165,7 +165,7 @@ export const DELETE = withErrorHandler(async (
         },
         take: 1
       },
-      cashGameTables: {
+      ringGameTables: {
         where: {
           status: 'ACTIVE'
         },
@@ -174,7 +174,7 @@ export const DELETE = withErrorHandler(async (
     }
   });
 
-  if (activeActivities?.tournaments.length || activeActivities?.cashGameTables.length) {
+  if (activeActivities?.tournaments.length || activeActivities?.ringGameTables.length) {
     throw new ApiError('Cannot delete club with active tournaments or ring games', 400);
   }
 

@@ -73,7 +73,7 @@ async function main() {
       systemPrompt: '你是 PokerPal 示例俱乐部的专属AI助手。请用中文与用户交流，提供专业的扑克俱乐部服务。',
       capabilities: {
         tournaments: true,
-        cashGames: true,
+        ringGames: true,
         memberManagement: true,
         statistics: true
       }

@@ -36,7 +36,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
                 where: { status: MemberStatus.ACTIVE }
               },
               tournaments: true,
-              cashGameTables: true
+              ringGameTables: true
             }
           }
         }
@@ -58,7 +58,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     aiPersona: membership.club.aiPersona,
     memberCount: membership.club._count.members,
     tournamentCount: membership.club._count.tournaments,
-    cashGameTableCount: membership.club._count.cashGameTables,
+    ringGameTableCount: membership.club._count.ringGameTables,
     // 用户在该俱乐部的信息
     userMembership: {
       role: membership.role,

@@ -93,7 +93,7 @@ export async function POST(req: Request) {
     
     // 获取会话信息
     const session = await getServerSession(authOptions);
-    const authenticatedUserId = session?.user?.id;
+    const authenticatedUserId = (session as any)?.user?.id;
     
     // 安全检查：确保客户端传递的 userId 与会话中的 userId 匹配
     const isGuest = !authenticatedUserId;

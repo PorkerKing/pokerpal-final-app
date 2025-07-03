@@ -9,13 +9,13 @@
     "subheading": "您的俱乐部运营AI助理。今天有什么可以帮您的？",
     "promptSuggestion1": "\"本周有哪些锦标赛？\"",
     "promptSuggestion2": "\"查一下我这个月的积分和排名。\"",
-    "promptSuggestion3": "\"我想预订一个$2/$5的常规桌座位，能安排吗？\"",
+    "promptSuggestion3": "\"我想预订一个$2/$5的圆桌游戏座位，能安排吗？\"",
     "promptSuggestion4": "\"帮我复盘一下昨晚的牌局记录。\""
   },
   "Club": {
     "memberCount": "会员",
     "tournamentCount": "锦标赛",
-    "tableCount": "常规桌"
+    "tableCount": "圆桌游戏"
   },
   "Errors": {
     "unauthorized": "未授权。请先登录。",

@@ -196,7 +196,7 @@ export const getClubStatsAPITool: CoreTool = {
         name: club.name,
         memberCount: club._count.members,
         tournamentCount: club._count.tournaments,
-        cashGameTableCount: club._count.cashGameTables,
+        ringGameTableCount: club._count.ringGameTables,
         recentTournaments: club.tournaments?.map((t: any) => ({
           name: t.name,
           startTime: t.startTime,
