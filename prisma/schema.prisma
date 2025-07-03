@@ -182,6 +182,7 @@ model AIPersona {
   avatarUrl   String?
   voiceId     String?       // For future voice integration
   capabilities Json?        // Defines what the AI can do
+  style       Json?         // AI interaction style settings
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   

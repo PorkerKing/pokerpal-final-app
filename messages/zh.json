@@ -487,5 +487,13 @@
   "ChatInput": {
     "thinking": "思考中...",
     "placeholder": "在这里输入您的问题..."
+  },
+  "Settings": {
+    "title": "俱乐部设置",
+    "aiConfig": "AI助手配置",
+    "basic": "基本信息",
+    "personality": "个性设置",
+    "capabilities": "功能权限",
+    "style": "交互风格"
   }
 } 

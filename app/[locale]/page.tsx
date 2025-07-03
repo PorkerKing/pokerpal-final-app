@@ -154,18 +154,61 @@ export default function HomePage() {
     }
   };
 
-  // 提示建议
-  const promptSuggestions = session?.user ? [
-    t('promptSuggestion1'), // 查看今天的锦标赛
-    t('promptSuggestion2'), // 我的战绩如何？
-    t('promptSuggestion3'), // 帮我报名晚上的比赛
-    t('promptSuggestion4'), // 俱乐部有什么活动？
-  ] : [
-    "俱乐部有哪些服务？",
-    "今天有什么锦标赛？",
-    "如何成为会员？",
-    "俱乐部的特色是什么？"
-  ];
+  // 根据用户状态和角色提供个性化建议
+  const getPromptSuggestions = () => {
+    if (!session?.user) {
+      // 访客建议
+      return [
+        "查看本周有哪些锦标赛",
+        "了解俱乐部的会员等级制度", 
+        "询问圆桌游戏的盲注级别",
+        "了解俱乐部的服务和设施"
+      ];
+    }
+
+    // 根据用户角色提供不同建议
+    const userRole = (selectedClub as any)?.userMembership?.role;
+    
+    if (['OWNER', 'ADMIN'].includes(userRole)) {
+      return [
+        "帮我创建一个新的锦标赛",
+        "查看本月的俱乐部运营数据",
+        "如何管理会员和权限设置",
+        "帮我配置AI助手个性化设置"
+      ];
+    } else if (['MANAGER'].includes(userRole)) {
+      return [
+        "帮我安排今晚的锦标赛",
+        "查看活跃牌桌的状态",
+        "如何开设新的圆桌游戏",
+        "查看会员报名情况统计"
+      ];
+    } else if (['DEALER'].includes(userRole)) {
+      return [
+        "今天我需要负责哪些牌桌",
+        "查看正在进行的锦标赛",
+        "如何处理玩家座位安排",
+        "查看牌桌的盲注结构"
+      ];
+    } else if (['CASHIER'].includes(userRole)) {
+      return [
+        "今天的财务统计概览",
+        "如何处理玩家买入操作",
+        "查看待处理的提现申请", 
+        "查看会员余额变动记录"
+      ];
+    } else {
+      // 普通会员和VIP
+      return [
+        "我想报名参加锦标赛",
+        "查看我的积分和排名",
+        "预订$2/$5圆桌游戏座位",
+        "查看我的游戏历史记录"
+      ];
+    }
+  };
+
+  const promptSuggestions = getPromptSuggestions();
 
   // 加载中状态
   if (status === 'loading' || !selectedClub) {

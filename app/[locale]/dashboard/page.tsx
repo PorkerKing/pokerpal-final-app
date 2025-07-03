@@ -57,7 +57,7 @@ interface StatCardProps {
   title: string;
   value: string | number;
   subtitle?: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: any; // 使用any类型以避免Lucide图标的复杂类型
   trend?: number;
   color?: 'blue' | 'green' | 'purple' | 'orange';
 }
@@ -101,7 +101,7 @@ const StatCard = ({ title, value, subtitle, icon: Icon, trend, color = 'blue' }:
 interface QuickActionProps {
   title: string;
   href: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: any; // 使用any类型以避免Lucide图标的复杂类型
   description: string;
 }
 

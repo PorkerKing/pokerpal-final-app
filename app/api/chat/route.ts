@@ -14,7 +14,10 @@ const AUTH_REQUIRED_TOOLS = [
   'getUserClubInfo', 
   'createTournament',
   'getDashboardSummary',
-  'listMembers'
+  'listMembers',
+  'guidedTournamentCreation',
+  'guidedTournamentRegistration',
+  'smartTaskWizard'
 ];
 
 // 访客可用的工具
@@ -31,14 +34,68 @@ const getLanguageName = (locale: string): string => {
 };
 
 // 构建系统提示
-function buildSystemPrompt(
+async function buildSystemPrompt(
+  clubId: string,
   clubName: string, 
   aiPersonaName: string, 
   locale: string, 
   isGuest: boolean
-): string {
-  const language = getLanguageName(locale);
-  const basePrompt = `你是${clubName}的专属AI助手${aiPersonaName}。请使用${language}回答所有问题。`;
+): Promise<string> {
+  // 尝试获取自定义AI设置
+  let aiPersona = null;
+  try {
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+    aiPersona = await prisma.aIPersona.findUnique({
+      where: { clubId: clubId }
+    });
+    await prisma.$disconnect();
+  } catch (error) {
+    console.error('获取AI设置失败:', error);
+  }
+
+  // 使用自定义设置或默认设置
+  const style = aiPersona?.style || {
+    tone: 'friendly',
+    language: 'zh',
+    emoji: true,
+    verbosity: 'detailed'
+  };
+
+  const language = getLanguageName(style.language || locale);
+  const customName = aiPersona?.name || aiPersonaName;
+  
+  // 根据风格调整提示词
+  const toneStyle = {
+    'professional': '保持专业、正式的语调',
+    'friendly': '使用友好、亲切的语调',
+    'casual': '采用轻松、随意的交流方式',
+    'formal': '维持严肃、正经的沟通风格'
+  }[style.tone] || '使用友好、亲切的语调';
+
+  const verbosityStyle = {
+    'concise': '回答简洁明了，直击要点',
+    'detailed': '提供详细说明和必要的背景信息',
+    'comprehensive': '给出全面详尽的解答和相关建议'
+  }[style.verbosity] || '提供详细说明和必要的背景信息';
+
+  const emojiUsage = style.emoji ? '适当使用表情符号让对话更生动' : '不使用表情符号，保持纯文本交流';
+
+  const basePrompt = aiPersona?.systemPrompt || `你是${clubName}的专属AI助手${customName}。请使用${language}回答所有问题。
+
+个性特征：
+${aiPersona?.personality || '我是一个专业、友好的扑克俱乐部助手。我了解扑克规则，能够帮助用户报名参加锦标赛，查询战绩，并提供各种俱乐部服务。我总是礼貌耐心，用简洁明了的语言回答问题。'}
+
+交流风格：
+- ${toneStyle}
+- ${verbosityStyle}
+- ${emojiUsage}
+
+核心职责：
+- 帮助用户了解俱乐部信息和服务
+- 协助锦标赛报名和查询
+- 提供圆桌游戏信息
+- 解答俱乐部相关问题`;
   
   if (isGuest) {
     return `${basePrompt}
@@ -65,7 +122,9 @@ function buildSystemPrompt(
 🏆 **锦标赛管理**：
 - 查看锦标赛列表 (listTournaments)
 - 创建新锦标赛 (createTournament)
+- 引导式锦标赛创建 (guidedTournamentCreation) - 逐步指导管理者创建锦标赛
 - 为用户报名锦标赛 (tournamentRegister)
+- 引导式报名流程 (guidedTournamentRegistration) - 帮助用户找到并报名合适的锦标赛
 
 🎮 **圆桌游戏**：
 - 查看圆桌游戏列表 (listRingGames)
@@ -75,7 +134,15 @@ function buildSystemPrompt(
 - 查看会员列表 (listMembers)
 - 获取用户在俱乐部的详细信息 (getUserClubInfo)
 
-请根据用户的问题智能选择合适的工具。如果用户询问创建或管理相关的问题，主动询问必要的信息并帮助完成操作。`;
+🎯 **智能任务向导**：
+- 智能任务引导 (smartTaskWizard) - 根据用户角色提供个性化的任务指导
+
+**AI引导服务**：
+- 对于复杂任务，主动使用引导式工具提供逐步指导
+- 根据用户角色（OWNER、ADMIN、MANAGER、MEMBER等）提供个性化服务
+- 识别用户意图，主动推荐合适的操作流程
+
+请根据用户的问题智能选择合适的工具。当用户询问"如何创建锦标赛"时，使用guidedTournamentCreation；当用户想要报名时，使用guidedTournamentRegistration；当用户需要任务指导时，使用smartTaskWizard。`;
 }
 
 // 转换消息格式
@@ -140,7 +207,8 @@ export async function POST(req: Request) {
     }
     
     // 构建系统提示
-    const systemPrompt = buildSystemPrompt(
+    const systemPrompt = await buildSystemPrompt(
+      clubId,
       club.name,
       club.aiPersona.name,
       locale,

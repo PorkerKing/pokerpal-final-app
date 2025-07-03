@@ -25,7 +25,7 @@ import { cn } from '@/lib/utils';
 interface MenuItem {
   key: string;
   label: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: any; // 使用any类型以避免Lucide图标的复杂类型
   href: string;
   requiredRoles?: string[]; // 需要的角色权限
 }
