@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Header from '@/components/Header';
 import ChatInput from '@/components/ChatInput';
-import { Bot, User, LoaderCircle, LogIn } from 'lucide-react';
+import { Bot, User, LoaderCircle, LogIn, Diamond, Spade } from 'lucide-react';
 import { PokerBackground } from '@/components/PokerBackground';
 import { useSession, signIn } from 'next-auth/react';
 import { useUserStore } from '@/stores/userStore';
@@ -44,6 +44,20 @@ const GuestPrompt = ({ onSignIn }: { onSignIn: () => void }) => {
     </div>
   );
 };
+
+const SpadeShape = () => (
+  <Spade
+    className="absolute h-12 w-12 text-zinc-500/20"
+    style={{ shapeRendering: "crispEdges" }} 
+  />
+);
+
+const DiamondShape = () => (
+  <Diamond
+    className="absolute h-12 w-12 text-red-500/20"
+    style={{ shapeRendering: "crispEdges" }}
+  />
+);
 
 export default function HomePage() {
   const t = useTranslations('HomePage');

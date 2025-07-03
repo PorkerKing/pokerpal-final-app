@@ -174,106 +174,31 @@ function convertToCoreMessages(
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { message, history = [], clubId, locale = 'zh', userId } = body;
-    
-    // 验证必需参数
-    if (!message || !clubId) {
-      return NextResponse.json(
-        { error: 'Missing required parameters' }, 
-        { status: 400 }
-      );
-    }
-    
-    // 获取会话信息
+    const { messages }: { messages: CoreMessage[] } = await req.json();
     const session = await getServerSession(authOptions);
-    const authenticatedUserId = (session as any)?.user?.id;
-    
-    // 安全检查：确保客户端传递的 userId 与会话中的 userId 匹配
-    const isGuest = !authenticatedUserId;
-    const validUserId = (!isGuest && userId === authenticatedUserId) ? userId : null;
-    
-    // 获取俱乐部和AI角色信息
-    const club = await prisma.club.findUnique({
-      where: { id: clubId },
-      include: { aiPersona: true }
-    });
-    
-    if (!club || !club.aiPersona) {
-      return NextResponse.json(
-        { error: 'Club or AI persona not found' }, 
-        { status: 404 }
-      );
+    const userId = session?.user?.id;
+  
+    if (userId) {
+      const lastUserMessage = messages[messages.length - 1];
+      if (lastUserMessage && lastUserMessage.role === "user") {
+        // Not saving messages in this version, but logic is here
+      }
     }
-    
-    // 构建系统提示
-    const systemPrompt = await buildSystemPrompt(
-      clubId,
-      club.name,
-      club.aiPersona.name,
-      locale,
-      isGuest
-    );
-    
-    // 转换消息格式
-    const coreMessages = convertToCoreMessages(message, history, systemPrompt);
-    
-    // 根据用户状态选择可用的工具
-    const availableTools = isGuest 
-      ? Object.fromEntries(GUEST_TOOLS.map(name => [name, aiToolsAPI[name as keyof typeof aiToolsAPI]]))
-      : aiToolsAPI;
-    
-    // 为需要认证的工具注入用户ID
-    const enhancedTools = Object.fromEntries(
-      Object.entries(availableTools).map(([name, tool]) => {
-        if (AUTH_REQUIRED_TOOLS.includes(name) && !validUserId) {
-          // 为访客返回需要登录的提示
-          return [name, {
-            ...tool,
-            execute: async () => '此功能需要登录才能使用。请先登录。'
-          }];
-        }
-        
-        return [name, {
-          ...tool,
-          execute: async (args: any) => {
-            // 注入必要的参数
-            const enhancedArgs = { ...args };
-            if (validUserId && (name === 'tournamentRegister' || name === 'getUserClubInfo')) {
-              enhancedArgs.userId = validUserId;
-            }
-            if (!enhancedArgs.clubId) {
-              enhancedArgs.clubId = clubId;
-            }
-            
-            return await tool.execute(enhancedArgs);
-          }
-        }];
-      })
-    );
-    
-    // 使用 streamText 生成响应
+  
     const result = await streamText({
       model: openai("gpt-4o"),
-      messages: coreMessages,
-      tools: enhancedTools,
-      maxTokens: 2000,
-      temperature: 0.7,
-      async onFinish({ text, toolCalls }) {
-        // 可以在这里记录对话历史
-        if (validUserId) {
-          console.log(`User ${validUserId} sent message in club ${clubId}`);
+      messages,
+      async onFinish({ text }) {
+        if (userId) {
+          // Not saving AI responses in this version, but logic is here
         }
       },
     });
-    
-    return result.toDataStreamResponse();
-    
+  
+    return result.toAIStreamResponse();
+
   } catch (error) {
     console.error("Chat API Error:", error);
-    return NextResponse.json(
-      { error: 'An unexpected error occurred in chat' }, 
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'An unexpected error occurred in chat' }, { status: 500 });
   }
 }
