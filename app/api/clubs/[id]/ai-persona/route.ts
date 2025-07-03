@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 // 获取AI Persona设置
 export async function GET(
@@ -10,7 +10,7 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user) {
+    if (!(session as any)?.user) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -21,7 +21,7 @@ export async function GET(
       where: {
         clubId_userId: {
           clubId: clubId,
-          userId: session.user.id
+          userId: (session as any).user.id
         }
       }
     });
@@ -53,7 +53,7 @@ export async function POST(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user) {
+    if (!(session as any)?.user) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -64,7 +64,7 @@ export async function POST(
       where: {
         clubId_userId: {
           clubId: clubId,
-          userId: session.user.id
+          userId: (session as any).user.id
         }
       }
     });

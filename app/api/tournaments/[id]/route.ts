@@ -70,7 +70,7 @@ export const PUT = withErrorHandler(async (
   }
 
   // 验证权限
-  await validateClubPermission(session.user.id, tournament.clubId, 'MANAGER');
+  await validateClubPermission((session as any).user.id, tournament.clubId, 'MANAGER');
 
   const body = await validateRequestBody<{
     name?: string;
@@ -163,7 +163,7 @@ export const DELETE = withErrorHandler(async (
   }
 
   // 验证权限
-  await validateClubPermission(session.user.id, tournament.clubId, 'ADMIN');
+  await validateClubPermission((session as any).user.id, tournament.clubId, 'ADMIN');
 
   // 只有未开始且无人报名的锦标赛可以删除
   if (tournament.status !== TournamentStatus.SCHEDULED) {

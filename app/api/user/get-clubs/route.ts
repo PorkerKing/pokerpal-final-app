@@ -18,7 +18,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   // 获取用户参与的俱乐部
   const memberships = await prisma.clubMember.findMany({
     where: {
-      userId: session.user.id,
+      userId: (session as any).user.id,
       status: MemberStatus.ACTIVE
     },
     include: {

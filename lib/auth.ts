@@ -2,40 +2,23 @@
 
 import prisma from "@/lib/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { AuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
 // 扩展 NextAuth 类型定义
 declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      role?: string;
-      email?: string | null;
-      name?: string | null;
-      image?: string | null;
-    };
-  }
-  
   interface User {
     id: string;
     role?: string;
   }
 }
 
-declare module "next-auth/jwt" {
-  interface JWT {
-    id: string;
-    role?: string;
-  }
-}
-
-export const authOptions: AuthOptions = {
+export const authOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
@@ -67,13 +50,7 @@ export const authOptions: AuthOptions = {
 
         try {
           const user = await prisma.user.findUnique({
-            where: { email: credentials.email },
-            include: {
-              clubMemberships: {
-                select: { role: true },
-                take: 1,
-              },
-            },
+            where: { email: credentials.email }
           });
 
           if (!user) {
@@ -95,13 +72,12 @@ export const authOptions: AuthOptions = {
             throw new Error("Invalid credentials");
           }
           
-          // 返回用户信息，包含角色
+          // 返回用户信息
           return {
             id: user.id,
             email: user.email,
             name: user.name,
             image: user.image,
-            role: user.clubMemberships[0]?.role,
           };
         } catch (error) {
           // 记录错误但不暴露详细信息
@@ -112,18 +88,20 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ token, session }) {
+    async session(params: any) {
+      const { token, session } = params;
       if (token && session.user) {
         session.user.id = token.id;
         session.user.role = token.role;
       }
       return session;
     },
-    async jwt({ token, user, trigger, session }) {
+    async jwt(params: any) {
+      const { token, user, trigger, session } = params;
       // 首次登录时设置用户信息
       if (user) {
         token.id = user.id;
-        token.role = user.role;
+        token.role = (user as any).role;
       }
       
       // 支持会话更新（例如角色变更）
@@ -136,11 +114,11 @@ export const authOptions: AuthOptions = {
   },
   events: {
     // 记录登录事件
-    async signIn({ user, account }) {
+    async signIn({ user, account }: any) {
       console.log(`User ${user.email} signed in via ${account?.provider}`);
     },
     // 记录登出事件
-    async signOut({ token }) {
+    async signOut({ token }: any) {
       console.log(`User ${token.email} signed out`);
     },
   },
@@ -153,7 +131,7 @@ export const authOptions: AuthOptions = {
 export async function hasPermission(
   userId: string,
   clubId: string,
-  requiredRoles: string[]
+  requiredRoles: any[]
 ): Promise<boolean> {
   const membership = await prisma.clubMember.findFirst({
     where: {

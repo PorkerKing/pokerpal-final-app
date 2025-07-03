@@ -55,29 +55,33 @@ async function buildSystemPrompt(
   }
 
   // 使用自定义设置或默认设置
-  const style = aiPersona?.style || {
+  const defaultStyle = {
     tone: 'friendly',
     language: 'zh',
     emoji: true,
     verbosity: 'detailed'
   };
+  
+  const style = (aiPersona?.style as any) || defaultStyle;
 
   const language = getLanguageName(style.language || locale);
   const customName = aiPersona?.name || aiPersonaName;
   
   // 根据风格调整提示词
-  const toneStyle = {
+  const toneOptions = {
     'professional': '保持专业、正式的语调',
     'friendly': '使用友好、亲切的语调',
     'casual': '采用轻松、随意的交流方式',
     'formal': '维持严肃、正经的沟通风格'
-  }[style.tone] || '使用友好、亲切的语调';
+  };
+  const toneStyle = toneOptions[style.tone as keyof typeof toneOptions] || '使用友好、亲切的语调';
 
-  const verbosityStyle = {
+  const verbosityOptions = {
     'concise': '回答简洁明了，直击要点',
     'detailed': '提供详细说明和必要的背景信息',
     'comprehensive': '给出全面详尽的解答和相关建议'
-  }[style.verbosity] || '提供详细说明和必要的背景信息';
+  };
+  const verbosityStyle = verbosityOptions[style.verbosity as keyof typeof verbosityOptions] || '提供详细说明和必要的背景信息';
 
   const emojiUsage = style.emoji ? '适当使用表情符号让对话更生动' : '不使用表情符号，保持纯文本交流';
 
@@ -176,7 +180,7 @@ export async function POST(req: Request) {
   try {
     const { messages }: { messages: CoreMessage[] } = await req.json();
     const session = await getServerSession(authOptions);
-    const userId = session?.user?.id;
+    const userId = (session as any)?.user?.id;
   
     if (userId) {
       const lastUserMessage = messages[messages.length - 1];

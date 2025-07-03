@@ -61,7 +61,7 @@ const FormField = ({ label, children, required, error }: FormFieldProps) => (
 // 表单分组组件
 interface FormSectionProps {
   title: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: React.ComponentType<any>;
   children: React.ReactNode;
 }
 

@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { validateClubPermission, createErrorResponse } from '@/lib/auth-middleware';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 // GET /api/clubs/[id]/members/[userId]/points/history - 获取用户积分历史
 export async function GET(
@@ -19,12 +19,12 @@ export async function GET(
     // 验证权限
     const authResult = await validateClubPermission(request, clubId, ['MEMBER']);
     if (!authResult.success) {
-      return createErrorResponse(authResult.error, authResult.status);
+      return createErrorResponse((authResult as any).error, (authResult as any).status);
     }
 
     // 权限检查：用户只能查看自己的积分历史，管理员可以查看所有人的
-    const isAdmin = ['MANAGER', 'ADMIN', 'OWNER'].includes(authResult.membership.role);
-    if (!isAdmin && authResult.user.id !== targetUserId) {
+    const isAdmin = ['MANAGER', 'ADMIN', 'OWNER'].includes((authResult as any).membership.role);
+    if (!isAdmin && (authResult as any).user.id !== targetUserId) {
       return createErrorResponse('您只能查看自己的积分历史', 403);
     }
 
@@ -128,9 +128,9 @@ export async function GET(
         },
         statistics: {
           totalTransactions: stats._count.id || 0,
-          totalEarned: earnedTotal._sum.amount || 0,
-          totalRedeemed: Math.abs(redeemedTotal._sum.amount || 0),
-          netPoints: (earnedTotal._sum.amount || 0) + (redeemedTotal._sum.amount || 0)
+          totalEarned: Number(earnedTotal._sum.amount || 0),
+          totalRedeemed: Math.abs(Number(redeemedTotal._sum.amount || 0)),
+          netPoints: Number(earnedTotal._sum.amount || 0) + Number(redeemedTotal._sum.amount || 0)
         },
         transactions: transactions.map(tx => ({
           id: tx.id,

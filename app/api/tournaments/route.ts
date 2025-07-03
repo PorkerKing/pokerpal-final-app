@@ -123,7 +123,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   ]);
 
   // 验证权限 - 需要管理员以上权限创建锦标赛
-  await validateClubPermission(session.user.id, body.clubId, 'MANAGER');
+  await validateClubPermission((session as any).user.id, body.clubId, 'MANAGER');
 
   // 验证盲注结构和支付结构是否属于同一俱乐部
   const [blindStructure, payoutStructure] = await Promise.all([

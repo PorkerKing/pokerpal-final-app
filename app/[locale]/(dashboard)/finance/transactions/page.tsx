@@ -52,7 +52,7 @@ export default function TransactionsPage() {
   const itemsPerPage = 20;
 
   // 检查财务权限
-  const hasFinancePermission = user?.role && ['OWNER', 'ADMIN', 'MANAGER'].includes(user.role);
+  const hasFinancePermission = selectedClub?.userMembership?.role && ['OWNER', 'ADMIN', 'MANAGER'].includes(selectedClub.userMembership.role);
 
   // 获取交易列表
   useEffect(() => {
@@ -127,6 +127,8 @@ export default function TransactionsPage() {
 
   // 导出交易数据
   const exportTransactions = async () => {
+    if (!selectedClub) return;
+    
     try {
       const params = new URLSearchParams({
         search: searchTerm,

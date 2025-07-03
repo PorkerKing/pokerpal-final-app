@@ -26,7 +26,7 @@ export const GET = withErrorHandler(async (
   const session = await validateSession();
   
   // 验证用户是俱乐部成员
-  await validateClubPermission(session.user.id, params.id);
+  await validateClubPermission((session as any).user.id, params.id);
 
   const { searchParams } = new URL(request.url);
   const role = searchParams.get('role') as Role;
@@ -89,7 +89,7 @@ export const POST = withErrorHandler(async (
   const session = await validateSession();
   
   // 验证管理员权限
-  await validateAdminPermission(session.user.id, params.id);
+  await validateAdminPermission((session as any).user.id, params.id);
 
   const body = await validateRequestBody<{
     userEmail: string;
@@ -174,7 +174,7 @@ export const PUT = withErrorHandler(async (
   const session = await validateSession();
   
   // 验证管理员权限
-  await validateAdminPermission(session.user.id, params.id);
+  await validateAdminPermission((session as any).user.id, params.id);
 
   const body = await validateRequestBody<{
     role?: Role;
@@ -277,10 +277,10 @@ export const DELETE = withErrorHandler(async (
   const session = await validateSession();
   
   // 验证管理员权限
-  await validateAdminPermission(session.user.id, params.id);
+  await validateAdminPermission((session as any).user.id, params.id);
 
   // 不能移除自己
-  if (params.userId === session.user.id) {
+  if (params.userId === (session as any).user.id) {
     throw new ApiError('Cannot remove yourself from the club', 400);
   }
 

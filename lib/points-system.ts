@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 // 积分奖励配置
 const POINTS_CONFIG = {

@@ -140,7 +140,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
     await tx.clubMember.create({
       data: {
         clubId: newClub.id,
-        userId: session.user.id,
+        userId: (session as any).user.id,
         role: Role.OWNER,
         status: MemberStatus.ACTIVE,
         balance: 0

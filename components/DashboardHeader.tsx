@@ -68,10 +68,10 @@ export default function DashboardHeader() {
             <Menu.Button className="flex items-center gap-2 p-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
               <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center">
                 <span className="text-sm font-medium text-purple-600">
-                  {session?.user?.name?.charAt(0) || 'U'}
+                  {(session as any)?.user?.name?.charAt(0) || 'U'}
                 </span>
               </div>
-              <span className="hidden sm:block font-medium">{session?.user?.name}</span>
+              <span className="hidden sm:block font-medium">{(session as any)?.user?.name}</span>
               <ChevronDown className="h-4 w-4" />
             </Menu.Button>
 

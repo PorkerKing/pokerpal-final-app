@@ -59,8 +59,8 @@ export default function PointsManagementPage() {
   const [selectedTab, setSelectedTab] = useState<'overview' | 'members' | 'transactions'>('overview');
 
   // 权限检查
-  const hasManagePermission = selectedClub?.membership?.role && 
-    ['MANAGER', 'ADMIN', 'OWNER'].includes(selectedClub.membership.role);
+  const hasManagePermission = selectedClub?.userMembership?.role && 
+    ['MANAGER', 'ADMIN', 'OWNER'].includes(selectedClub.userMembership.role);
 
   useEffect(() => {
     if (!selectedClub || !hasManagePermission) return;

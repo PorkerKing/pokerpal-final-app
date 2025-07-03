@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 // 用户角色权限级别定义
 const ROLE_LEVELS = {
@@ -19,7 +19,7 @@ const ROLE_LEVELS = {
 export async function validateAuth(request: NextRequest) {
   const session = await getServerSession(authOptions);
   
-  if (!session?.user?.email) {
+  if (!(session as any)?.user?.email) {
     return {
       success: false,
       error: 'Unauthorized',
@@ -28,7 +28,7 @@ export async function validateAuth(request: NextRequest) {
   }
 
   const user = await prisma.user.findUnique({
-    where: { email: session.user.email }
+    where: { email: (session as any).user.email }
   });
 
   if (!user) {
@@ -55,6 +55,14 @@ export async function validateClubPermission(
   const authResult = await validateAuth(request);
   if (!authResult.success) {
     return authResult;
+  }
+
+  if (!authResult.user) {
+    return {
+      success: false,
+      error: 'User not found',
+      status: 404
+    };
   }
 
   const membership = await prisma.clubMember.findUnique({

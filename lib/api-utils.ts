@@ -116,7 +116,7 @@ export function getPaginationParams(request: NextRequest): PaginationParams {
 // 验证用户会话
 export async function validateSession() {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  if (!(session as any)?.user?.id) {
     throw new ApiError('Unauthorized', 401);
   }
   return session;

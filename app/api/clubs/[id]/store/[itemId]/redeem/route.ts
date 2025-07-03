@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { validateClubPermission, createErrorResponse } from '@/lib/auth-middleware';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 // POST /api/clubs/[id]/store/[itemId]/redeem - 兑换商城物品
 export async function POST(
@@ -14,7 +14,7 @@ export async function POST(
     // 验证用户权限
     const authResult = await validateClubPermission(request, clubId, ['MEMBER']);
     if (!authResult.success) {
-      return createErrorResponse(authResult.error, authResult.status);
+      return createErrorResponse((authResult as any).error, (authResult as any).status);
     }
 
     // 开始数据库事务
@@ -41,7 +41,7 @@ export async function POST(
         where: {
           clubId_userId: {
             clubId,
-            userId: authResult.user.id
+            userId: (authResult as any).user.id
           }
         }
       });
@@ -52,8 +52,8 @@ export async function POST(
 
       // 检查积分是否足够
       const currentPoints = membership.points || 0;
-      if (currentPoints < item.pointsRequired) {
-        throw new Error(`积分不足，需要 ${item.pointsRequired} 积分，您当前有 ${currentPoints} 积分`);
+      if (currentPoints < ((item.pointsRequired || 0) || 0)) {
+        throw new Error(`积分不足，需要 ${(item.pointsRequired || 0) || 0} 积分，您当前有 ${currentPoints} 积分`);
       }
 
       // 扣除积分
@@ -61,11 +61,11 @@ export async function POST(
         where: {
           clubId_userId: {
             clubId,
-            userId: authResult.user.id
+            userId: (authResult as any).user.id
           }
         },
         data: {
-          points: currentPoints - item.pointsRequired
+          points: currentPoints - (item.pointsRequired || 0)
         }
       });
 
@@ -80,10 +80,10 @@ export async function POST(
       // 创建兑换记录
       const redemption = await tx.storeRedemption.create({
         data: {
-          userId: authResult.user.id,
+          userId: (authResult as any).user.id,
           clubId,
           storeItemId: itemId,
-          pointsSpent: item.pointsRequired,
+          pointsSpent: (item.pointsRequired || 0),
           status: 'PENDING'
         }
       });
@@ -91,12 +91,12 @@ export async function POST(
       // 创建交易记录
       await tx.transaction.create({
         data: {
-          userId: authResult.user.id,
+          userId: (authResult as any).user.id,
           clubId,
           type: 'POINTS_REDEMPTION',
-          amount: -item.pointsRequired,
+          amount: -(item.pointsRequired || 0),
           balanceBefore: currentPoints,
-          balanceAfter: currentPoints - item.pointsRequired,
+          balanceAfter: currentPoints - (item.pointsRequired || 0),
           description: `兑换商品：${item.name}`,
           reference: `REDEMPTION-${redemption.id}`
         }
@@ -104,7 +104,7 @@ export async function POST(
 
       return {
         redemption,
-        newPointsBalance: currentPoints - item.pointsRequired
+        newPointsBalance: currentPoints - (item.pointsRequired || 0)
       };
     });
 

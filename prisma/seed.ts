@@ -668,6 +668,7 @@ async function main() {
           name: item.name,
           description: item.description,
           pointsRequired: item.pointsRequired,
+          price: item.pointsRequired, // Use pointsRequired as price
           category: item.category,
           isActive: item.isActive,
           stock: item.stock
@@ -811,16 +812,16 @@ async function main() {
           clubId: club.id,
           name: tournament.name,
           description: tournament.description,
-          gameType: tournament.gameType,
+          gameType: tournament.gameType as any,
           buyIn: tournament.buyIn,
           fee: tournament.fee,
           startingStack: tournament.startingStack,
           startTime: tournament.startTime,
           minPlayers: tournament.minPlayers,
           maxPlayers: tournament.maxPlayers,
-          status: tournament.status,
-          blindStructureId: blindStructure?.id,
-          payoutStructureId: payoutStructure?.id,
+          status: tournament.status as any,
+          blindStructureId: blindStructure?.id || '',
+          payoutStructureId: payoutStructure?.id || '',
           tags: tournament.tags
         }
       });
@@ -945,7 +946,7 @@ async function main() {
         create: {
           clubId: club.id,
           userId: userData.user.id,
-          role: membership.role,
+          role: membership.role as any,
           status: 'ACTIVE',
           balance: membership.balance,
           points: membership.points,

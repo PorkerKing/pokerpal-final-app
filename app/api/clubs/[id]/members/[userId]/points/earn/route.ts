@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { validateClubPermission, createErrorResponse } from '@/lib/auth-middleware';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 // POST /api/clubs/[id]/members/[userId]/points/earn - 奖励积分
 export async function POST(
@@ -14,7 +14,7 @@ export async function POST(
     // 验证权限（需要MANAGER或更高权限才能奖励积分）
     const authResult = await validateClubPermission(request, clubId, ['MANAGER', 'ADMIN', 'OWNER']);
     if (!authResult.success) {
-      return createErrorResponse(authResult.error, authResult.status);
+      return createErrorResponse((authResult as any).error, (authResult as any).status);
     }
 
     const body = await request.json();

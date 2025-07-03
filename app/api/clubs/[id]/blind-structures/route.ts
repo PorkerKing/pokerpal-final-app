@@ -19,7 +19,7 @@ export const GET = withErrorHandler(async (
   const session = await validateSession();
   
   // 验证俱乐部权限
-  await validateClubPermission(session.user.id, params.id);
+  await validateClubPermission((session as any).user.id, params.id);
 
   const blindStructures = await prisma.blindStructure.findMany({
     where: { clubId: params.id },

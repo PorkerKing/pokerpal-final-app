@@ -93,7 +93,7 @@ export const PUT = withErrorHandler(async (
   const session = await validateSession();
 
   // 验证管理员权限
-  await validateAdminPermission(session.user.id, params.id);
+  await validateAdminPermission((session as any).user.id, params.id);
 
   const body = await validateRequestBody<{
     name?: string;
@@ -151,7 +151,7 @@ export const DELETE = withErrorHandler(async (
   const session = await validateSession();
 
   // 验证所有者权限
-  await validateOwnerPermission(session.user.id, params.id);
+  await validateOwnerPermission((session as any).user.id, params.id);
 
   // 检查俱乐部是否有活跃的锦标赛或现金局
   const activeActivities = await prisma.club.findUnique({
@@ -167,7 +167,7 @@ export const DELETE = withErrorHandler(async (
       },
       ringGameTables: {
         where: {
-          status: 'ACTIVE'
+          isActive: true
         },
         take: 1
       }

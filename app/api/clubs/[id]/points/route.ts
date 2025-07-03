@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { validateClubPermission, createErrorResponse } from '@/lib/auth-middleware';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 // GET /api/clubs/[id]/points - 获取俱乐部积分概览
 export async function GET(
@@ -13,7 +13,7 @@ export async function GET(
     // 验证权限（需要MANAGER或更高权限才能查看积分数据）
     const authResult = await validateClubPermission(request, clubId, ['MANAGER', 'ADMIN', 'OWNER']);
     if (!authResult.success) {
-      return createErrorResponse(authResult.error, authResult.status);
+      return createErrorResponse((authResult as any).error, (authResult as any).status);
     }
 
     // 获取俱乐部所有成员的积分统计
@@ -106,7 +106,7 @@ export async function POST(
     // 验证权限（需要ADMIN或更高权限才能批量操作积分）
     const authResult = await validateClubPermission(request, clubId, ['ADMIN', 'OWNER']);
     if (!authResult.success) {
-      return createErrorResponse(authResult.error, authResult.status);
+      return createErrorResponse((authResult as any).error, (authResult as any).status);
     }
 
     const body = await request.json();

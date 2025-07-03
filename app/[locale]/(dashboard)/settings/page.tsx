@@ -76,7 +76,7 @@ export default function ClubSettingsPage() {
   const [activeTab, setActiveTab] = useState<'basic' | 'game' | 'security' | 'notifications' | 'ai'>('basic');
 
   // 检查管理权限
-  const hasManagePermission = user?.role && ['OWNER', 'ADMIN'].includes(user.role);
+  const hasManagePermission = selectedClub?.userMembership?.role && ['OWNER', 'ADMIN'].includes(selectedClub.userMembership.role);
 
   // 获取俱乐部设置
   useEffect(() => {

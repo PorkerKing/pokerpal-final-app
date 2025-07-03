@@ -64,7 +64,7 @@ export default function FinancePage() {
   const [selectedMetric, setSelectedMetric] = useState('revenue');
 
   // 检查财务权限
-  const userRole = selectedClub?.membership?.role;
+  const userRole = selectedClub?.userMembership?.role;
   const hasFinancePermission = userRole && ['OWNER', 'ADMIN', 'MANAGER', 'CASHIER'].includes(userRole);
 
   // 获取财务数据

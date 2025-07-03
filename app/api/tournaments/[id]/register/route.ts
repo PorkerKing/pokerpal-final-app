@@ -43,7 +43,7 @@ export const POST = withErrorHandler(async (
 
   // 验证用户是俱乐部成员
   const { membership } = await validateClubPermission(
-    session.user.id, 
+    (session as any).user.id, 
     tournament.clubId, 
     'MEMBER'
   );
@@ -70,7 +70,7 @@ export const POST = withErrorHandler(async (
     where: {
       tournamentId_userId: {
         tournamentId: params.id,
-        userId: session.user.id
+        userId: (session as any).user.id
       }
     }
   });
@@ -96,7 +96,7 @@ export const POST = withErrorHandler(async (
     const registration = await tx.tournamentPlayer.create({
       data: {
         tournamentId: params.id,
-        userId: session.user.id,
+        userId: (session as any).user.id,
         registrationTime: now
       },
       include: {
@@ -114,7 +114,7 @@ export const POST = withErrorHandler(async (
       where: {
         clubId_userId: {
           clubId: tournament.clubId,
-          userId: session.user.id
+          userId: (session as any).user.id
         }
       },
       data: {
@@ -125,7 +125,7 @@ export const POST = withErrorHandler(async (
     // 记录交易
     await tx.transaction.create({
       data: {
-        userId: session.user.id,
+        userId: (session as any).user.id,
         clubId: tournament.clubId,
         type: TransactionType.TOURNAMENT_BUYIN,
         amount: totalCost.negated(),
@@ -184,7 +184,7 @@ export const DELETE = withErrorHandler(async (
 
   // 验证用户是俱乐部成员
   const { membership } = await validateClubPermission(
-    session.user.id, 
+    (session as any).user.id, 
     tournament.clubId, 
     'MEMBER'
   );
@@ -194,7 +194,7 @@ export const DELETE = withErrorHandler(async (
     where: {
       tournamentId_userId: {
         tournamentId: params.id,
-        userId: session.user.id
+        userId: (session as any).user.id
       }
     }
   });
@@ -225,7 +225,7 @@ export const DELETE = withErrorHandler(async (
       where: {
         tournamentId_userId: {
           tournamentId: params.id,
-          userId: session.user.id
+          userId: (session as any).user.id
         }
       }
     });
@@ -235,7 +235,7 @@ export const DELETE = withErrorHandler(async (
       where: {
         clubId_userId: {
           clubId: tournament.clubId,
-          userId: session.user.id
+          userId: (session as any).user.id
         }
       },
       data: {
@@ -246,7 +246,7 @@ export const DELETE = withErrorHandler(async (
     // 记录退款交易
     await tx.transaction.create({
       data: {
-        userId: session.user.id,
+        userId: (session as any).user.id,
         clubId: tournament.clubId,
         type: TransactionType.TOURNAMENT_CASHOUT,
         amount: refundAmount,

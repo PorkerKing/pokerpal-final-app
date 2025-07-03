@@ -26,7 +26,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     where: {
       clubId_userId: {
         clubId: clubId,
-        userId: (session.user as any).id
+        userId: (session as any).user.id
       }
     }
   });
@@ -98,7 +98,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   // 处理锦标赛统计
   const totalTournaments = tournamentStats.reduce((sum, stat) => sum + stat._count, 0);
   const activeTournaments = tournamentStats.filter(s => 
-    [TournamentStatus.SCHEDULED, TournamentStatus.REGISTERING, TournamentStatus.IN_PROGRESS].includes(s.status as TournamentStatus)
+    ['SCHEDULED', 'REGISTERING', 'IN_PROGRESS'].includes(s.status as string)
   ).reduce((sum, stat) => sum + stat._count, 0);
 
   // 处理圆桌游戏统计

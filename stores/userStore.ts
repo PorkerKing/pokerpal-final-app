@@ -13,7 +13,17 @@ type Club = Prisma.ClubGetPayload<{
       };
     };
   };
-}>;
+}> & {
+  userMembership?: {
+    role: string;
+    balance: number;
+    vipLevel: number;
+    joinDate: Date;
+  };
+  memberCount?: number;
+  tournamentCount?: number;
+  ringGameTableCount?: number;
+};
 
 type User = Prisma.UserGetPayload<{}>;
 
