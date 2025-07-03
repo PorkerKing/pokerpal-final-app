@@ -9,10 +9,16 @@ import {
 } from '@/lib/ai-tools';
 
 // 定义哪些工具需要认证
-const AUTH_REQUIRED_TOOLS = ['tournamentRegister', 'getUserClubInfo'];
+const AUTH_REQUIRED_TOOLS = [
+  'tournamentRegister', 
+  'getUserClubInfo', 
+  'createTournament',
+  'getDashboardSummary',
+  'listMembers'
+];
 
 // 访客可用的工具
-const GUEST_TOOLS = ['listTournaments', 'getClubStats'];
+const GUEST_TOOLS = ['listTournaments', 'getClubStats', 'listRingGames'];
 
 const getLanguageName = (locale: string): string => {
   switch (locale) {
@@ -39,16 +45,37 @@ function buildSystemPrompt(
     
 用户当前是访客身份。你可以：
 - 介绍俱乐部和服务
-- 显示可用的锦标赛列表
+- 查看锦标赛列表 (listTournaments)
+- 查看圆桌游戏信息 (listRingGames)
+- 获取俱乐部统计信息 (getClubStats)
 - 回答一般性问题
 
-对于需要登录的功能（如报名、查看个人数据等），请友好地引导用户登录：
-"这个功能需要登录才能使用。登录后您可以查看个人战绩、报名比赛等。请点击右上角的登录按钮。"`;
+对于需要登录的功能（如报名、创建锦标赛、查看会员列表等），请友好地引导用户登录：
+"这个功能需要登录才能使用。登录后您可以查看仪表盘数据、报名比赛、创建锦标赛等。请点击右上角的登录按钮。"`;
   }
   
   return `${basePrompt}
   
-用户已登录。你可以使用所有功能来帮助用户。`;
+用户已登录，您具有完整的功能权限。您可以：
+
+📊 **仪表盘和统计**：
+- 获取俱乐部运营概览 (getDashboardSummary)
+- 查看详细统计数据 (getClubStats)
+
+🏆 **锦标赛管理**：
+- 查看锦标赛列表 (listTournaments)
+- 创建新锦标赛 (createTournament)
+- 为用户报名锦标赛 (tournamentRegister)
+
+🎮 **圆桌游戏**：
+- 查看圆桌游戏列表 (listRingGames)
+- 获取牌桌状态和玩家信息
+
+👥 **会员管理**：
+- 查看会员列表 (listMembers)
+- 获取用户在俱乐部的详细信息 (getUserClubInfo)
+
+请根据用户的问题智能选择合适的工具。如果用户询问创建或管理相关的问题，主动询问必要的信息并帮助完成操作。`;
 }
 
 // 转换消息格式

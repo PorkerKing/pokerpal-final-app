@@ -20,5 +20,320 @@
   "Errors": {
     "unauthorized": "Unauthorized. Please sign in.",
     "notFound": "Resource not found."
+  },
+  "Sidebar": {
+    "dashboard": "Dashboard",
+    "tournaments": "Tournaments",
+    "ringGames": "Ring Games",
+    "members": "Members",
+    "finance": "Finance",
+    "settings": "Settings",
+    "store": "Club Store",
+    "achievements": "Achievements",
+    "reports": "Reports",
+    "toggleSidebar": "Toggle Sidebar",
+    "collapse": "Collapse",
+    "expand": "Expand"
+  },
+  "Common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "networkError": "Network error, please try again later",
+    "pleaseSelectClub": "Please select a club first",
+    "noPermission": "You don't have permission to perform this action",
+    "back": "Back",
+    "search": "Search",
+    "filter": "Filter",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "submit": "Submit",
+    "required": "Required",
+    "optional": "Optional",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "completed": "Completed",
+    "failed": "Failed",
+    "processing": "Processing",
+    "vs": "vs",
+    "month": "Month",
+    "today": "Today",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "players": "Players",
+    "noData": "No Data"
+  },
+  "Sidebar": {
+    "dashboard": "Dashboard",
+    "tournaments": "Tournaments",
+    "ringGames": "Ring Games",
+    "members": "Members",
+    "finance": "Finance",
+    "settings": "Settings",
+    "store": "Club Store",
+    "achievements": "Achievements",
+    "reports": "Reports",
+    "toggleSidebar": "Toggle Sidebar",
+    "collapse": "Collapse",
+    "expand": "Expand",
+    "currentClub": "Current Club",
+    "roles": {
+      "OWNER": "Owner",
+      "ADMIN": "Admin",
+      "MANAGER": "Manager",
+      "MEMBER": "Member",
+      "DEALER": "Dealer",
+      "CASHIER": "Cashier",
+      "VIP": "VIP Member",
+      "GUEST": "Guest"
+    }
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "overview": "Overview",
+    "dataFetchError": "Failed to fetch data",
+    "members": {
+      "title": "Member Statistics",
+      "total": "Total Members",
+      "active": "Active Members",
+      "growth": "Monthly Growth"
+    },
+    "tournaments": {
+      "title": "Tournaments",
+      "total": "Total Tournaments",
+      "active": "In Progress",
+      "upcoming": "Upcoming"
+    },
+    "ringGames": {
+      "title": "Ring Games",
+      "total": "Total Tables",
+      "active": "Active Tables",
+      "waiting": "Waiting"
+    },
+    "finance": {
+      "title": "Financial Overview",
+      "dailyRevenue": "Daily Revenue",
+      "monthlyRevenue": "Monthly Revenue",
+      "monthlyTotal": "Monthly",
+      "noPermission": "No permission to view financial data"
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "noActivity": "No recent activity",
+      "tournament": "Tournament",
+      "players": "players",
+      "inProgress": "In Progress",
+      "scheduled": "Scheduled",
+      "completed": "Completed"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "createTournament": "Create Tournament",
+      "createTournamentDesc": "Create a new tournament",
+      "openRingGame": "Open Ring Game",
+      "openRingGameDesc": "Open a new ring game table",
+      "manageMembers": "Manage Members",
+      "manageMembersDesc": "Manage club members",
+      "viewReports": "View Reports",
+      "viewReportsDesc": "View detailed reports"
+    }
+  },
+  "Tournaments": {
+    "title": "Tournament Management",
+    "createNew": "Create Tournament",
+    "searchPlaceholder": "Search tournaments...",
+    "fetchError": "Failed to fetch tournament list",
+    "filters": {
+      "all": "All",
+      "scheduled": "Scheduled",
+      "registering": "Registering",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "list": {
+      "name": "Tournament Name",
+      "gameType": "Game Type",
+      "buyIn": "Buy-in",
+      "startTime": "Start Time",
+      "players": "Players",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "start": "Start",
+      "register": "Register"
+    },
+    "status": {
+      "SCHEDULED": "Scheduled",
+      "REGISTERING": "Registering",
+      "IN_PROGRESS": "In Progress",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled",
+      "PAUSED": "Paused"
+    },
+    "create": {
+      "title": "Create Tournament",
+      "basicInfo": "Basic Information",
+      "gameSettings": "Game Settings",
+      "schedule": "Schedule",
+      "name": "Tournament Name",
+      "namePlaceholder": "e.g., Weekend Guaranteed Tournament",
+      "description": "Description",
+      "descriptionPlaceholder": "Tournament description...",
+      "gameType": "Game Type",
+      "gameTypes": {
+        "NLH": "No Limit Hold'em",
+        "PLO": "Pot Limit Omaha",
+        "PLO5": "5-Card PLO",
+        "MIXED": "Mixed Games",
+        "OTHER": "Other"
+      },
+      "buyIn": "Buy-in",
+      "fee": "Fee",
+      "startingStack": "Starting Stack",
+      "startTime": "Start Time",
+      "minPlayers": "Min Players",
+      "maxPlayers": "Max Players",
+      "minPlayersLabel": "Min",
+      "maxPlayersLabel": "Max (Optional)",
+      "estimatedDuration": "Estimated Duration (minutes)",
+      "blindStructure": "Blind Structure",
+      "blindStructurePlaceholder": "Select blind structure",
+      "payoutStructure": "Payout Structure",
+      "payoutStructurePlaceholder": "Select payout structure",
+      "submit": "Create Tournament",
+      "submitting": "Creating...",
+      "cancel": "Cancel",
+      "validation": {
+        "nameRequired": "Tournament name is required",
+        "buyInPositive": "Buy-in must be greater than 0",
+        "feeNonNegative": "Fee cannot be negative",
+        "stackPositive": "Starting stack must be greater than 0",
+        "startTimeRequired": "Please select start time",
+        "minPlayersMin": "Minimum players cannot be less than 2",
+        "maxPlayersValid": "Maximum players cannot be less than minimum players",
+        "blindStructureRequired": "Please select blind structure",
+        "payoutStructureRequired": "Please select payout structure"
+      },
+      "errors": {
+        "noPermission": "You don't have permission to create tournaments",
+        "createFailed": "Failed to create",
+        "backToList": "Back to tournament list"
+      }
+    },
+    "empty": {
+      "title": "No Tournaments",
+      "description": "No tournaments have been created yet",
+      "action": "Create First Tournament"
+    }
+  },
+  "RingGames": {
+    "title": "Ring Game Management",
+    "createNew": "Open New Table",
+    "searchPlaceholder": "Search ring games...",
+    "buyInRange": "Buy-in Range",
+    "blinds": "Blinds",
+    "activePlayers": "{count} players seated",
+    "noPlayers": "No players",
+    "sampleTables": {
+      "table1": "$1/$2 NL Hold'em",
+      "table2": "$2/$5 NL Hold'em"
+    },
+    "filters": {
+      "all": "All",
+      "waiting": "Waiting",
+      "active": "Active",
+      "paused": "Paused",
+      "closed": "Closed"
+    },
+    "list": {
+      "name": "Table Name",
+      "gameType": "Game Type",
+      "stakes": "Stakes",
+      "players": "Players",
+      "buyIn": "Buy-in Range",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "join": "Join",
+      "close": "Close"
+    },
+    "status": {
+      "WAITING": "Waiting",
+      "ACTIVE": "Active",
+      "PAUSED": "Paused",
+      "CLOSED": "Closed"
+    },
+    "create": {
+      "title": "Open New Table",
+      "basicInfo": "Basic Information",
+      "gameSettings": "Game Settings",
+      "name": "Table Name",
+      "gameType": "Game Type",
+      "stakes": "Stakes",
+      "smallBlind": "Small Blind",
+      "bigBlind": "Big Blind",
+      "minBuyIn": "Min Buy-in",
+      "maxBuyIn": "Max Buy-in",
+      "maxPlayers": "Max Players",
+      "serviceFeeStructure": "Service Fee Structure",
+      "submit": "Open Table",
+      "cancel": "Cancel"
+    },
+    "empty": {
+      "title": "No Ring Games",
+      "description": "No ring game tables have been opened yet",
+      "action": "Open First Table"
+    }
+  },
+  "HomePage": {
+    "welcomeMessage": "I am",
+    "subheading": "Your AI assistant for club management. How can I help you today?",
+    "guestPrompt": {
+      "title": "This feature requires login. After logging in, you can:",
+      "features": [
+        "View personal stats and data",
+        "Register for tournaments",
+        "Manage club balance",
+        "Get exclusive member services"
+      ],
+      "loginButton": "Login Now"
+    },
+    "connectionError": "Sorry, there was a problem connecting to the service. Please try again later.",
+    "guestSuggestions": [
+      "Check upcoming tournaments",
+      "Learn about membership tiers",
+      "Ask about ring game stakes",
+      "Learn about club services and facilities"
+    ],
+    "registerPrompt": "Help me register for {name}",
+    "aiGreeting": "I'm your smart poker assistant, ready to serve you anytime",
+    "loginTip": "💡 Login to unlock more features: view stats, register for games, manage balance, etc.",
+    "promptSuggestion1": "\"What tournaments are available this week?\"",
+    "promptSuggestion2": "\"Check my points balance and ranking.\"",
+    "promptSuggestion3": "\"Book a seat for the $2/$5 Ring Game.\"",
+    "promptSuggestion4": "\"Help me review my hand history from last night.\""
+  },
+  "TournamentCard": {
+    "buyIn": "Buy-in",
+    "register": "Register"
+  },
+  "ChatInput": {
+    "thinking": "Thinking...",
+    "placeholder": "Type your question here..."
   }
 } 

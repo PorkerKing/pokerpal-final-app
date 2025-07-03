@@ -5,14 +5,32 @@
     "signInOrSignUp": "サインイン / 新規登録"
   },
   "HomePage": {
-    "welcomeTitle": "うちは{span}やで！",
-    "defaultAIName": "AIアシスタント",
     "welcomeMessage": "私は",
     "subheading": "クラブ運営のAIアシスタントです。何かお手伝いできることはありますか？",
     "promptSuggestion1": "\"今週利用可能なトーナメントは何ですか？\"",
     "promptSuggestion2": "\"今月のポイント残高とランキングを確認してください。\"",
     "promptSuggestion3": "\"$2/$5のリングゲームの席を予約してください。\"",
-    "promptSuggestion4": "\"昨夜のハンド履歴のレビューを手伝ってください。\""
+    "promptSuggestion4": "\"昨夜のハンド履歴のレビューを手伝ってください。\"",
+    "guestPrompt": {
+      "title": "この機能を使用するにはログインが必要です。ログイン後、以下ができます：",
+      "features": [
+        "個人統計とデータの表示",
+        "トーナメント登録",
+        "クラブ残高管理",
+        "専用メンバーサービス"
+      ],
+      "loginButton": "今すぐログイン"
+    },
+    "connectionError": "申し訳ございませんが、サービスへの接続に問題が発生しました。後でもう一度お試しください。",
+    "guestSuggestions": [
+      "今後のトーナメントを確認",
+      "メンバーシップ階層について学ぶ",
+      "リングゲームステークスについて質問",
+      "クラブサービスと施設について学ぶ"
+    ],
+    "registerPrompt": "{name}への登録を手伝ってください",
+    "aiGreeting": "私はあなたのスマートポーカーアシスタントで、いつでもあなたにサービスを提供する準備ができています",
+    "loginTip": "💡 ログインして更多の機能をアンロック：統計表示、ゲーム登録、残高管理など"
   },
   "Club": {
     "memberCount": "メンバー",
@@ -22,5 +40,278 @@
   "Errors": {
     "unauthorized": "認証されていません。サインインしてください。",
     "notFound": "リソースが見つかりません。"
+  },
+  "Sidebar": {
+    "dashboard": "ダッシュボード",
+    "tournaments": "トーナメント",
+    "ringGames": "リングゲーム",
+    "members": "メンバー管理",
+    "finance": "財務センター",
+    "settings": "クラブ設定",
+    "store": "クラブストア",
+    "achievements": "アチーブメントシステム",
+    "reports": "レポート分析",
+    "toggleSidebar": "サイドバー切り替え",
+    "collapse": "折りたたむ",
+    "expand": "展開",
+    "currentClub": "現在のクラブ",
+    "roles": {
+      "OWNER": "オーナー",
+      "ADMIN": "管理者",
+      "MANAGER": "マネージャー",
+      "MEMBER": "メンバー",
+      "DEALER": "ディーラー",
+      "CASHIER": "キャッシャー",
+      "VIP": "VIPメンバー",
+      "GUEST": "ゲスト"
+    }
+  },
+  "Common": {
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "networkError": "ネットワークエラー、後でもう一度お試しください",
+    "pleaseSelectClub": "まずクラブを選択してください",
+    "noPermission": "このアクションを実行する権限がありません",
+    "back": "戻る",
+    "search": "検索",
+    "filter": "フィルター",
+    "create": "作成",
+    "edit": "編集",
+    "delete": "削除",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "close": "閉じる",
+    "submit": "送信",
+    "required": "必須",
+    "optional": "オプション",
+    "status": "ステータス",
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "pending": "保留中",
+    "completed": "完了",
+    "failed": "失敗",
+    "processing": "処理中",
+    "vs": "対",
+    "month": "月",
+    "today": "今日",
+    "thisMonth": "今月",
+    "lastMonth": "先月",
+    "players": "プレイヤー",
+    "noData": "データなし"
+  },
+  "Dashboard": {
+    "title": "ダッシュボード",
+    "overview": "概要",
+    "dataFetchError": "データの取得に失敗しました",
+    "members": {
+      "title": "メンバー統計",
+      "total": "総メンバー数",
+      "active": "アクティブメンバー",
+      "growth": "月間成長"
+    },
+    "tournaments": {
+      "title": "トーナメント",
+      "total": "総トーナメント数",
+      "active": "進行中",
+      "upcoming": "開始予定"
+    },
+    "ringGames": {
+      "title": "リングゲーム",
+      "total": "総テーブル数",
+      "active": "アクティブテーブル",
+      "waiting": "待機中"
+    },
+    "finance": {
+      "title": "財務概要",
+      "dailyRevenue": "日次収益",
+      "monthlyRevenue": "月次収益",
+      "monthlyTotal": "月次",
+      "noPermission": "財務データを表示する権限がありません"
+    },
+    "recentActivity": {
+      "title": "最近のアクティビティ",
+      "noActivity": "最近のアクティビティはありません",
+      "tournament": "トーナメント",
+      "players": "プレイヤー",
+      "inProgress": "進行中",
+      "scheduled": "予定",
+      "completed": "完了"
+    },
+    "quickActions": {
+      "title": "クイックアクション",
+      "createTournament": "トーナメント作成",
+      "createTournamentDesc": "新しいトーナメントを作成",
+      "openRingGame": "リングゲーム開始",
+      "openRingGameDesc": "新しいリングゲームテーブルを開く",
+      "manageMembers": "メンバー管理",
+      "manageMembersDesc": "クラブメンバーを管理",
+      "viewReports": "レポート表示",
+      "viewReportsDesc": "詳細レポートを表示"
+    }
+  },
+  "Tournaments": {
+    "title": "トーナメント管理",
+    "createNew": "トーナメント作成",
+    "searchPlaceholder": "トーナメントを検索...",
+    "fetchError": "トーナメントリストの取得に失敗しました",
+    "filters": {
+      "all": "すべて",
+      "scheduled": "予定",
+      "registering": "登録中",
+      "inProgress": "進行中",
+      "completed": "完了",
+      "cancelled": "キャンセル済み"
+    },
+    "list": {
+      "name": "トーナメント名",
+      "gameType": "ゲームタイプ",
+      "buyIn": "バイイン",
+      "startTime": "開始時間",
+      "players": "プレイヤー数",
+      "status": "ステータス",
+      "actions": "アクション"
+    },
+    "actions": {
+      "view": "表示",
+      "edit": "編集",
+      "cancel": "キャンセル",
+      "start": "開始",
+      "register": "登録"
+    },
+    "status": {
+      "SCHEDULED": "予定",
+      "REGISTERING": "登録中",
+      "IN_PROGRESS": "進行中",
+      "COMPLETED": "完了",
+      "CANCELLED": "キャンセル済み",
+      "PAUSED": "一時停止"
+    },
+    "create": {
+      "title": "トーナメント作成",
+      "basicInfo": "基本情報",
+      "gameSettings": "ゲーム設定",
+      "schedule": "スケジュール",
+      "name": "トーナメント名",
+      "namePlaceholder": "例：週末保証トーナメント",
+      "description": "説明",
+      "descriptionPlaceholder": "トーナメントの説明...",
+      "gameType": "ゲームタイプ",
+      "gameTypes": {
+        "NLH": "No Limit Hold'em",
+        "PLO": "Pot Limit Omaha",
+        "PLO5": "5-Card PLO",
+        "MIXED": "Mixed Games",
+        "OTHER": "その他"
+      },
+      "buyIn": "バイイン",
+      "fee": "手数料",
+      "startingStack": "開始チップ",
+      "startTime": "開始時間",
+      "minPlayers": "最小プレイヤー数",
+      "maxPlayers": "最大プレイヤー数",
+      "minPlayersLabel": "最小",
+      "maxPlayersLabel": "最大（オプション）",
+      "estimatedDuration": "予想時間（分）",
+      "blindStructure": "ブラインド構造",
+      "blindStructurePlaceholder": "ブラインド構造を選択",
+      "payoutStructure": "支払い構造",
+      "payoutStructurePlaceholder": "支払い構造を選択",
+      "submit": "トーナメント作成",
+      "submitting": "作成中...",
+      "cancel": "キャンセル",
+      "validation": {
+        "nameRequired": "トーナメント名は必須です",
+        "buyInPositive": "バイインは0より大きい必要があります",
+        "feeNonNegative": "手数料は負の値にできません",
+        "stackPositive": "開始チップは0より大きい必要があります",
+        "startTimeRequired": "開始時間を選択してください",
+        "minPlayersMin": "最小プレイヤー数は2未満にできません",
+        "maxPlayersValid": "最大プレイヤー数は最小プレイヤー数未満にできません",
+        "blindStructureRequired": "ブラインド構造を選択してください",
+        "payoutStructureRequired": "支払い構造を選択してください"
+      },
+      "errors": {
+        "noPermission": "トーナメントを作成する権限がありません",
+        "createFailed": "作成に失敗しました",
+        "backToList": "トーナメントリストに戻る"
+      }
+    },
+    "empty": {
+      "title": "トーナメントなし",
+      "description": "まだトーナメントが作成されていません",
+      "action": "最初のトーナメントを作成"
+    }
+  },
+  "RingGames": {
+    "title": "リングゲーム管理",
+    "createNew": "新しいテーブルを開く",
+    "searchPlaceholder": "リングゲームを検索...",
+    "buyInRange": "バイイン範囲",
+    "blinds": "ブラインド",
+    "activePlayers": "{count}人のプレイヤーが着席",
+    "noPlayers": "プレイヤーなし",
+    "sampleTables": {
+      "table1": "$1/$2 NL Hold'em",
+      "table2": "$2/$5 NL Hold'em"
+    },
+    "filters": {
+      "all": "すべて",
+      "waiting": "待機中",
+      "active": "アクティブ",
+      "paused": "一時停止",
+      "closed": "クローズ"
+    },
+    "list": {
+      "name": "テーブル名",
+      "gameType": "ゲームタイプ",
+      "stakes": "ステークス",
+      "players": "プレイヤー数",
+      "buyIn": "バイイン範囲",
+      "status": "ステータス",
+      "actions": "アクション"
+    },
+    "actions": {
+      "view": "表示",
+      "edit": "編集",
+      "join": "参加",
+      "close": "クローズ"
+    },
+    "status": {
+      "WAITING": "待機中",
+      "ACTIVE": "アクティブ",
+      "PAUSED": "一時停止",
+      "CLOSED": "クローズ"
+    },
+    "create": {
+      "title": "新しいテーブルを開く",
+      "basicInfo": "基本情報",
+      "gameSettings": "ゲーム設定",
+      "name": "テーブル名",
+      "gameType": "ゲームタイプ",
+      "stakes": "ステークス",
+      "smallBlind": "スモールブラインド",
+      "bigBlind": "ビッグブラインド",
+      "minBuyIn": "最小バイイン",
+      "maxBuyIn": "最大バイイン",
+      "maxPlayers": "最大プレイヤー数",
+      "serviceFeeStructure": "サービス料金構造",
+      "submit": "テーブルオープン",
+      "cancel": "キャンセル"
+    },
+    "empty": {
+      "title": "リングゲームなし",
+      "description": "まだリングゲームテーブルが開かれていません",
+      "action": "最初のテーブルを開く"
+    }
+  },
+  "TournamentCard": {
+    "buyIn": "バイイン",
+    "register": "登録"
+  },
+  "ChatInput": {
+    "thinking": "考え中...",
+    "placeholder": "ここに質問を入力してください..."
   }
-} 
+}

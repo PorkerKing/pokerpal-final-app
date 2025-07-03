@@ -54,10 +54,10 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  // 初始化俱乐部列表
+  // 初始化俱乐部列表和重定向逻辑
   useEffect(() => {
     const initializeClubs = async () => {
-      if (!selectedClub) {
+      if (!selectedClub && session) {
         try {
           const response = await fetch('/api/user/get-clubs');
           if (response.ok) {
@@ -65,15 +65,23 @@ export default function HomePage() {
             if (data.clubs && data.clubs.length > 0) {
               setClubs(data.clubs);
               setSelectedClub(data.clubs[0]);
+              // 如果用户已登录且有俱乐部，重定向到仪表盘
+              router.push('/dashboard');
             }
           }
         } catch (error) {
           console.error("Failed to initialize clubs:", error);
         }
+      } else if (session && selectedClub) {
+        // 如果已经有选中的俱乐部，直接重定向到仪表盘
+        router.push('/dashboard');
       }
     };
-    initializeClubs();
-  }, [selectedClub, setClubs, setSelectedClub]);
+    
+    if (status !== 'loading') {
+      initializeClubs();
+    }
+  }, [session, status, selectedClub, setClubs, setSelectedClub, router]);
 
   // 处理登录
   const handleSignIn = useCallback(() => {

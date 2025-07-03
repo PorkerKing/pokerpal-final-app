@@ -1,4 +1,5 @@
 import { Swords, CircleDollarSign, Clock, Calendar } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 type TournamentForCard = {
   id: string;
@@ -14,6 +15,7 @@ type TournamentCardProps = {
 };
 
 export const TournamentCard = ({ tournament, onRegister }: TournamentCardProps) => {
+  const t = useTranslations('TournamentCard');
   const startTimeDate = typeof tournament.startTime === 'string' 
     ? new Date(tournament.startTime) 
     : tournament.startTime;
@@ -26,11 +28,11 @@ export const TournamentCard = ({ tournament, onRegister }: TournamentCardProps) 
       <h3 className="text-xl font-bold text-white">{tournament.name}</h3>
       <div className="grid grid-cols-2 gap-4 text-gray-300">
         <div className="flex items-center space-x-2"><Swords size={16} className="text-purple-400" /><span>{tournament.gameType}</span></div>
-        <div className="flex items-center space-x-2"><CircleDollarSign size={16} className="text-purple-400" /><span>买入: {String(tournament.buyIn)}</span></div>
+        <div className="flex items-center space-x-2"><CircleDollarSign size={16} className="text-purple-400" /><span>{t('buyIn')}: {String(tournament.buyIn)}</span></div>
         <div className="flex items-center space-x-2"><Calendar size={16} className="text-purple-400" /><span>{formattedDate}</span></div>
         <div className="flex items-center space-x-2"><Clock size={16} className="text-purple-400" /><span>{formattedTime}</span></div>
       </div>
-      <button onClick={() => onRegister(tournament.name!)} className="mt-auto w-full bg-purple-600 text-white font-bold py-2 rounded-lg hover:bg-purple-500 transition-colors">报名参赛</button>
+      <button onClick={() => onRegister(tournament.name!)} className="mt-auto w-full bg-purple-600 text-white font-bold py-2 rounded-lg hover:bg-purple-500 transition-colors">{t('register')}</button>
     </div>
   );
 }; 

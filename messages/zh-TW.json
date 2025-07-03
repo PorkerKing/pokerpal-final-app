@@ -10,7 +10,27 @@
     "promptSuggestion1": "\"這週有哪些比賽可以參加呀？\"",
     "promptSuggestion2": "\"幫我看看這個月的積分和排名是多少耶？\"",
     "promptSuggestion3": "\"我想預訂一個$2/$5的圓桌遊戲位子，可以幫我安排嘛？\"",
-    "promptSuggestion4": "\"幫我回顧一下昨晚的牌局記錄啦。\""
+    "promptSuggestion4": "\"幫我回顧一下昨晚的牌局記錄啦。\"",
+    "guestPrompt": {
+      "title": "此功能需要登入才能使用。登入後您可以：",
+      "features": [
+        "查看個人戰績和統計資料",
+        "報名參加錦標賽",
+        "管理俱樂部餘額",
+        "獲得專屬會員服務"
+      ],
+      "loginButton": "立即登入"
+    },
+    "connectionError": "抱歉，連接服務時出現問題，請稍後再試。",
+    "guestSuggestions": [
+      "查看有哪些即將開始的錦標賽",
+      "了解俱樂部的會員等級制度",
+      "詢問圓桌遊戲的盲注級別",
+      "了解俱樂部的服務和設施"
+    ],
+    "registerPrompt": "幫我報名參加 {name}",
+    "aiGreeting": "我是您的智慧撲克小幫手，隨時為您服務",
+    "loginTip": "💡 登入後可解鎖更多功能：查看戰績、報名比賽、管理餘額等"
   },
   "Club": {
     "memberCount": "會員",
@@ -20,5 +40,278 @@
   "Errors": {
     "unauthorized": "未授權。請先登入。",
     "notFound": "找不到資源。"
+  },
+  "Sidebar": {
+    "dashboard": "儀表板",
+    "tournaments": "錦標賽",
+    "ringGames": "圓桌遊戲",
+    "members": "會員管理",
+    "finance": "財務中心",
+    "settings": "俱樂部設定",
+    "store": "俱樂部商店",
+    "achievements": "成就系統",
+    "reports": "報告分析",
+    "toggleSidebar": "切換側邊欄",
+    "collapse": "收起",
+    "expand": "展開",
+    "currentClub": "目前俱樂部",
+    "roles": {
+      "OWNER": "所有者",
+      "ADMIN": "管理員",
+      "MANAGER": "經理",
+      "MEMBER": "會員",
+      "DEALER": "荷官",
+      "CASHIER": "出納",
+      "VIP": "VIP會員",
+      "GUEST": "訪客"
+    }
+  },
+  "Common": {
+    "loading": "載入中...",
+    "error": "錯誤",
+    "success": "成功",
+    "networkError": "網路錯誤，請稍後重試",
+    "pleaseSelectClub": "請先選擇一個俱樂部",
+    "noPermission": "您沒有權限執行此操作",
+    "back": "返回",
+    "search": "搜尋",
+    "filter": "篩選",
+    "create": "建立",
+    "edit": "編輯",
+    "delete": "刪除",
+    "save": "儲存",
+    "cancel": "取消",
+    "confirm": "確認",
+    "close": "關閉",
+    "submit": "提交",
+    "required": "必填",
+    "optional": "可選",
+    "status": "狀態",
+    "active": "活躍",
+    "inactive": "非活躍",
+    "pending": "等待中",
+    "completed": "已完成",
+    "failed": "失敗",
+    "processing": "處理中",
+    "vs": "對",
+    "month": "月",
+    "today": "今天",
+    "thisMonth": "本月",
+    "lastMonth": "上月",
+    "players": "玩家",
+    "noData": "暫無資料"
+  },
+  "Dashboard": {
+    "title": "儀表板",
+    "overview": "概覽",
+    "dataFetchError": "獲取資料失敗",
+    "members": {
+      "title": "會員統計",
+      "total": "總會員數",
+      "active": "活躍會員",
+      "growth": "本月增長"
+    },
+    "tournaments": {
+      "title": "錦標賽",
+      "total": "總錦標賽",
+      "active": "進行中",
+      "upcoming": "即將開始"
+    },
+    "ringGames": {
+      "title": "圓桌遊戲",
+      "total": "總牌桌數",
+      "active": "活躍牌桌",
+      "waiting": "等待中"
+    },
+    "finance": {
+      "title": "財務概覽",
+      "dailyRevenue": "今日收入",
+      "monthlyRevenue": "本月收入",
+      "monthlyTotal": "本月",
+      "noPermission": "無權限查看財務資料"
+    },
+    "recentActivity": {
+      "title": "最近活動",
+      "noActivity": "暫無活動",
+      "tournament": "錦標賽",
+      "players": "位玩家",
+      "inProgress": "進行中",
+      "scheduled": "已安排",
+      "completed": "已完成"
+    },
+    "quickActions": {
+      "title": "快速操作",
+      "createTournament": "建立錦標賽",
+      "createTournamentDesc": "建立新的錦標賽",
+      "openRingGame": "開設圓桌",
+      "openRingGameDesc": "開設新的圓桌遊戲",
+      "manageMembers": "管理會員",
+      "manageMembersDesc": "管理俱樂部會員",
+      "viewReports": "查看報告",
+      "viewReportsDesc": "查看詳細報告"
+    }
+  },
+  "Tournaments": {
+    "title": "錦標賽管理",
+    "createNew": "建立錦標賽",
+    "searchPlaceholder": "搜尋錦標賽...",
+    "fetchError": "獲取錦標賽列表失敗",
+    "filters": {
+      "all": "全部",
+      "scheduled": "已安排",
+      "registering": "報名中",
+      "inProgress": "進行中",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    },
+    "list": {
+      "name": "錦標賽名稱",
+      "gameType": "遊戲類型",
+      "buyIn": "報名費",
+      "startTime": "開始時間",
+      "players": "玩家數",
+      "status": "狀態",
+      "actions": "操作"
+    },
+    "actions": {
+      "view": "查看",
+      "edit": "編輯",
+      "cancel": "取消",
+      "start": "開始",
+      "register": "報名"
+    },
+    "status": {
+      "SCHEDULED": "已安排",
+      "REGISTERING": "報名中",
+      "IN_PROGRESS": "進行中",
+      "COMPLETED": "已完成",
+      "CANCELLED": "已取消",
+      "PAUSED": "暫停"
+    },
+    "create": {
+      "title": "建立錦標賽",
+      "basicInfo": "基本資訊",
+      "gameSettings": "遊戲設定",
+      "schedule": "時間安排",
+      "name": "錦標賽名稱",
+      "namePlaceholder": "例如：週末保證金錦標賽",
+      "description": "描述",
+      "descriptionPlaceholder": "錦標賽描述...",
+      "gameType": "遊戲類型",
+      "gameTypes": {
+        "NLH": "No Limit Hold'em",
+        "PLO": "Pot Limit Omaha",
+        "PLO5": "5-Card PLO",
+        "MIXED": "Mixed Games",
+        "OTHER": "其他"
+      },
+      "buyIn": "報名費",
+      "fee": "手續費",
+      "startingStack": "起始籌碼",
+      "startTime": "開始時間",
+      "minPlayers": "最少玩家",
+      "maxPlayers": "最多玩家",
+      "minPlayersLabel": "最少",
+      "maxPlayersLabel": "最多(可選)",
+      "estimatedDuration": "預計時長 (分鐘)",
+      "blindStructure": "盲注結構",
+      "blindStructurePlaceholder": "請選擇盲注結構",
+      "payoutStructure": "支付結構",
+      "payoutStructurePlaceholder": "請選擇支付結構",
+      "submit": "建立錦標賽",
+      "submitting": "建立中...",
+      "cancel": "取消",
+      "validation": {
+        "nameRequired": "錦標賽名稱不能為空",
+        "buyInPositive": "報名費必須大於0",
+        "feeNonNegative": "手續費不能為負數",
+        "stackPositive": "起始籌碼必須大於0",
+        "startTimeRequired": "請選擇開始時間",
+        "minPlayersMin": "最少玩家數不能小於2",
+        "maxPlayersValid": "最多玩家數不能小於最少玩家數",
+        "blindStructureRequired": "請選擇盲注結構",
+        "payoutStructureRequired": "請選擇支付結構"
+      },
+      "errors": {
+        "noPermission": "您沒有權限建立錦標賽",
+        "createFailed": "建立失敗",
+        "backToList": "返回錦標賽列表"
+      }
+    },
+    "empty": {
+      "title": "暫無錦標賽",
+      "description": "還沒有建立任何錦標賽",
+      "action": "建立第一個錦標賽"
+    }
+  },
+  "RingGames": {
+    "title": "圓桌遊戲管理",
+    "createNew": "開設新桌",
+    "searchPlaceholder": "搜尋圓桌遊戲...",
+    "buyInRange": "買入範圍",
+    "blinds": "盲注",
+    "activePlayers": "有 {count} 人在桌",
+    "noPlayers": "暫無玩家",
+    "sampleTables": {
+      "table1": "$1/$2 NL Hold'em",
+      "table2": "$2/$5 NL Hold'em"
+    },
+    "filters": {
+      "all": "全部",
+      "waiting": "等待中",
+      "active": "活躍",
+      "paused": "暫停",
+      "closed": "已關閉"
+    },
+    "list": {
+      "name": "桌名",
+      "gameType": "遊戲類型",
+      "stakes": "盲注級別",
+      "players": "玩家數",
+      "buyIn": "買入範圍",
+      "status": "狀態",
+      "actions": "操作"
+    },
+    "actions": {
+      "view": "查看",
+      "edit": "編輯",
+      "join": "入座",
+      "close": "關桌"
+    },
+    "status": {
+      "WAITING": "等待中",
+      "ACTIVE": "活躍",
+      "PAUSED": "暫停",
+      "CLOSED": "已關閉"
+    },
+    "create": {
+      "title": "開設新桌",
+      "basicInfo": "基本資訊",
+      "gameSettings": "遊戲設定",
+      "name": "桌名",
+      "gameType": "遊戲類型",
+      "stakes": "盲注級別",
+      "smallBlind": "小盲",
+      "bigBlind": "大盲",
+      "minBuyIn": "最小買入",
+      "maxBuyIn": "最大買入",
+      "maxPlayers": "最大玩家數",
+      "serviceFeeStructure": "服務費結構",
+      "submit": "開設牌桌",
+      "cancel": "取消"
+    },
+    "empty": {
+      "title": "暫無圓桌遊戲",
+      "description": "還沒有開設任何圓桌遊戲",
+      "action": "開設第一張牌桌"
+    }
+  },
+  "TournamentCard": {
+    "buyIn": "買入",
+    "register": "報名參賽"
+  },
+  "ChatInput": {
+    "thinking": "思考中...",
+    "placeholder": "在這裡輸入您的問題..."
   }
-} 
+}

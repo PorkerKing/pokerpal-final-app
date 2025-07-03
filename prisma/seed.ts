@@ -44,6 +44,28 @@ async function main() {
     }
   });
 
+  const dealerUser = await prisma.user.upsert({
+    where: { email: 'dealer@pokerpal.com' },
+    update: {},
+    create: {
+      name: '荷官小王',
+      email: 'dealer@pokerpal.com',
+      password: hashedPassword,
+      preferredLanguage: 'zh'
+    }
+  });
+
+  const cashierUser = await prisma.user.upsert({
+    where: { email: 'cashier@pokerpal.com' },
+    update: {},
+    create: {
+      name: '出纳小李',
+      email: 'cashier@pokerpal.com',
+      password: hashedPassword,
+      preferredLanguage: 'zh'
+    }
+  });
+
   // 创建示例俱乐部
   const club = await prisma.club.upsert({
     where: { name: 'PokerPal 示例俱乐部' },
@@ -138,6 +160,46 @@ async function main() {
       totalBuyIn: 1000.00,
       totalCashOut: 800.00,
       vipLevel: 2
+    }
+  });
+
+  await prisma.clubMember.upsert({
+    where: {
+      clubId_userId: {
+        clubId: club.id,
+        userId: dealerUser.id
+      }
+    },
+    update: {},
+    create: {
+      clubId: club.id,
+      userId: dealerUser.id,
+      role: 'DEALER',
+      status: 'ACTIVE',
+      balance: 0.00,
+      totalBuyIn: 0.00,
+      totalCashOut: 0.00,
+      vipLevel: 1
+    }
+  });
+
+  await prisma.clubMember.upsert({
+    where: {
+      clubId_userId: {
+        clubId: club.id,
+        userId: cashierUser.id
+      }
+    },
+    update: {},
+    create: {
+      clubId: club.id,
+      userId: cashierUser.id,
+      role: 'CASHIER',
+      status: 'ACTIVE',
+      balance: 0.00,
+      totalBuyIn: 0.00,
+      totalCashOut: 0.00,
+      vipLevel: 1
     }
   });
 
@@ -314,6 +376,8 @@ async function main() {
   console.log(`  - 管理员: ${user1.email} (密码: password123)`);
   console.log(`  - 玩家1: ${user2.email} (密码: password123)`);
   console.log(`  - 玩家2: ${user3.email} (密码: password123)`);
+  console.log(`  - 荷官: ${dealerUser.email} (密码: password123)`);
+  console.log(`  - 出纳: ${cashierUser.email} (密码: password123)`);
   console.log('锦标赛:');
   console.log(`  - ${tournament1.name} (ID: ${tournament1.id})`);
   console.log(`  - ${tournament2.name} (ID: ${tournament2.id})`);

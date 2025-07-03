@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { Send } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface ChatInputProps {
   onSendMessage: (text: string) => void;
@@ -9,6 +10,7 @@ interface ChatInputProps {
 
 export default function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
   const [text, setText] = useState('');
+  const t = useTranslations('ChatInput');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +24,7 @@ export default function ChatInput({ onSendMessage, isLoading }: ChatInputProps) 
       <form onSubmit={handleSubmit} className="relative">
         <input
           type="text" value={text} onChange={(e) => setText(e.target.value)}
-          placeholder={isLoading ? "思考中..." : "在这里输入您的问题..."}
+          placeholder={isLoading ? t('thinking') : t('placeholder')}
           disabled={isLoading}
           className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-4 pr-12 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all disabled:opacity-50"
         />

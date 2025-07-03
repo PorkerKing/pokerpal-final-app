@@ -20,5 +20,472 @@
   "Errors": {
     "unauthorized": "未授权。请先登录。",
     "notFound": "找不到资源。"
+  },
+  "Sidebar": {
+    "dashboard": "仪表盘",
+    "tournaments": "锦标赛",
+    "ringGames": "圆桌游戏",
+    "members": "会员管理",
+    "finance": "财务中心",
+    "settings": "俱乐部设置",
+    "store": "俱乐部商店",
+    "achievements": "成就系统",
+    "reports": "报告分析",
+    "toggleSidebar": "切换侧边栏",
+    "collapse": "收起",
+    "expand": "展开"
+  },
+  "Dashboard": {
+    "title": "仪表盘",
+    "overview": "概览",
+    "members": {
+      "title": "会员统计",
+      "total": "总会员数",
+      "active": "活跃会员",
+      "growth": "本月增长"
+    },
+    "tournaments": {
+      "title": "锦标赛",
+      "total": "总锦标赛",
+      "active": "进行中",
+      "upcoming": "即将开始"
+    },
+    "ringGames": {
+      "title": "圆桌游戏",
+      "total": "总牌桌数",
+      "active": "活跃牌桌",
+      "waiting": "等待中"
+    },
+    "finance": {
+      "title": "财务概览",
+      "dailyRevenue": "今日收入",
+      "monthlyRevenue": "本月收入",
+      "noPermission": "无权限查看财务数据"
+    },
+    "recentActivity": {
+      "title": "最近活动",
+      "noActivity": "暂无活动",
+      "tournament": "锦标赛",
+      "players": "位玩家"
+    },
+    "quickActions": {
+      "title": "快速操作",
+      "createTournament": "创建锦标赛",
+      "openRingGame": "开设圆桌",
+      "manageMembers": "管理会员",
+      "viewReports": "查看报告"
+    }
+  },
+  "Tournaments": {
+    "title": "锦标赛管理",
+    "createNew": "创建锦标赛",
+    "filters": {
+      "all": "全部",
+      "scheduled": "已安排",
+      "registering": "报名中",
+      "inProgress": "进行中",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    },
+    "list": {
+      "name": "锦标赛名称",
+      "gameType": "游戏类型",
+      "buyIn": "报名费",
+      "startTime": "开始时间",
+      "players": "玩家数",
+      "status": "状态",
+      "actions": "操作"
+    },
+    "actions": {
+      "view": "查看",
+      "edit": "编辑",
+      "cancel": "取消",
+      "start": "开始",
+      "register": "报名"
+    },
+    "status": {
+      "SCHEDULED": "已安排",
+      "REGISTERING": "报名中", 
+      "IN_PROGRESS": "进行中",
+      "COMPLETED": "已完成",
+      "CANCELLED": "已取消",
+      "PAUSED": "暂停"
+    },
+    "create": {
+      "title": "创建锦标赛",
+      "basicInfo": "基本信息",
+      "gameSettings": "游戏设置",
+      "schedule": "时间安排",
+      "name": "锦标赛名称",
+      "description": "描述",
+      "gameType": "游戏类型",
+      "buyIn": "报名费",
+      "fee": "手续费",
+      "startingStack": "起始筹码",
+      "startTime": "开始时间",
+      "minPlayers": "最少玩家",
+      "maxPlayers": "最多玩家",
+      "submit": "创建锦标赛",
+      "cancel": "取消"
+    },
+    "empty": {
+      "title": "暂无锦标赛",
+      "description": "还没有创建任何锦标赛",
+      "action": "创建第一个锦标赛"
+    }
+  },
+  "RingGames": {
+    "title": "圆桌游戏管理",
+    "createNew": "开设新桌",
+    "filters": {
+      "all": "全部",
+      "waiting": "等待中",
+      "active": "活跃",
+      "paused": "暂停",
+      "closed": "已关闭"
+    },
+    "list": {
+      "name": "桌名",
+      "gameType": "游戏类型", 
+      "stakes": "盲注级别",
+      "players": "玩家数",
+      "buyIn": "买入范围",
+      "status": "状态",
+      "actions": "操作"
+    },
+    "actions": {
+      "view": "查看",
+      "edit": "编辑",
+      "join": "入座",
+      "close": "关桌"
+    },
+    "status": {
+      "WAITING": "等待中",
+      "ACTIVE": "活跃",
+      "PAUSED": "暂停", 
+      "CLOSED": "已关闭"
+    },
+    "create": {
+      "title": "开设新桌",
+      "basicInfo": "基本信息",
+      "gameSettings": "游戏设置",
+      "name": "桌名",
+      "gameType": "游戏类型",
+      "stakes": "盲注级别",
+      "smallBlind": "小盲",
+      "bigBlind": "大盲",
+      "minBuyIn": "最小买入",
+      "maxBuyIn": "最大买入", 
+      "maxPlayers": "最大玩家数",
+      "serviceFeeStructure": "服务费结构",
+      "submit": "开设牌桌",
+      "cancel": "取消"
+    },
+    "empty": {
+      "title": "暂无圆桌游戏",
+      "description": "还没有开设任何圆桌游戏",
+      "action": "开设第一张牌桌"
+    }
+  },
+  "Common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "networkError": "网络错误，请稍后重试",
+    "pleaseSelectClub": "请先选择一个俱乐部",
+    "noPermission": "您没有权限执行此操作",
+    "back": "返回",
+    "search": "搜索",
+    "filter": "筛选",
+    "create": "创建",
+    "edit": "编辑",
+    "delete": "删除",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确认",
+    "close": "关闭",
+    "submit": "提交",
+    "required": "必填",
+    "optional": "可选",
+    "status": "状态",
+    "active": "活跃",
+    "inactive": "非活跃",
+    "pending": "等待中",
+    "completed": "已完成",
+    "failed": "失败",
+    "processing": "处理中",
+    "vs": "vs",
+    "month": "月",
+    "today": "今天",
+    "thisMonth": "本月",
+    "lastMonth": "上月",
+    "players": "玩家",
+    "noData": "暂无数据"
+  },
+  "Sidebar": {
+    "dashboard": "仪表盘",
+    "tournaments": "锦标赛",
+    "ringGames": "圆桌游戏",
+    "members": "会员管理",
+    "finance": "财务中心",
+    "settings": "俱乐部设置",
+    "store": "俱乐部商店",
+    "achievements": "成就系统",
+    "reports": "报告分析",
+    "toggleSidebar": "切换侧边栏",
+    "collapse": "收起",
+    "expand": "展开",
+    "currentClub": "当前俱乐部",
+    "roles": {
+      "OWNER": "所有者",
+      "ADMIN": "管理员", 
+      "MANAGER": "经理",
+      "MEMBER": "会员",
+      "DEALER": "荷官",
+      "CASHIER": "出纳",
+      "VIP": "VIP会员",
+      "GUEST": "访客"
+    }
+  },
+  "Dashboard": {
+    "title": "仪表盘",
+    "overview": "概览",
+    "dataFetchError": "获取数据失败",
+    "members": {
+      "title": "会员统计",
+      "total": "总会员数",
+      "active": "活跃会员",
+      "growth": "本月增长"
+    },
+    "tournaments": {
+      "title": "锦标赛",
+      "total": "总锦标赛",
+      "active": "进行中",
+      "upcoming": "即将开始"
+    },
+    "ringGames": {
+      "title": "圆桌游戏",
+      "total": "总牌桌数",
+      "active": "活跃牌桌",
+      "waiting": "等待中"
+    },
+    "finance": {
+      "title": "财务概览",
+      "dailyRevenue": "今日收入",
+      "monthlyRevenue": "本月收入",
+      "monthlyTotal": "本月",
+      "noPermission": "无权限查看财务数据"
+    },
+    "recentActivity": {
+      "title": "最近活动",
+      "noActivity": "暂无活动",
+      "tournament": "锦标赛",
+      "players": "位玩家",
+      "inProgress": "进行中",
+      "scheduled": "已安排",
+      "completed": "已完成"
+    },
+    "quickActions": {
+      "title": "快速操作",
+      "createTournament": "创建锦标赛",
+      "createTournamentDesc": "创建新的锦标赛",
+      "openRingGame": "开设圆桌",
+      "openRingGameDesc": "开设新的圆桌游戏",
+      "manageMembers": "管理会员",
+      "manageMembersDesc": "管理俱乐部会员",
+      "viewReports": "查看报告",
+      "viewReportsDesc": "查看详细报告"
+    }
+  },
+  "Tournaments": {
+    "title": "锦标赛管理",
+    "createNew": "创建锦标赛",
+    "searchPlaceholder": "搜索锦标赛...",
+    "fetchError": "获取锦标赛列表失败",
+    "filters": {
+      "all": "全部",
+      "scheduled": "已安排",
+      "registering": "报名中",
+      "inProgress": "进行中",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    },
+    "list": {
+      "name": "锦标赛名称",
+      "gameType": "游戏类型",
+      "buyIn": "报名费",
+      "startTime": "开始时间",
+      "players": "玩家数",
+      "status": "状态",
+      "actions": "操作"
+    },
+    "actions": {
+      "view": "查看",
+      "edit": "编辑",
+      "cancel": "取消",
+      "start": "开始",
+      "register": "报名"
+    },
+    "status": {
+      "SCHEDULED": "已安排",
+      "REGISTERING": "报名中", 
+      "IN_PROGRESS": "进行中",
+      "COMPLETED": "已完成",
+      "CANCELLED": "已取消",
+      "PAUSED": "暂停"
+    },
+    "create": {
+      "title": "创建锦标赛",
+      "basicInfo": "基本信息",
+      "gameSettings": "游戏设置",
+      "schedule": "时间安排",
+      "name": "锦标赛名称",
+      "namePlaceholder": "例如：周末保证金锦标赛",
+      "description": "描述",
+      "descriptionPlaceholder": "锦标赛描述...",
+      "gameType": "游戏类型",
+      "gameTypes": {
+        "NLH": "No Limit Hold'em",
+        "PLO": "Pot Limit Omaha", 
+        "PLO5": "5-Card PLO",
+        "MIXED": "Mixed Games",
+        "OTHER": "其他"
+      },
+      "buyIn": "报名费",
+      "fee": "手续费",
+      "startingStack": "起始筹码",
+      "startTime": "开始时间",
+      "minPlayers": "最少玩家",
+      "maxPlayers": "最多玩家",
+      "minPlayersLabel": "最少",
+      "maxPlayersLabel": "最多(可选)",
+      "estimatedDuration": "预计时长 (分钟)",
+      "blindStructure": "盲注结构",
+      "blindStructurePlaceholder": "请选择盲注结构",
+      "payoutStructure": "支付结构", 
+      "payoutStructurePlaceholder": "请选择支付结构",
+      "submit": "创建锦标赛",
+      "submitting": "创建中...",
+      "cancel": "取消",
+      "validation": {
+        "nameRequired": "锦标赛名称不能为空",
+        "buyInPositive": "报名费必须大于0",
+        "feeNonNegative": "手续费不能为负数",
+        "stackPositive": "起始筹码必须大于0",
+        "startTimeRequired": "请选择开始时间",
+        "minPlayersMin": "最少玩家数不能小于2",
+        "maxPlayersValid": "最多玩家数不能小于最少玩家数",
+        "blindStructureRequired": "请选择盲注结构",
+        "payoutStructureRequired": "请选择支付结构"
+      },
+      "errors": {
+        "noPermission": "您没有权限创建锦标赛",
+        "createFailed": "创建失败",
+        "backToList": "返回锦标赛列表"
+      }
+    },
+    "empty": {
+      "title": "暂无锦标赛",
+      "description": "还没有创建任何锦标赛",
+      "action": "创建第一个锦标赛"
+    }
+  },
+  "RingGames": {
+    "title": "圆桌游戏管理",
+    "createNew": "开设新桌",
+    "searchPlaceholder": "搜索圆桌游戏...",
+    "buyInRange": "买入范围",
+    "blinds": "盲注",
+    "activePlayers": "有 {count} 人在桌",
+    "noPlayers": "暂无玩家",
+    "sampleTables": {
+      "table1": "$1/$2 NL Hold'em",
+      "table2": "$2/$5 NL Hold'em"
+    },
+    "filters": {
+      "all": "全部",
+      "waiting": "等待中",
+      "active": "活跃",
+      "paused": "暂停",
+      "closed": "已关闭"
+    },
+    "list": {
+      "name": "桌名",
+      "gameType": "游戏类型", 
+      "stakes": "盲注级别",
+      "players": "玩家数",
+      "buyIn": "买入范围",
+      "status": "状态",
+      "actions": "操作"
+    },
+    "actions": {
+      "view": "查看",
+      "edit": "编辑",
+      "join": "入座",
+      "close": "关桌"
+    },
+    "status": {
+      "WAITING": "等待中",
+      "ACTIVE": "活跃",
+      "PAUSED": "暂停", 
+      "CLOSED": "已关闭"
+    },
+    "create": {
+      "title": "开设新桌",
+      "basicInfo": "基本信息",
+      "gameSettings": "游戏设置",
+      "name": "桌名",
+      "gameType": "游戏类型",
+      "stakes": "盲注级别",
+      "smallBlind": "小盲",
+      "bigBlind": "大盲",
+      "minBuyIn": "最小买入",
+      "maxBuyIn": "最大买入", 
+      "maxPlayers": "最大玩家数",
+      "serviceFeeStructure": "服务费结构",
+      "submit": "开设牌桌",
+      "cancel": "取消"
+    },
+    "empty": {
+      "title": "暂无圆桌游戏",
+      "description": "还没有开设任何圆桌游戏",
+      "action": "开设第一张牌桌"
+    }
+  },
+  "HomePage": {
+    "welcomeMessage": "我是",
+    "subheading": "您的俱乐部运营AI助理。今天有什么可以帮您的？",
+    "guestPrompt": {
+      "title": "此功能需要登录才能使用。登录后您可以：",
+      "features": [
+        "查看个人战绩和统计数据",
+        "报名参加锦标赛", 
+        "管理俱乐部余额",
+        "获得专属会员服务"
+      ],
+      "loginButton": "立即登录"
+    },
+    "connectionError": "抱歉，连接服务时出现问题，请稍后再试。",
+    "guestSuggestions": [
+      "查看有哪些即将开始的锦标赛",
+      "了解俱乐部的会员等级制度",
+      "询问圆桌游戏的盲注级别",
+      "了解俱乐部的服务和设施"
+    ],
+    "registerPrompt": "帮我报名参加 {name}",
+    "aiGreeting": "我是您的智能扑克助手，随时为您服务",
+    "loginTip": "💡 登录后可解锁更多功能：查看战绩、报名比赛、管理余额等",
+    "promptSuggestion1": "\"本周有哪些锦标赛？\"",
+    "promptSuggestion2": "\"查一下我这个月的积分和排名。\"",
+    "promptSuggestion3": "\"我想预订一个$2/$5的圆桌游戏座位，能安排吗？\"",
+    "promptSuggestion4": "\"帮我复盘一下昨晚的牌局记录。\""
+  },
+  "TournamentCard": {
+    "buyIn": "买入",
+    "register": "报名参赛"
+  },
+  "ChatInput": {
+    "thinking": "思考中...",
+    "placeholder": "在这里输入您的问题..."
   }
 } 

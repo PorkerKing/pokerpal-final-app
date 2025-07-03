@@ -17,10 +17,12 @@ export default async function LocaleLayout({
 
   return (
     <Providers locale={locale} messages={messages}>
-      <div className="flex">
+      <div className="flex min-h-screen bg-gray-50">
         <Sidebar />
-        <main className="flex-1 transition-all duration-300" style={{ marginLeft: '80px' }}>
-          {children}
+        <main className="flex-1 transition-all duration-300 ml-20">
+          <div className="min-h-screen">
+            {children}
+          </div>
         </main>
       </div>
     </Providers>
