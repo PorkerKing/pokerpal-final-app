@@ -29,3 +29,4 @@ const nextConfig = {
 };
 
 export default withNextIntl(nextConfig);
+ 

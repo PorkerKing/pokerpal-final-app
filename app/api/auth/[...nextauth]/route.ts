@@ -1,5 +1,4 @@
-// 修改后的代码 (第1行)
-import NextAuth from "next-auth/next";
+import NextAuth from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
 const handler = NextAuth(authOptions);
