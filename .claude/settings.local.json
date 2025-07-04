@@ -32,7 +32,8 @@
       "Bash(timeout 10 npm run dev)",
       "Bash(npm run seed:*)",
       "Bash(pkill:*)",
-      "Bash(true)"
+      "Bash(true)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }
