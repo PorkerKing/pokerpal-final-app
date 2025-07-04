@@ -2,6 +2,8 @@
 // 获取用户参与的俱乐部列表
 
 import { NextRequest } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import {
   withErrorHandler,
   validateSession,

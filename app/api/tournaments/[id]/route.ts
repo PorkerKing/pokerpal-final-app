@@ -2,6 +2,8 @@
 // 处理单个锦标赛的操作
 
 import { NextRequest } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import {
   withErrorHandler,
   validateSession,

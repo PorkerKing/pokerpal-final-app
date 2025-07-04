@@ -16,6 +16,8 @@ import {
 import prisma from '@/lib/prisma';
 import { TournamentStatus, GameType } from '@prisma/client';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/tournaments - 获取锦标赛列表
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const { searchParams } = new URL(request.url);

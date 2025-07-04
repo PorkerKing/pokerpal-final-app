@@ -11,6 +11,8 @@ import {
 } from '@/lib/api-utils';
 import prisma from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/clubs/[id]/payout-structures - 获取支付结构列表
 export const GET = withErrorHandler(async (
   request: NextRequest,

@@ -2,6 +2,8 @@
 // 提供仪表盘汇总数据
 
 import { NextRequest } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import {
   withErrorHandler,
   validateSession,

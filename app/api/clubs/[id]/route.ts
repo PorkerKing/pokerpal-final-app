@@ -15,6 +15,8 @@ import {
 import prisma from '@/lib/prisma';
 import { MemberStatus } from '@prisma/client';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/clubs/[id] - 获取俱乐部详情
 export const GET = withErrorHandler(async (
   request: NextRequest,

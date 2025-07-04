@@ -8,6 +8,8 @@ import {
   aiToolsAPI
 } from '@/lib/ai-tools';
 
+export const dynamic = 'force-dynamic';
+
 // 定义哪些工具需要认证
 const AUTH_REQUIRED_TOOLS = [
   'tournamentRegister', 

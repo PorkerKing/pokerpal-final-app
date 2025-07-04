@@ -18,6 +18,8 @@ import prisma from '@/lib/prisma';
 import { Role, MemberStatus, TransactionType } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/clubs/[id]/members - 获取俱乐部成员列表
 export const GET = withErrorHandler(async (
   request: NextRequest,

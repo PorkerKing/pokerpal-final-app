@@ -33,7 +33,13 @@
       "Bash(npm run seed:*)",
       "Bash(pkill:*)",
       "Bash(true)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "WebFetch(domain:vercel.com)",
+      "Bash(claude mcp:*)",
+      "mcp__ide__executeCode",
+      "Bash(mcp list:*)",
+      "Bash(test:*)",
+      "Bash(curl:*)"
     ],
     "deny": []
   }

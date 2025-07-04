@@ -14,6 +14,8 @@ import prisma from '@/lib/prisma';
 import { TournamentStatus, TransactionType, MemberStatus } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 
+export const dynamic = 'force-dynamic';
+
 // POST /api/tournaments/[id]/register - 报名锦标赛
 export const POST = withErrorHandler(async (
   request: NextRequest,

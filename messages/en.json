@@ -63,20 +63,6 @@
     "unauthorized": "Unauthorized. Please sign in.",
     "notFound": "Resource not found."
   },
-  "Sidebar": {
-    "dashboard": "Dashboard",
-    "tournaments": "Tournaments",
-    "ringGames": "Ring Games",
-    "members": "Members",
-    "finance": "Finance",
-    "settings": "Settings",
-    "store": "Club Store",
-    "achievements": "Achievements",
-    "reports": "Reports",
-    "toggleSidebar": "Toggle Sidebar",
-    "collapse": "Collapse",
-    "expand": "Expand"
-  },
   "Common": {
     "loading": "Loading...",
     "error": "Error",

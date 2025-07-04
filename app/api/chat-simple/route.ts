@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth/next";
 import prisma from "@/lib/prisma";
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 const getLanguageName = (locale: string): string => {
   switch (locale) {
     case 'zh': return '简体中文';

@@ -14,6 +14,8 @@ import {
 import prisma from '@/lib/prisma';
 import { Role, MemberStatus } from '@prisma/client';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/clubs - 获取俱乐部列表
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const { searchParams } = new URL(request.url);
