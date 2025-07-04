@@ -1,8 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth/next";
 import prisma from "@/lib/prisma";
-import { openai } from "@ai-sdk/openai";
-import { streamText, CoreMessage, CoreTool } from "ai";
 import { NextResponse } from 'next/server';
 import { 
   aiToolsAPI
@@ -41,7 +39,8 @@ async function buildSystemPrompt(
   clubName: string, 
   aiPersonaName: string, 
   locale: string, 
-  isGuest: boolean
+  isGuest: boolean,
+  combinedHistory: Array<{role: string, content: string}> = []
 ): Promise<string> {
   // 尝试获取自定义AI设置
   let aiPersona = null;
@@ -87,7 +86,18 @@ async function buildSystemPrompt(
 
   const emojiUsage = style.emoji ? '适当使用表情符号让对话更生动' : '不使用表情符号，保持纯文本交流';
 
-  const basePrompt = aiPersona?.systemPrompt || `你是${clubName}的专属AI助手${customName}。请使用${language}回答所有问题。
+  // 检查历史对话中是否有角色设定
+  let characterBackground = '';
+  if (combinedHistory.length > 0) {
+    const lastAssistantMsg = combinedHistory.find(msg => msg.role === 'assistant');
+    if (lastAssistantMsg && (lastAssistantMsg.content.includes('from') || lastAssistantMsg.content.includes('から') || lastAssistantMsg.content.includes('來自'))) {
+      characterBackground = lastAssistantMsg.content;
+    }
+  }
+
+  const basePrompt = aiPersona?.systemPrompt || `你是${clubName}的专属AI助手${customName}。
+
+${characterBackground ? `角色背景：${characterBackground}` : ''}
 
 个性特征：
 ${aiPersona?.personality || '我是一个专业、友好的扑克俱乐部助手。我了解扑克规则，能够帮助用户报名参加锦标赛，查询战绩，并提供各种俱乐部服务。我总是礼貌耐心，用简洁明了的语言回答问题。'}
@@ -96,6 +106,28 @@ ${aiPersona?.personality || '我是一个专业、友好的扑克俱乐部助手
 - ${toneStyle}
 - ${verbosityStyle}
 - ${emojiUsage}
+
+【多语言回复规则】：
+1. 如果你的角色设定有特定的语言背景，而用户使用不同语言提问：
+   - 首先用你角色的母语表达回应（保持角色特色）
+   - 然后根据用户的语言环境添加对应翻译：
+     * 用户locale为"zh"：添加"【简体中文翻译】..."
+     * 用户locale为"zh-TW"：添加"【繁體中文翻譯】..."
+     * 用户locale为"en"：添加"【English Translation】..."
+     * 用户locale为"ja"：添加"【日本語翻訳】..."
+
+2. 如果用户使用的语言与你的设定语言一致，直接用该语言回复
+
+3. 翻译要完整准确，确保用户能完全理解内容
+
+4. 始终确保回答内容准确、有用，优先保证信息传达的完整性
+
+【回答质量要求】：
+- 逻辑清晰，层次分明
+- 提供具体可行的建议
+- 避免模糊或含糊不清的表达
+- 根据用户问题的复杂程度调整回答详细度
+- 重要信息用粗体或结构化方式展示
 
 核心职责：
 - 帮助用户了解俱乐部信息和服务
@@ -156,8 +188,8 @@ function convertToCoreMessages(
   message: string, 
   history: Array<{role: string, content: string}>,
   systemPrompt: string
-): CoreMessage[] {
-  const coreMessages: CoreMessage[] = [
+): Array<{role: string, content: string}> {
+  const coreMessages: Array<{role: string, content: string}> = [
     { role: 'system', content: systemPrompt }
   ];
   
@@ -180,16 +212,52 @@ function convertToCoreMessages(
 
 export async function POST(req: Request) {
   try {
-    const { message, history, clubId, locale, userId } = await req.json();
+    const { message, history, clubId, locale, userId, conversationId } = await req.json();
     
     // 获取会话信息
     const session = await getServerSession(authOptions);
     const isAuthenticated = !!session?.user;
     const actualUserId = userId || (session as any)?.user?.id;
+    
+    // 获取用户的历史对话上下文（最近5条消息，优化性能）
+    let userHistory: Array<{role: string, content: string}> = [];
+    if (actualUserId && conversationId && conversationId !== 'default') {
+      try {
+        const recentMessages = await prisma.chatMessage.findMany({
+          where: {
+            userId: actualUserId,
+            clubId: clubId,
+            metadata: {
+              path: ['conversationId'],
+              equals: conversationId
+            }
+          },
+          orderBy: { createdAt: 'desc' },
+          take: 5, // 减少为5条消息提高性能
+          select: {
+            role: true,
+            content: true
+          }
+        });
+        
+        userHistory = recentMessages
+          .reverse() // 按时间正序排列
+          .map(msg => ({
+            role: msg.role,
+            content: msg.content
+          }));
+      } catch (error) {
+        console.error('获取历史对话失败:', error);
+        // 如果查询失败，使用空历史继续处理
+      }
+    }
+    
+    // 合并传入的history和数据库中的userHistory
+    const combinedHistory = [...userHistory, ...(history || [])];
 
-    // 处理降级模式 - 当OpenAI API不可用时
-    if (!process.env.OPENAI_API_KEY) {
-      console.log('OpenAI API key not configured, using fallback response');
+    // 处理降级模式 - 当SiliconFlow API不可用时
+    if (!process.env.SILICONFLOW_API_KEY) {
+      console.log('SiliconFlow API key not configured, using fallback response');
       
       const fallbackResponses = {
         'zh': [
@@ -244,27 +312,120 @@ export async function POST(req: Request) {
       clubName, 
       aiPersonaName, 
       locale, 
-      !isAuthenticated
+      !isAuthenticated,
+      combinedHistory
     );
 
     // 转换消息格式
-    const coreMessages = convertToCoreMessages(message, history, systemPrompt);
+    const coreMessages = convertToCoreMessages(message, combinedHistory, systemPrompt);
 
     // 获取可用工具
     const availableTools = isAuthenticated ? aiToolsAPI : 
       Object.fromEntries(Object.entries(aiToolsAPI).filter(([key]) => GUEST_TOOLS.includes(key)));
 
-    const result = await streamText({
-      model: openai("gpt-4o"),
-      messages: coreMessages,
-      tools: availableTools,
-      async onFinish({ text }) {
-        // 可以在这里保存对话历史
-        console.log('AI Response:', text);
+    // 准备SiliconFlow API请求
+    const siliconflowMessages = coreMessages.map(msg => ({
+      role: msg.role,
+      content: msg.content
+    }));
+
+    const siliconflowRequest = {
+      model: "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+      messages: siliconflowMessages,
+      stream: false,
+      max_tokens: 2000,
+      temperature: 0.7
+    };
+
+    // 调用SiliconFlow API
+    const response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.SILICONFLOW_API_KEY}`,
+        'Content-Type': 'application/json'
       },
+      body: JSON.stringify(siliconflowRequest)
     });
 
-    return result.toAIStreamResponse();
+    if (!response.ok) {
+      throw new Error(`SiliconFlow API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    let aiResponse = data.choices[0]?.message?.content || '抱歉，我无法生成回复。';
+
+    // DeepSeek-R1 是推理模型，需要提取对话输出部分，过滤掉推理过程
+    // 推理过程通常包含在 <think> 标签或类似标记中
+    if (aiResponse.includes('<think>')) {
+      // 移除推理过程标签及其内容
+      aiResponse = aiResponse.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    }
+    
+    // 如果还有其他推理标记，也进行清理
+    if (aiResponse.includes('推理过程：') || aiResponse.includes('思考过程：')) {
+      // 提取最后的对话输出部分
+      const lines = aiResponse.split('\n');
+      const outputLines = [];
+      let inReasoning = false;
+      
+      for (const line of lines) {
+        if (line.includes('推理过程：') || line.includes('思考过程：') || line.includes('分析：')) {
+          inReasoning = true;
+          continue;
+        }
+        if (line.includes('回复：') || line.includes('答案：') || line.includes('回答：')) {
+          inReasoning = false;
+          continue;
+        }
+        if (!inReasoning && line.trim()) {
+          outputLines.push(line);
+        }
+      }
+      
+      if (outputLines.length > 0) {
+        aiResponse = outputLines.join('\n').trim();
+      }
+    }
+
+    console.log('AI Response (filtered):', aiResponse);
+
+    // 保存对话历史到数据库
+    if (actualUserId && conversationId) {
+      try {
+        await prisma.$transaction([
+          // 保存用户消息
+          prisma.chatMessage.create({
+            data: {
+              userId: actualUserId,
+              clubId: clubId,
+              role: 'user',
+              content: message,
+              metadata: { locale, conversationId }
+            }
+          }),
+          // 保存AI回复
+          prisma.chatMessage.create({
+            data: {
+              userId: actualUserId,
+              clubId: clubId,
+              role: 'assistant',
+              content: aiResponse,
+              metadata: { locale, conversationId, model: 'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B' }
+            }
+          })
+        ]);
+      } catch (error) {
+        console.error('保存对话历史失败:', error);
+        // 不影响主要功能，继续返回结果
+      }
+    }
+
+    return NextResponse.json({
+      success: true,
+      reply: aiResponse,
+      type: 'text',
+      conversationId: conversationId || 'default'
+    });
 
   } catch (error) {
     console.error("Chat API Error:", error);
