@@ -212,25 +212,25 @@ export default function HomePage() {
   const getPromptSuggestions = () => {
     if (!session?.user) {
       // 访客建议
-      return t.raw('HomePage.suggestions.guest');
+      return t.raw('suggestions.guest');
     }
 
     // 根据用户角色提供不同建议
     const userRole = (selectedClub as any)?.userMembership?.role;
     
     if (userRole === 'OWNER') {
-      return t.raw('HomePage.suggestions.owner');
+      return t.raw('suggestions.owner');
     } else if (userRole === 'ADMIN') {
-      return t.raw('HomePage.suggestions.admin');
+      return t.raw('suggestions.admin');
     } else if (userRole === 'MANAGER') {
-      return t.raw('HomePage.suggestions.manager');
+      return t.raw('suggestions.manager');
     } else if (userRole === 'DEALER') {
-      return t.raw('HomePage.suggestions.dealer');
+      return t.raw('suggestions.dealer');
     } else if (userRole === 'CASHIER') {
-      return t.raw('HomePage.suggestions.cashier');
+      return t.raw('suggestions.cashier');
     } else {
       // 普通会员和VIP
-      return t.raw('HomePage.suggestions.member');
+      return t.raw('suggestions.member');
     }
   };
 
@@ -333,18 +333,18 @@ export default function HomePage() {
            <div className="flex-1 flex items-center justify-center -mt-20 px-4">
              <div className="w-full max-w-2xl text-center z-10">
                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                 {t('HomePage.welcomeMessage')} 
+                 {t('welcomeMessage')} 
                  <span className="text-purple-400">👩‍💼 {selectedClub?.aiPersona?.name || 'AI助手'}</span>
                </h1>
                <p className="mt-4 text-xl text-gray-400">
-                 {session?.user ? t('HomePage.subheading') : t('HomePage.guestSubheading')}
+                 {session?.user ? t('subheading') : t('guestSubheading')}
                </p>
                
                {/* 访客提示 */}
                {!session?.user && (
                  <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
                    <p className="text-yellow-400 text-sm">
-                     {t('HomePage.guestLoginHint')}
+                     {t('guestLoginHint')}
                    </p>
                  </div>
                )}
