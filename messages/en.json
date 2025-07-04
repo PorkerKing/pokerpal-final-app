@@ -7,10 +7,52 @@
   "HomePage": {
     "welcomeMessage": "I am",
     "subheading": "Your AI assistant for club management. How can I help you today?",
-    "promptSuggestion1": "\"What tournaments are available this week?\"",
-    "promptSuggestion2": "\"Check my points balance and ranking.\"",
-    "promptSuggestion3": "\"Book a seat for the $2/$5 Ring Game.\"",
-    "promptSuggestion4": "\"Help me review my hand history from last night.\""
+    "guestSubheading": "🎯 I'm your intelligent poker assistant, ready to serve you",
+    "guestLoginHint": "💡 Login to unlock more features: view stats, join tournaments, manage balance, etc.",
+    "suggestions": {
+      "guest": [
+        "What exciting tournaments are happening this week?",
+        "Could you tell me about the membership tier system?",
+        "How are the blinds structured for ring games?",
+        "What premium services does the club offer?"
+      ],
+      "owner": [
+        "Dear boss, shall I help you create a new tournament?",
+        "Let's check this month's club performance data?",
+        "Want to learn about optimizing member permissions?",
+        "How about personalizing my service style for you?"
+      ],
+      "admin": [
+        "Administrator, need help creating a new tournament?",
+        "Let's review this month's club operations data!",
+        "Want to know about managing members and permissions?",
+        "Shall we personalize the AI assistant configuration?"
+      ],
+      "manager": [
+        "Manager, shall I help arrange tonight's tournament?",
+        "Let's check the status of active tables?",
+        "Want to open new ring games?",
+        "Check member registration statistics?"
+      ],
+      "dealer": [
+        "Dealer, which tables do you need to handle today?",
+        "Let's see the ongoing tournaments!",
+        "Need help with player seating arrangements?",
+        "Check the blind structure for tables?"
+      ],
+      "cashier": [
+        "Cashier, how are today's finances looking?",
+        "Need to process player buy-ins?",
+        "Any pending withdrawal requests to review?",
+        "Check member balance change records?"
+      ],
+      "member": [
+        "Want to register for a tournament?",
+        "Let's check your points and ranking!",
+        "How about booking a $2/$5 ring game seat?",
+        "Want to review your game history?"
+      ]
+    }
   },
   "Club": {
     "memberCount": "Members",

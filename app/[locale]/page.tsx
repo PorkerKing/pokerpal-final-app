@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Header from '@/components/Header';
 import ChatInput from '@/components/ChatInput';
-import { Bot, User, LoaderCircle, LogIn, Diamond, Spade } from 'lucide-react';
+import { Spade, User, LoaderCircle, LogIn, Diamond } from 'lucide-react';
 import { PokerBackground } from '@/components/PokerBackground';
 import { useSession, signIn } from 'next-auth/react';
 import { useUserStore } from '@/stores/userStore';
@@ -166,7 +166,7 @@ export default function HomePage() {
         userId: (session?.user as any)?.id || null,
       };
 
-      const response = await fetch('/api/chat', {
+      const response = await fetch('/api/chat-simple', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -212,53 +212,25 @@ export default function HomePage() {
   const getPromptSuggestions = () => {
     if (!session?.user) {
       // 访客建议
-      return [
-        "查看本周有哪些锦标赛",
-        "了解俱乐部的会员等级制度", 
-        "询问圆桌游戏的盲注级别",
-        "了解俱乐部的服务和设施"
-      ];
+      return t.raw('HomePage.suggestions.guest');
     }
 
     // 根据用户角色提供不同建议
     const userRole = (selectedClub as any)?.userMembership?.role;
     
-    if (['OWNER', 'ADMIN'].includes(userRole)) {
-      return [
-        "帮我创建一个新的锦标赛",
-        "查看本月的俱乐部运营数据",
-        "如何管理会员和权限设置",
-        "帮我配置AI助手个性化设置"
-      ];
-    } else if (['MANAGER'].includes(userRole)) {
-      return [
-        "帮我安排今晚的锦标赛",
-        "查看活跃牌桌的状态",
-        "如何开设新的圆桌游戏",
-        "查看会员报名情况统计"
-      ];
-    } else if (['DEALER'].includes(userRole)) {
-      return [
-        "今天我需要负责哪些牌桌",
-        "查看正在进行的锦标赛",
-        "如何处理玩家座位安排",
-        "查看牌桌的盲注结构"
-      ];
-    } else if (['CASHIER'].includes(userRole)) {
-      return [
-        "今天的财务统计概览",
-        "如何处理玩家买入操作",
-        "查看待处理的提现申请", 
-        "查看会员余额变动记录"
-      ];
+    if (userRole === 'OWNER') {
+      return t.raw('HomePage.suggestions.owner');
+    } else if (userRole === 'ADMIN') {
+      return t.raw('HomePage.suggestions.admin');
+    } else if (userRole === 'MANAGER') {
+      return t.raw('HomePage.suggestions.manager');
+    } else if (userRole === 'DEALER') {
+      return t.raw('HomePage.suggestions.dealer');
+    } else if (userRole === 'CASHIER') {
+      return t.raw('HomePage.suggestions.cashier');
     } else {
       // 普通会员和VIP
-      return [
-        "我想报名参加锦标赛",
-        "查看我的积分和排名",
-        "预订$2/$5圆桌游戏座位",
-        "查看我的游戏历史记录"
-      ];
+      return t.raw('HomePage.suggestions.member');
     }
   };
 
@@ -311,7 +283,7 @@ export default function HomePage() {
                  return (
                    <div key={index} className="flex items-start gap-4">
                      <div className="w-8 h-8 rounded-full bg-purple-500 flex-shrink-0 flex items-center justify-center">
-                       <Bot size={20} />
+                       <Spade size={20} />
                      </div>
                      <div className="flex-1">
                        <GuestPrompt onSignIn={handleSignIn} />
@@ -325,7 +297,7 @@ export default function HomePage() {
                  <div key={index} className={`flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : ''}`}>
                    {msg.role === 'assistant' && (
                      <div className="w-8 h-8 rounded-full bg-purple-500 flex-shrink-0 flex items-center justify-center">
-                       <Bot size={20} />
+                       <Spade size={20} />
                      </div>
                    )}
                    <div className={`max-w-lg p-3 rounded-lg ${msg.role === 'user' ? 'bg-blue-600' : 'bg-white/10'}`}>
@@ -344,7 +316,7 @@ export default function HomePage() {
              {isLoading && (
                <div className="flex items-start gap-4">
                  <div className="w-8 h-8 rounded-full bg-purple-500 flex-shrink-0 flex items-center justify-center">
-                   <Bot size={20} />
+                   <Spade size={20} />
                  </div>
                  <div className="max-w-lg p-3 rounded-lg bg-white/10">
                    <div className="flex items-center space-x-1">
@@ -361,25 +333,25 @@ export default function HomePage() {
            <div className="flex-1 flex items-center justify-center -mt-20 px-4">
              <div className="w-full max-w-2xl text-center z-10">
                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                 {t('welcomeMessage')} 
-                 <span className="text-purple-400">🤖 {selectedClub?.aiPersona?.name || 'AI助手'}</span>
+                 {t('HomePage.welcomeMessage')} 
+                 <span className="text-purple-400">👩‍💼 {selectedClub?.aiPersona?.name || 'AI助手'}</span>
                </h1>
                <p className="mt-4 text-xl text-gray-400">
-                 {session?.user ? t('subheading') : '🎯 我是您的智能扑克助手，随时为您服务'}
+                 {session?.user ? t('HomePage.subheading') : t('HomePage.guestSubheading')}
                </p>
                
                {/* 访客提示 */}
                {!session?.user && (
                  <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
                    <p className="text-yellow-400 text-sm">
-                     💡 登录后可解锁更多功能：查看战绩、报名比赛、管理余额等
+                     {t('HomePage.guestLoginHint')}
                    </p>
                  </div>
                )}
                
                {/* 快捷提示 */}
                <div className="mt-8 space-y-4 text-left">
-                 {promptSuggestions.map((text, index) => (
+                 {promptSuggestions.map((text: string, index: number) => (
                    <div 
                      key={index} 
                      onClick={() => handleSendMessage(text.replace(/"/g, ''))} 

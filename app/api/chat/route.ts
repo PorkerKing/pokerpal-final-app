@@ -178,31 +178,104 @@ function convertToCoreMessages(
 
 export async function POST(req: Request) {
   try {
-    const { messages }: { messages: CoreMessage[] } = await req.json();
+    const { message, history, clubId, locale, userId } = await req.json();
+    
+    // 获取会话信息
     const session = await getServerSession(authOptions);
-    const userId = (session as any)?.user?.id;
-  
-    if (userId) {
-      const lastUserMessage = messages[messages.length - 1];
-      if (lastUserMessage && lastUserMessage.role === "user") {
-        // Not saving messages in this version, but logic is here
-      }
+    const isAuthenticated = !!session?.user;
+    const actualUserId = userId || (session as any)?.user?.id;
+
+    // 处理降级模式 - 当OpenAI API不可用时
+    if (!process.env.OPENAI_API_KEY) {
+      console.log('OpenAI API key not configured, using fallback response');
+      
+      const fallbackResponses = {
+        'zh': [
+          '很抱歉，AI服务暂时不可用。不过我可以为您提供一些基本信息：',
+          '目前我们的AI聊天功能正在维护中，但您仍然可以使用其他功能。',
+          '感谢您的耐心等待，我们正在努力恢复AI助手服务。'
+        ],
+        'en': [
+          'Sorry, AI service is temporarily unavailable. However, I can provide some basic information:',
+          'Our AI chat feature is currently under maintenance, but you can still use other features.',
+          'Thank you for your patience, we are working to restore the AI assistant service.'
+        ]
+      };
+
+      const responses = fallbackResponses[locale as keyof typeof fallbackResponses] || fallbackResponses['zh'];
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+
+      return NextResponse.json({
+        success: true,
+        reply: randomResponse,
+        type: 'text'
+      });
     }
-  
+
+    // 获取俱乐部信息用于构建系统提示
+    let clubName = '演示俱乐部';
+    let aiPersonaName = 'AI助手';
+    
+    try {
+      if (clubId && clubId !== 'guest' && clubId !== 'demo' && clubId !== 'fallback' && clubId !== 'error') {
+        const club = await prisma.club.findUnique({
+          where: { id: clubId },
+          include: {
+            aiPersona: {
+              select: { name: true }
+            }
+          }
+        });
+        
+        if (club) {
+          clubName = club.name;
+          aiPersonaName = club.aiPersona?.name || 'AI助手';
+        }
+      }
+    } catch (error) {
+      console.error('获取俱乐部信息失败:', error);
+    }
+
+    // 构建系统提示
+    const systemPrompt = await buildSystemPrompt(
+      clubId, 
+      clubName, 
+      aiPersonaName, 
+      locale, 
+      !isAuthenticated
+    );
+
+    // 转换消息格式
+    const coreMessages = convertToCoreMessages(message, history, systemPrompt);
+
+    // 获取可用工具
+    const availableTools = isAuthenticated ? aiToolsAPI : 
+      Object.fromEntries(Object.entries(aiToolsAPI).filter(([key]) => GUEST_TOOLS.includes(key)));
+
     const result = await streamText({
       model: openai("gpt-4o"),
-      messages,
+      messages: coreMessages,
+      tools: availableTools,
       async onFinish({ text }) {
-        if (userId) {
-          // Not saving AI responses in this version, but logic is here
-        }
+        // 可以在这里保存对话历史
+        console.log('AI Response:', text);
       },
     });
-  
+
     return result.toAIStreamResponse();
 
   } catch (error) {
     console.error("Chat API Error:", error);
-    return NextResponse.json({ error: 'An unexpected error occurred in chat' }, { status: 500 });
+    
+    // 提供降级响应
+    const fallbackMessage = error instanceof Error && error.message.includes('API key') ?
+      '抱歉，AI服务配置有误。请联系管理员检查API密钥设置。' :
+      '抱歉，聊天服务暂时不可用，请稍后再试。';
+
+    return NextResponse.json({
+      success: true,
+      reply: fallbackMessage,
+      type: 'text'
+    });
   }
 }

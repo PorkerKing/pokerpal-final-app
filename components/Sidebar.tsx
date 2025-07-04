@@ -17,7 +17,7 @@ import {
   BarChart3,
   ChevronLeft,
   ChevronRight,
-  Bot,
+  Spade,
   Star
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -141,7 +141,7 @@ export default function Sidebar() {
       {/* Logo 区域 */}
       <div className="h-16 flex items-center justify-center border-b border-gray-800">
         <Link href="/" className="flex items-center gap-3 text-purple-400 hover:text-purple-300 transition-colors">
-          <Bot size={32} className="shrink-0" />
+          <Spade size={32} className="shrink-0" />
           {isExpanded && (
             <span className="font-bold text-lg">PokerPal</span>
           )}
