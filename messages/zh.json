@@ -912,5 +912,22 @@
       "track_progress": "实时追踪您的进度和表现",
       "show_status": "向其他玩家展示您的成就地位"
     }
+  },
+  "Error": {
+    "title": "出现了一些问题",
+    "description": "抱歉，应用程序遇到了错误。我们的团队已经收到通知。",
+    "dashboardTitle": "仪表盘加载失败",
+    "dashboardDescription": "加载仪表盘时遇到问题，请尝试刷新页面。",
+    "errorMessage": "错误信息",
+    "retry": "重试",
+    "home": "返回首页",
+    "dashboard": "返回仪表盘",
+    "networkError": "网络连接失败，请检查您的网络设置",
+    "authError": "认证失败，请重新登录",
+    "validationError": "输入信息有误，请检查后重试",
+    "serverError": "服务器错误，请稍后再试",
+    "notFound": "找不到请求的资源",
+    "forbidden": "您没有权限访问此资源",
+    "timeout": "请求超时，请重试"
   }
 } 

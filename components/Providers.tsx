@@ -2,6 +2,9 @@
 
 import { SessionProvider } from "next-auth/react";
 import { NextIntlClientProvider } from "next-intl";
+import { ErrorBoundary } from "./ErrorBoundary";
+import { ErrorMonitor } from "./ErrorMonitor";
+import { Toaster } from "sonner";
 
 type ProvidersProps = {
   children: React.ReactNode;
@@ -15,10 +18,19 @@ export default function Providers({
   messages,
 }: ProvidersProps) {
   return (
-    <SessionProvider>
-      <NextIntlClientProvider locale={locale} messages={messages}>
-        {children}
-      </NextIntlClientProvider>
-    </SessionProvider>
+    <ErrorBoundary>
+      <SessionProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ErrorMonitor />
+          {children}
+          <Toaster 
+            position="top-right"
+            richColors
+            closeButton
+            theme="dark"
+          />
+        </NextIntlClientProvider>
+      </SessionProvider>
+    </ErrorBoundary>
   );
 } 

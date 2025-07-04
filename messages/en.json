@@ -684,5 +684,22 @@
       "track_progress": "Real-time tracking of your progress and performance",
       "show_status": "Show your achievement status to other players"
     }
+  },
+  "Error": {
+    "title": "Something went wrong",
+    "description": "Sorry, the application encountered an error. Our team has been notified.",
+    "dashboardTitle": "Dashboard failed to load",
+    "dashboardDescription": "There was a problem loading the dashboard. Please try refreshing the page.",
+    "errorMessage": "Error message",
+    "retry": "Retry",
+    "home": "Go to Home",
+    "dashboard": "Back to Dashboard",
+    "networkError": "Network connection failed, please check your network settings",
+    "authError": "Authentication failed, please sign in again",
+    "validationError": "Invalid input, please check and try again",
+    "serverError": "Server error, please try again later",
+    "notFound": "Requested resource not found",
+    "forbidden": "You don't have permission to access this resource",
+    "timeout": "Request timed out, please try again"
   }
 } 
