@@ -210,31 +210,46 @@ export default function HomePage() {
 
   // 根据用户状态和角色提供个性化建议
   const getPromptSuggestions = () => {
-    if (!session?.user) {
-      // 访客建议
-      return t.raw('suggestions.guest');
-    }
+    try {
+      if (!session?.user) {
+        // 访客建议
+        const guestSuggestions = t('suggestions.guest');
+        return Array.isArray(guestSuggestions) ? guestSuggestions : [];
+      }
 
-    // 根据用户角色提供不同建议
-    const userRole = (selectedClub as any)?.userMembership?.role;
-    
-    if (userRole === 'OWNER') {
-      return t.raw('suggestions.owner');
-    } else if (userRole === 'ADMIN') {
-      return t.raw('suggestions.admin');
-    } else if (userRole === 'MANAGER') {
-      return t.raw('suggestions.manager');
-    } else if (userRole === 'DEALER') {
-      return t.raw('suggestions.dealer');
-    } else if (userRole === 'CASHIER') {
-      return t.raw('suggestions.cashier');
-    } else {
-      // 普通会员和VIP
-      return t.raw('suggestions.member');
+      // 根据用户角色提供不同建议
+      const userRole = (selectedClub as any)?.userMembership?.role;
+      
+      let suggestions;
+      if (userRole === 'OWNER') {
+        suggestions = t('suggestions.owner');
+      } else if (userRole === 'ADMIN') {
+        suggestions = t('suggestions.admin');
+      } else if (userRole === 'MANAGER') {
+        suggestions = t('suggestions.manager');
+      } else if (userRole === 'DEALER') {
+        suggestions = t('suggestions.dealer');
+      } else if (userRole === 'CASHIER') {
+        suggestions = t('suggestions.cashier');
+      } else {
+        // 普通会员和VIP
+        suggestions = t('suggestions.member');
+      }
+      
+      return Array.isArray(suggestions) ? suggestions : [];
+    } catch (error) {
+      console.error('Error getting prompt suggestions:', error);
+      // 返回默认建议
+      return [
+        "这周有什么精彩的锦标赛呀？",
+        "能跟我介绍一下会员等级制度吗？",
+        "圆桌游戏的盲注是怎么设置的？",
+        "俱乐部都有哪些贴心服务呢？"
+      ];
     }
   };
 
-  const promptSuggestions = getPromptSuggestions();
+  const promptSuggestions = getPromptSuggestions() || [];
 
   // 加载中状态 - 只在NextAuth session真正加载时显示
   if (status === 'loading') {
@@ -351,7 +366,7 @@ export default function HomePage() {
                
                {/* 快捷提示 */}
                <div className="mt-8 space-y-4 text-left">
-                 {promptSuggestions.map((text: string, index: number) => (
+                 {promptSuggestions && Array.isArray(promptSuggestions) && promptSuggestions.map((text: string, index: number) => (
                    <div 
                      key={index} 
                      onClick={() => handleSendMessage(text.replace(/"/g, ''))} 
