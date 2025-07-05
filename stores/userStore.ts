@@ -99,12 +99,12 @@ export const useUserStore = create<UserState>()(
       }),
       
       setClubs: (clubs) => set((state) => {
-        state.clubs = clubs;
+        state.clubs = Array.isArray(clubs) ? clubs : [];
         state.clubsError = null;
         
         // 如果当前选中的俱乐部不在新列表中，重置选择
-        if (state.selectedClub && !clubs.find(c => c.id === state.selectedClub!.id)) {
-          state.selectedClub = clubs.length > 0 ? clubs[0] : null;
+        if (state.selectedClub && state.clubs.length > 0 && !state.clubs.find(c => c.id === state.selectedClub!.id)) {
+          state.selectedClub = state.clubs.length > 0 ? state.clubs[0] : null;
         }
       }),
       

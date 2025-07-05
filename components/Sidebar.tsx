@@ -115,10 +115,10 @@ export default function Sidebar() {
   ];
 
   // 过滤菜单项（根据用户角色）
-  const visibleMenuItems = menuItems.filter(item => {
+  const visibleMenuItems = Array.isArray(menuItems) ? menuItems.filter(item => {
     if (!item.requiredRoles) return true;
     return item.requiredRoles.includes(userRole);
-  });
+  }) : [];
 
   // 检查当前路径是否匹配
   const isActive = (href: string) => {

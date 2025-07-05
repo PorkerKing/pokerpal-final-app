@@ -64,6 +64,11 @@ class ErrorLogger {
       log.userAgent = navigator.userAgent;
     }
 
+    // Ensure logs array is initialized
+    if (!Array.isArray(this.logs)) {
+      this.logs = [];
+    }
+
     // Add to local logs
     this.logs.unshift(log);
     if (this.logs.length > this.maxLogs) {
@@ -97,7 +102,7 @@ class ErrorLogger {
   }
 
   getLogs(): ErrorLog[] {
-    return [...this.logs];
+    return Array.isArray(this.logs) ? [...this.logs] : [];
   }
 
   clearLogs() {
