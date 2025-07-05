@@ -14,7 +14,7 @@ export default function ClubSwitcher() {
   // 如果没有俱乐部数据，显示加载状态
   if (!selectedClub) {
     return (
-      <div className="flex items-center gap-2 px-3 py-2 text-sm text-gray-500">
+      <div className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300">
         <Building className="h-4 w-4" />
         <span>{t('loading')}</span>
       </div>
@@ -26,7 +26,7 @@ export default function ClubSwitcher() {
     return (
       <div className="flex items-center gap-2 px-3 py-2 text-sm">
         <Building className="h-4 w-4 text-gray-400" />
-        <span className="font-medium text-gray-900 max-w-32 truncate">
+        <span className="font-medium text-white max-w-32 truncate">
           {selectedClub.name}
         </span>
       </div>
@@ -35,9 +35,9 @@ export default function ClubSwitcher() {
 
   return (
     <Menu as="div" className="relative">
-      <Menu.Button className="flex items-center gap-2 px-3 py-2 text-sm bg-white border border-gray-200 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500">
+      <Menu.Button className="flex items-center gap-2 px-3 py-2 text-sm bg-white/10 border border-gray-600 rounded-md hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500">
         <Building className="h-4 w-4 text-gray-400" />
-        <span className="font-medium text-gray-900 max-w-32 truncate">
+        <span className="font-medium text-white max-w-32 truncate">
           {selectedClub.name}
         </span>
         <ChevronsUpDown className="h-4 w-4 text-gray-400" />

@@ -315,7 +315,7 @@ export default function HomePage() {
                        <Spade size={20} />
                      </div>
                    )}
-                   <div className={`max-w-lg p-3 rounded-lg ${msg.role === 'user' ? 'bg-blue-600' : 'bg-white/10'}`}>
+                   <div className={`max-w-lg p-3 rounded-lg ${msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-100'}`}>
                      <p className="text-base whitespace-pre-wrap">{msg.content as string}</p>
                    </div>
                    {msg.role === 'user' && (
@@ -357,8 +357,8 @@ export default function HomePage() {
                
                {/* 访客提示 */}
                {!session?.user && (
-                 <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
-                   <p className="text-yellow-400 text-sm">
+                 <div className="mt-6 p-4 bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-xl">
+                   <p className="text-gray-300 text-sm">
                      {t('guestLoginHint')}
                    </p>
                  </div>
