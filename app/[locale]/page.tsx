@@ -93,6 +93,9 @@ export default function SimplePage() {
             <p className="text-gray-400 mb-4">
               PokerPal v1.2 - Professional Poker Club Management Platform
             </p>
+            <p className="text-xs text-gray-500 mb-4">
+              Last updated: 2025-07-05 21:58 UTC - Debug Build
+            </p>
             
             {session?.user ? (
               <div className="space-y-2">

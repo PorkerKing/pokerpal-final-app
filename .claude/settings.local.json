@@ -69,7 +69,8 @@
       "Bash(--connect-timeout 10 )",
       "Bash(--connect-timeout 10 )",
       "Bash(--connect-timeout 10 )",
-      "Bash(--connect-timeout 10 )"
+      "Bash(--connect-timeout 10 )",
+      "Bash(gh repo view:*)"
     ],
     "deny": []
   }
