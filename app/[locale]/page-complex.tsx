@@ -157,10 +157,10 @@ export default function HomePage() {
     try {
       const payload = {
         message: text,
-        history: messages.map(m => ({
+        history: Array.isArray(messages) ? messages.map(m => ({
           role: m.role,
           content: typeof m.content === 'string' ? m.content : JSON.stringify(m.content)
-        })),
+        })) : [],
         clubId: selectedClub.id,
         locale: locale,
         userId: (session?.user as any)?.id || null,
@@ -271,7 +271,7 @@ export default function HomePage() {
       <div className="flex-1 flex flex-col pt-20 pb-28 w-full max-w-3xl mx-auto">
          {messages.length > 0 ? (
            <div className="space-y-6 overflow-y-auto px-4">
-             {messages.map((msg, index) => {
+             {Array.isArray(messages) && messages.map((msg, index) => {
                // 锦标赛卡片展示
                if (msg.type === 'tournaments' && Array.isArray(msg.content)) {
                  return (
@@ -366,7 +366,7 @@ export default function HomePage() {
                
                {/* 快捷提示 */}
                <div className="mt-8 space-y-4 text-left">
-                 {promptSuggestions && Array.isArray(promptSuggestions) && promptSuggestions.map((text: string, index: number) => (
+                 {Array.isArray(promptSuggestions) && promptSuggestions.length > 0 && promptSuggestions.map((text: string, index: number) => (
                    <div 
                      key={index} 
                      onClick={() => handleSendMessage(text.replace(/"/g, ''))} 
