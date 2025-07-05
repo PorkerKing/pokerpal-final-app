@@ -199,7 +199,7 @@ export default function HomePage() {
       console.error('Chat error:', error);
       const errorMessage: Message = { 
         role: 'assistant', 
-        content: '抱歉，连接服务时出现问题，请稍后再试。', 
+        content: `抱歉，AI服务暂时不可用。这可能是因为：\n\n• 服务器正在维护\n• 网络连接问题\n• API密钥配置问题\n\n请稍后再试，或联系管理员。`, 
         type: 'text' 
       };
       setMessages(prev => [...prev, errorMessage]);
