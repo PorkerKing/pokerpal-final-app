@@ -34,6 +34,34 @@ const getLanguageName = (locale: string): string => {
   }
 };
 
+// 获取时区感知的当前时间
+function getCurrentTimeByTimezone(timezone: string, locale: string): string {
+  const now = new Date();
+  
+  try {
+    // 根据时区和语言格式化时间
+    const timeFormatter = new Intl.DateTimeFormat(locale === 'ja' ? 'ja-JP' : 
+      locale === 'zh-TW' ? 'zh-TW' : locale === 'en' ? 'en-US' : 'zh-CN', {
+      timeZone: timezone,
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: locale === 'en'
+    });
+    
+    return timeFormatter.format(now);
+  } catch (error) {
+    console.error('时间格式化失败:', error);
+    // 降级处理：使用简单格式
+    return now.toLocaleString(locale === 'en' ? 'en-US' : 'zh-CN', { 
+      timeZone: timezone || 'Asia/Shanghai' 
+    });
+  }
+}
+
 // 构建系统提示
 async function buildSystemPrompt(
   clubId: string,
@@ -44,18 +72,47 @@ async function buildSystemPrompt(
   combinedHistory: Array<{role: string, content: string}> = [],
   aiNativeLanguage?: string
 ): Promise<string> {
-  // 尝试获取自定义AI设置
+  // 获取俱乐部信息（包括时区）
   let aiPersona = null;
-  try {
-    const { PrismaClient } = await import('@prisma/client');
-    const prisma = new PrismaClient();
-    aiPersona = await prisma.aIPersona.findUnique({
-      where: { clubId: clubId }
-    });
-    await prisma.$disconnect();
-  } catch (error) {
-    console.error('获取AI设置失败:', error);
+  let clubTimezone = 'Asia/Shanghai'; // 默认时区
+  
+  // 处理访客模式和特殊clubId的时区
+  if (clubId && clubId.startsWith('guest-')) {
+    // 访客模式：根据clubId推断时区
+    if (clubId.includes('shanghai')) clubTimezone = 'Asia/Shanghai';
+    else if (clubId.includes('taipei')) clubTimezone = 'Asia/Taipei';
+    else if (clubId.includes('osaka')) clubTimezone = 'Asia/Tokyo';
+    else if (clubId.includes('kuala-lumpur')) clubTimezone = 'Asia/Kuala_Lumpur';
+  } else if (clubId && !['guest', 'demo', 'fallback', 'error'].includes(clubId)) {
+    // 正常俱乐部：从数据库获取
+    try {
+      const { PrismaClient } = await import('@prisma/client');
+      const prisma = new PrismaClient();
+      
+      // 同时获取AI设置和俱乐部时区信息
+      const [aiPersonaData, clubData] = await Promise.all([
+        prisma.aIPersona.findUnique({
+          where: { clubId: clubId }
+        }),
+        prisma.club.findUnique({
+          where: { id: clubId },
+          select: { timezone: true }
+        })
+      ]);
+      
+      aiPersona = aiPersonaData;
+      if (clubData?.timezone) {
+        clubTimezone = clubData.timezone;
+      }
+      
+      await prisma.$disconnect();
+    } catch (error) {
+      console.error('获取俱乐部设置失败:', error);
+    }
   }
+  
+  // 获取当前时间
+  const currentTime = getCurrentTimeByTimezone(clubTimezone, locale);
 
   // 使用自定义设置或默认设置
   const defaultStyle = {
@@ -100,6 +157,11 @@ async function buildSystemPrompt(
   const basePrompt = aiPersona?.systemPrompt || `你是${clubName}的专属AI助手${customName}。
 
 ${characterBackground ? `角色背景：${characterBackground}` : ''}
+
+🕐 当前时间信息：
+- 俱乐部当前时间：${currentTime}
+- 时区：${clubTimezone}
+- 你可以在回答中自然地引用当前时间，比如问候语、营业时间提醒等
 
 个性特征：
 ${aiPersona?.personality || '我是一个专业、友好的扑克俱乐部助手。我了解扑克规则，能够帮助用户报名参加锦标赛，查询战绩，并提供各种俱乐部服务。我总是礼貌耐心，用简洁明了的语言回答问题。'}
