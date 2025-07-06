@@ -41,7 +41,8 @@ async function buildSystemPrompt(
   aiPersonaName: string, 
   locale: string, 
   isGuest: boolean,
-  combinedHistory: Array<{role: string, content: string}> = []
+  combinedHistory: Array<{role: string, content: string}> = [],
+  aiNativeLanguage?: string
 ): Promise<string> {
   // 尝试获取自定义AI设置
   let aiPersona = null;
@@ -109,19 +110,22 @@ ${aiPersona?.personality || '我是一个专业、友好的扑克俱乐部助手
 - ${emojiUsage}
 
 【多语言回复规则】：
-1. 如果你的角色设定有特定的语言背景，而用户使用不同语言提问：
-   - 首先用你角色的母语表达回应（保持角色特色）
-   - 然后根据用户的语言环境添加对应翻译：
-     * 用户locale为"zh"：添加"【简体中文翻译】..."
-     * 用户locale为"zh-TW"：添加"【繁體中文翻譯】..."
-     * 用户locale为"en"：添加"【English Translation】..."
-     * 用户locale为"ja"：添加"【日本語翻訳】..."
+${aiNativeLanguage && aiNativeLanguage !== locale ? `
+**重要：你的角色母语是${aiNativeLanguage === 'ja' ? '日本語' : aiNativeLanguage === 'zh-TW' ? '繁體中文' : aiNativeLanguage === 'en' ? 'English' : '简体中文'}，用户界面语言是${locale === 'zh' ? '简体中文' : locale === 'zh-TW' ? '繁體中文' : locale === 'ja' ? '日本語' : 'English'}**
 
-2. 如果用户使用的语言与你的设定语言一致，直接用该语言回复
+由于语言不匹配，你必须：
+1. 首先用你的母语（${aiNativeLanguage === 'ja' ? '日本語' : aiNativeLanguage === 'zh-TW' ? '繁體中文' : aiNativeLanguage === 'en' ? 'English' : '简体中文'}）完整回答，保持角色特色
+2. 然后添加翻译标题："【${locale === 'zh' ? '简体中文翻译' : locale === 'zh-TW' ? '繁體中文翻譯' : locale === 'ja' ? '日本語翻訳' : 'English Translation'}】"
+3. 再用用户的界面语言（${locale === 'zh' ? '简体中文' : locale === 'zh-TW' ? '繁體中文' : locale === 'ja' ? '日本語' : 'English'}）提供完整翻译
 
-3. 翻译要完整准确，确保用户能完全理解内容
+示例格式：
+[用母语回答]
 
-4. 始终确保回答内容准确、有用，优先保证信息传达的完整性
+【${locale === 'zh' ? '简体中文翻译' : locale === 'zh-TW' ? '繁體中文翻譯' : locale === 'ja' ? '日本語翻訳' : 'English Translation'}】
+[用用户界面语言的完整翻译]
+` : `
+你的角色母语与用户界面语言一致，直接用${locale === 'zh' ? '简体中文' : locale === 'zh-TW' ? '繁體中文' : locale === 'ja' ? '日本語' : 'English'}回复即可。
+`}
 
 【回答质量要求】：
 - 逻辑清晰，层次分明
@@ -307,19 +311,32 @@ export async function POST(req: Request) {
         const defaultClub = getDefaultClubByLocale(locale);
         clubName = defaultClub.name;
         aiPersonaName = defaultClub.aiPersona.fullName || defaultClub.aiPersona.name;
+        
+        // 设置AI角色的母语信息
+        const clubLocaleMapping = {
+          'guest-shanghai-poker-club': 'zh',
+          'guest-taipei-texas-club': 'zh-TW', 
+          'guest-osaka-poker-house': 'ja',
+          'guest-kuala-lumpur-alliance': 'en'
+        };
+        
+        // 传递AI母语信息到系统提示构建
+        (globalThis as any).aiNativeLanguage = clubLocaleMapping[clubId as keyof typeof clubLocaleMapping] || 'zh';
       }
     } catch (error) {
       console.error('获取俱乐部信息失败:', error);
     }
 
     // 构建系统提示
+    const aiNativeLanguage = (globalThis as any).aiNativeLanguage;
     const systemPrompt = await buildSystemPrompt(
       clubId, 
       clubName, 
       aiPersonaName, 
       locale, 
       !isAuthenticated,
-      combinedHistory
+      combinedHistory,
+      aiNativeLanguage
     );
 
     // 转换消息格式
