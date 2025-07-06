@@ -101,8 +101,18 @@ const generateMockResponse = (message: string, locale: string, clubName: string,
   // 针对不同俱乐部的个性化响应
   if (clubId && clubId.startsWith('guest-')) {
     const defaultClub = getDefaultClubByLocale(locale);
-    if (defaultClub.aiPersona.welcomeMessage) {
-      return defaultClub.aiPersona.welcomeMessage;
+    
+    // 根据消息内容提供更具体的俱乐部信息
+    if (lowerMessage.includes('你好') || lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('こんにちは')) {
+      return defaultClub.aiPersona.welcomeMessage || defaultClub.aiPersona.personality;
+    }
+    
+    if (lowerMessage.includes('俱乐部') || lowerMessage.includes('club') || lowerMessage.includes('介绍') || lowerMessage.includes('about')) {
+      return `${defaultClub.description}\n\n我们的特色服务包括：${defaultClub.aiPersona.features?.join('、') || '专业扑克服务'}。${defaultClub.aiPersona.personality}`;
+    }
+    
+    if (lowerMessage.includes('特色') || lowerMessage.includes('服务') || lowerMessage.includes('features') || lowerMessage.includes('什么')) {
+      return `${clubName}的特色服务包括：\n\n${defaultClub.aiPersona.features?.map((feature, index) => `${index + 1}. ${feature}`).join('\n') || '• 专业扑克培训\n• 高端锦标赛\n• 会员专属服务'}\n\n${defaultClub.aiPersona.personality}`;
     }
   }
 

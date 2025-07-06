@@ -149,14 +149,22 @@ export default function HomePage() {
             setSelectedClub(fallbackClub);
           }
         } else {
-          // 未登录用户：基于语言提供对应俱乐部用于访客模式
-          const defaultClub = getDefaultClubByLocale(locale);
-          const guestClub = {
-            ...defaultClub,
-            id: 'guest-' + defaultClub.id
-          } as any;
-          setClubs([guestClub]);
-          setSelectedClub(guestClub);
+          // 未登录用户：提供所有俱乐部选项用于访客模式切换
+          const allGuestClubs = ['zh', 'zh-TW', 'en', 'ja'].map(localeKey => {
+            const clubConfig = getDefaultClubByLocale(localeKey);
+            return {
+              ...clubConfig,
+              id: 'guest-' + clubConfig.id
+            } as any;
+          });
+          
+          // 设置当前语言对应的俱乐部为默认选择
+          const currentClub = allGuestClubs.find(club => 
+            club.id === 'guest-' + getDefaultClubByLocale(locale).id
+          ) || allGuestClubs[0];
+          
+          setClubs(allGuestClubs);
+          setSelectedClub(currentClub);
         }
       }
     };
@@ -307,16 +315,23 @@ export default function HomePage() {
       {/* 主内容区 */}
       <div className="flex-1 flex flex-col pt-20 pb-28 w-full max-w-3xl mx-auto">
          {!showWelcome && messages.length > 0 ? (
-           <div className="space-y-6 overflow-y-auto px-4">
-             {/* 返回欢迎界面按钮 */}
-             <div className="text-center pb-4 border-b border-gray-800">
+           <>
+             {/* 固定的顶部控制栏 */}
+             <div className="fixed top-20 right-4 z-20 flex gap-2">
                <button
                  onClick={() => setShowWelcome(true)}
-                 className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                 className="bg-purple-600/80 hover:bg-purple-700/80 text-white px-3 py-2 rounded-lg text-sm backdrop-blur-sm transition-colors"
                >
-                 ← 返回首页
+                 首页
+               </button>
+               <button
+                 onClick={clearChatHistory}
+                 className="bg-red-600/80 hover:bg-red-700/80 text-white px-3 py-2 rounded-lg text-sm backdrop-blur-sm transition-colors"
+               >
+                 清除
                </button>
              </div>
+             <div className="space-y-6 overflow-y-auto px-4 pt-4">
              {Array.isArray(messages) && messages.map((msg, index) => {
                // 锦标赛卡片展示
                if (msg.type === 'tournaments' && Array.isArray(msg.content)) {
@@ -389,6 +404,7 @@ export default function HomePage() {
                </div>
              )}
            </div>
+           </>
          ) : (
            /* 欢迎界面 */
            <div className="flex-1 flex items-center justify-center -mt-20 px-4">
