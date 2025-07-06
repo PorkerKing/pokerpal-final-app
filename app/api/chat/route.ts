@@ -424,22 +424,57 @@ export async function POST(req: Request) {
       model: "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
       messages: siliconflowMessages,
       stream: false,
-      max_tokens: 2000,
-      temperature: 0.7
+      max_tokens: 800, // 降低tokens减少响应时间
+      temperature: 0.7,
+      top_p: 0.9,
+      stop: ["<think>", "</think>"] // 尝试在推理阶段停止
     };
 
-    // 调用SiliconFlow API
-    const response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.SILICONFLOW_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(siliconflowRequest)
-    });
-
-    if (!response.ok) {
-      throw new Error(`SiliconFlow API error: ${response.status}`);
+    // 调用SiliconFlow API（带重试和超时）
+    let response;
+    let lastError;
+    const maxRetries = 2;
+    
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        // 创建带超时的请求
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 25000); // 25秒超时
+        
+        response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.SILICONFLOW_API_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(siliconflowRequest),
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (response.ok) {
+          break; // 成功，跳出重试循环
+        } else if (response.status === 429 && attempt < maxRetries) {
+          // 速率限制，等待后重试
+          console.log(`Rate limited (429), retrying attempt ${attempt + 1}...`);
+          await new Promise(resolve => setTimeout(resolve, (attempt + 1) * 2000));
+          continue;
+        } else {
+          throw new Error(`SiliconFlow API error: ${response.status}`);
+        }
+      } catch (error) {
+        lastError = error;
+        console.error(`API attempt ${attempt + 1} failed:`, error);
+        
+        if (attempt < maxRetries) {
+          await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+        }
+      }
+    }
+    
+    if (!response || !response.ok) {
+      throw lastError || new Error('All API attempts failed');
     }
 
     const data = await response.json();
@@ -460,39 +495,49 @@ export async function POST(req: Request) {
     console.log('Raw AI response length:', aiResponse.length);
     console.log('Raw AI response preview:', aiResponse.substring(0, 200) + '...');
 
-    // DeepSeek-R1 是推理模型，需要提取对话输出部分，过滤掉推理过程
-    // 推理过程通常包含在 <think> 标签或类似标记中
-    if (aiResponse.includes('<think>')) {
-      // 移除推理过程标签及其内容
-      aiResponse = aiResponse.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-      console.log('Removed <think> tags, new length:', aiResponse.length);
+    // DeepSeek-R1 推理内容过滤（增强版）
+    const originalLength = aiResponse.length;
+    
+    // 1. 移除 <think> 标签
+    aiResponse = aiResponse.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    
+    // 2. 移除其他推理标记
+    const reasoningPatterns = [
+      /推理过程[：:]\s*[\s\S]*?(?=回复[：:]|答案[：:]|回答[：:]|$)/g,
+      /思考过程[：:]\s*[\s\S]*?(?=回复[：:]|答案[：:]|回答[：:]|$)/g,
+      /分析[：:]\s*[\s\S]*?(?=回复[：:]|答案[：:]|回答[：:]|$)/g,
+      /Analysis:\s*[\s\S]*?(?=Response:|Answer:|Reply:|$)/gi,
+      /Thinking:\s*[\s\S]*?(?=Response:|Answer:|Reply:|$)/gi
+    ];
+    
+    for (const pattern of reasoningPatterns) {
+      aiResponse = aiResponse.replace(pattern, '').trim();
     }
     
-    // 如果还有其他推理标记，也进行清理
-    if (aiResponse.includes('推理过程：') || aiResponse.includes('思考过程：')) {
-      console.log('Found reasoning markers, processing...');
-      // 提取最后的对话输出部分
-      const lines = aiResponse.split('\n');
-      const outputLines = [];
-      let inReasoning = false;
+    // 3. 清理多余的标记词
+    aiResponse = aiResponse.replace(/^(回复[：:]|答案[：:]|回答[：:]|Response:|Answer:|Reply:)\s*/i, '').trim();
+    
+    // 4. 移除空行和多余空格
+    aiResponse = aiResponse.replace(/\n\s*\n/g, '\n').trim();
+    
+    console.log(`Content filtering: ${originalLength} → ${aiResponse.length} chars`);
+    
+    // 5. 如果过滤后内容太短或为空，尝试提取原始内容的末尾部分
+    if (!aiResponse || aiResponse.length < 10) {
+      console.warn('Response too short after filtering, attempting to extract meaningful content...');
+      const lines = data.choices[0].message.content.split('\n').filter(line => line.trim());
+      // 取最后几行非推理内容
+      const meaningfulLines = lines.filter(line => 
+        !line.includes('推理') && 
+        !line.includes('思考') && 
+        !line.includes('分析') &&
+        !line.includes('<think>') &&
+        line.length > 5
+      ).slice(-3);
       
-      for (const line of lines) {
-        if (line.includes('推理过程：') || line.includes('思考过程：') || line.includes('分析：')) {
-          inReasoning = true;
-          continue;
-        }
-        if (line.includes('回复：') || line.includes('答案：') || line.includes('回答：')) {
-          inReasoning = false;
-          continue;
-        }
-        if (!inReasoning && line.trim()) {
-          outputLines.push(line);
-        }
-      }
-      
-      if (outputLines.length > 0) {
-        aiResponse = outputLines.join('\n').trim();
-        console.log('Processed reasoning output, final length:', aiResponse.length);
+      if (meaningfulLines.length > 0) {
+        aiResponse = meaningfulLines.join('\n');
+        console.log('Extracted meaningful content:', aiResponse.length, 'chars');
       }
     }
     
