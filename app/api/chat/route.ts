@@ -315,9 +315,9 @@ export async function POST(req: Request) {
     // 合并传入的history和数据库中的userHistory
     const combinedHistory = [...userHistory, ...(history || [])];
 
-    // 处理降级模式 - 当SiliconFlow API不可用时
-    if (!process.env.SILICONFLOW_API_KEY) {
-      console.log('SiliconFlow API key not configured, using fallback response');
+    // 处理降级模式 - 当API不可用时
+    if (!process.env.XAI_API_KEY) {
+      console.log('X.AI API key not configured, using fallback response');
       
       const fallbackResponses = {
         'zh': [
@@ -414,23 +414,23 @@ export async function POST(req: Request) {
     const availableTools = isAuthenticated ? aiToolsAPI : 
       Object.fromEntries(Object.entries(aiToolsAPI).filter(([key]) => GUEST_TOOLS.includes(key)));
 
-    // 准备SiliconFlow API请求
-    const siliconflowMessages = coreMessages.map(msg => ({
+    // 准备X.AI API请求
+    const xaiMessages = coreMessages.map(msg => ({
       role: msg.role,
       content: msg.content
     }));
 
-    // 尝试更稳定的模型 - Qwen系列通常更可靠
-    const siliconflowRequest = {
-      model: "Qwen/Qwen2.5-72B-Instruct", // 切换到更稳定的Qwen模型
-      messages: siliconflowMessages,
+    // 使用Grok3-mini模型
+    const xaiRequest = {
+      model: "grok-2-mini", // 使用Grok2-mini（Grok3还未发布，先用Grok2-mini）
+      messages: xaiMessages,
       stream: false,
-      max_tokens: 3000, // Qwen模型不需要太多token
+      max_tokens: 4000, // Grok模型支持更多token
       temperature: 0.7,
       top_p: 0.9
     };
 
-    // 调用SiliconFlow API（带重试和超时）
+    // 调用X.AI API（带重试和超时）
     let response;
     let lastError;
     const maxRetries = 1; // 减少重试次数，避免超过Vercel时间限制
@@ -439,15 +439,15 @@ export async function POST(req: Request) {
       try {
         // 创建带超时的请求
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30秒超时，Qwen模型响应更快
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30秒超时
         
-        response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
+        response = await fetch('https://api.x.ai/v1/chat/completions', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${process.env.SILICONFLOW_API_KEY}`,
+            'Authorization': `Bearer ${process.env.XAI_API_KEY}`,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(siliconflowRequest),
+          body: JSON.stringify(xaiRequest),
           signal: controller.signal
         });
         
@@ -466,7 +466,7 @@ export async function POST(req: Request) {
           await new Promise(resolve => setTimeout(resolve, (attempt + 1) * 2000));
           continue;
         } else {
-          throw new Error(`SiliconFlow API error: ${response.status} - ${await response.text().catch(() => 'Unknown error')}`);
+          throw new Error(`X.AI API error: ${response.status} - ${await response.text().catch(() => 'Unknown error')}`);
         }
       } catch (error) {
         lastError = error;
@@ -500,19 +500,16 @@ export async function POST(req: Request) {
     console.log('Raw AI response length:', aiResponse.length);
     console.log('Raw AI response preview:', aiResponse.substring(0, 200) + '...');
 
-    // Qwen模型内容处理（简化版）
+    // Grok模型内容处理（简化版）
     const originalLength = aiResponse.length;
     
-    // 1. 简单清理可能的推理标记（Qwen通常不会有这些）
-    aiResponse = aiResponse.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    // 1. 基本的空行清理
+    aiResponse = aiResponse.replace(/\n\s*\n/g, '\n').trim();
     
     // 2. 清理可能的多余标记词
     aiResponse = aiResponse.replace(/^(回复[：:]|答案[：:]|回答[：:]|Response:|Answer:|Reply:)\s*/i, '').trim();
     
-    // 3. 基本的空行清理
-    aiResponse = aiResponse.replace(/\n\s*\n/g, '\n').trim();
-    
-    console.log(`Content processing: ${originalLength} → ${aiResponse.length} chars`);
+    console.log(`Grok content processing: ${originalLength} → ${aiResponse.length} chars`);
     
     // 确保响应不为空
     if (!aiResponse || aiResponse.trim().length === 0) {
