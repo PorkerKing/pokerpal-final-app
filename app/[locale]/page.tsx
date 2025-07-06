@@ -67,19 +67,29 @@ export default function HomePage() {
   const { selectedClub, setClubs, setSelectedClub } = useUserStore();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
 
-  // 加载保存的对话记录
+  // 加载保存的对话记录 - 只在访客模式下加载
   useEffect(() => {
-    const savedMessages = localStorage.getItem('pokerpal-chat-history');
-    if (savedMessages) {
-      try {
-        const parsed = JSON.parse(savedMessages);
-        setMessages(parsed);
-      } catch (error) {
-        console.error('Failed to parse saved messages:', error);
+    if (!session?.user) {
+      const savedMessages = localStorage.getItem('pokerpal-chat-history');
+      if (savedMessages) {
+        try {
+          const parsed = JSON.parse(savedMessages);
+          // 只加载最近的几条消息，避免首页被聊天记录占满
+          if (parsed.length > 6) {
+            setMessages(parsed.slice(-6));
+            setShowWelcome(false);
+          } else if (parsed.length > 0) {
+            setMessages(parsed);
+            setShowWelcome(false);
+          }
+        } catch (error) {
+          console.error('Failed to parse saved messages:', error);
+        }
       }
     }
-  }, []);
+  }, [session?.user]);
 
   // 保存对话记录
   useEffect(() => {
@@ -106,11 +116,10 @@ export default function HomePage() {
                 router.push('/dashboard');
               } else {
                 // 如果没有俱乐部，创建一个默认的
+                const defaultClubConfig = getDefaultClubByLocale(locale);
                 const defaultClub = {
-                  id: 'demo',
-                  name: '演示俱乐部',
-                  description: '这是一个演示俱乐部',
-                  aiPersona: { name: 'AI助手' }
+                  ...defaultClubConfig,
+                  id: 'demo-' + defaultClubConfig.id
                 } as any;
                 setClubs([defaultClub]);
                 setSelectedClub(defaultClub);
@@ -118,11 +127,11 @@ export default function HomePage() {
             } else {
               console.error("Failed to fetch clubs:", response.status);
               // 数据库连接失败时的降级处理
+              const fallbackClubConfig = getDefaultClubByLocale(locale);
               const fallbackClub = {
-                id: 'fallback',
-                name: '演示俱乐部',
-                description: '数据库连接中，请稍后再试',
-                aiPersona: { name: 'AI助手' }
+                ...fallbackClubConfig,
+                id: 'fallback-' + fallbackClubConfig.id,
+                description: '数据库连接中，请稍后再试'
               } as any;
               setClubs([fallbackClub]);
               setSelectedClub(fallbackClub);
@@ -130,22 +139,21 @@ export default function HomePage() {
           } catch (error) {
             console.error("Failed to initialize clubs:", error);
             // 网络错误时的降级处理
+            const errorClubConfig = getDefaultClubByLocale(locale);
             const fallbackClub = {
-              id: 'error',
-              name: '演示俱乐部',
-              description: '网络连接中，请稍后再试',
-              aiPersona: { name: 'AI助手' }
+              ...errorClubConfig,
+              id: 'error-' + errorClubConfig.id,
+              description: '网络连接中，请稍后再试'
             } as any;
             setClubs([fallbackClub]);
             setSelectedClub(fallbackClub);
           }
         } else {
-          // 未登录用户：提供默认俱乐部用于访客模式
+          // 未登录用户：基于语言提供对应俱乐部用于访客模式
+          const defaultClub = getDefaultClubByLocale(locale);
           const guestClub = {
-            id: 'guest',
-            name: '演示俱乐部',
-            description: '欢迎体验PokerPal AI助手',
-            aiPersona: { name: 'PokerPal AI' }
+            ...defaultClub,
+            id: 'guest-' + defaultClub.id
           } as any;
           setClubs([guestClub]);
           setSelectedClub(guestClub);
@@ -163,6 +171,13 @@ export default function HomePage() {
     signIn();
   }, []);
 
+  // 清除聊天记录
+  const clearChatHistory = () => {
+    setMessages([]);
+    setShowWelcome(true);
+    localStorage.removeItem('pokerpal-chat-history');
+  };
+
   // 发送消息
   const handleSendMessage = async (text: string) => {
     if (!text.trim() || !selectedClub) return;
@@ -173,6 +188,7 @@ export default function HomePage() {
       type: 'text' 
     };
     setMessages(prev => [...prev, newUserMessage]);
+    setShowWelcome(false);
     setIsLoading(true);
     
     try {
@@ -290,8 +306,17 @@ export default function HomePage() {
       
       {/* 主内容区 */}
       <div className="flex-1 flex flex-col pt-20 pb-28 w-full max-w-3xl mx-auto">
-         {messages.length > 0 ? (
+         {!showWelcome && messages.length > 0 ? (
            <div className="space-y-6 overflow-y-auto px-4">
+             {/* 返回欢迎界面按钮 */}
+             <div className="text-center pb-4 border-b border-gray-800">
+               <button
+                 onClick={() => setShowWelcome(true)}
+                 className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
+               >
+                 ← 返回首页
+               </button>
+             </div>
              {Array.isArray(messages) && messages.map((msg, index) => {
                // 锦标赛卡片展示
                if (msg.type === 'tournaments' && Array.isArray(msg.content)) {
@@ -396,6 +421,18 @@ export default function HomePage() {
                    </div>
                  ))}
                </div>
+               
+               {/* 清除聊天记录按钮 */}
+               {messages.length > 0 && (
+                 <div className="mt-6 text-center">
+                   <button
+                     onClick={clearChatHistory}
+                     className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
+                   >
+                     清除聊天记录
+                   </button>
+                 </div>
+               )}
              </div>
            </div>
          )}
