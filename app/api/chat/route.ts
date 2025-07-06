@@ -422,7 +422,7 @@ export async function POST(req: Request) {
 
     // 使用Grok3-mini模型
     const xaiRequest = {
-      model: "grok-2-mini", // 使用Grok2-mini（Grok3还未发布，先用Grok2-mini）
+      model: "grok-3-mini", // 使用Grok3-mini模型
       messages: xaiMessages,
       stream: false,
       max_tokens: 4000, // Grok模型支持更多token
