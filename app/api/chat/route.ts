@@ -76,15 +76,15 @@ async function buildSystemPrompt(
   let aiPersona = null;
   let clubTimezone = 'Asia/Shanghai'; // 默认时区
   
-  // 处理访客模式和特殊clubId的时区
+  // 获取时区信息 - 支持所有用户类型
   if (clubId && clubId.startsWith('guest-')) {
     // 访客模式：根据clubId推断时区
     if (clubId.includes('shanghai')) clubTimezone = 'Asia/Shanghai';
     else if (clubId.includes('taipei')) clubTimezone = 'Asia/Taipei';
     else if (clubId.includes('osaka')) clubTimezone = 'Asia/Tokyo';
     else if (clubId.includes('kuala-lumpur')) clubTimezone = 'Asia/Kuala_Lumpur';
-  } else if (clubId && !['guest', 'demo', 'fallback', 'error'].includes(clubId)) {
-    // 正常俱乐部：从数据库获取
+  } else if (clubId && !['guest', 'demo', 'fallback', 'error'].includes(clubId) && !clubId.startsWith('guest-')) {
+    // 正常俱乐部（登录用户）：从数据库获取
     try {
       const { PrismaClient } = await import('@prisma/client');
       const prisma = new PrismaClient();
@@ -108,7 +108,18 @@ async function buildSystemPrompt(
       await prisma.$disconnect();
     } catch (error) {
       console.error('获取俱乐部设置失败:', error);
+      // 降级处理：根据常见俱乐部名称推断时区
+      if (clubName.includes('上海')) clubTimezone = 'Asia/Shanghai';
+      else if (clubName.includes('台北') || clubName.includes('台湾')) clubTimezone = 'Asia/Taipei';
+      else if (clubName.includes('大阪') || clubName.includes('日本')) clubTimezone = 'Asia/Tokyo';
+      else if (clubName.includes('吉隆坡') || clubName.includes('马来')) clubTimezone = 'Asia/Kuala_Lumpur';
     }
+  } else {
+    // 其他情况的降级处理：根据语言推断时区
+    if (locale === 'zh') clubTimezone = 'Asia/Shanghai';
+    else if (locale === 'zh-TW') clubTimezone = 'Asia/Taipei';
+    else if (locale === 'ja') clubTimezone = 'Asia/Tokyo';
+    else if (locale === 'en') clubTimezone = 'Asia/Kuala_Lumpur';
   }
   
   // 获取当前时间
@@ -224,6 +235,19 @@ ${(() => {
 - 服务项目只能是配置中的真实项目
 - 如果不确定信息，请明确说"需要向管理员确认"
 
+【严禁话题和内容限制】：
+🚫 绝对禁止讨论的话题：
+- ❌ 政治话题 - 任何政治人物、政党、政治事件、政治观点
+- ❌ 敏感社会议题 - 种族、宗教、意识形态争议等
+- ❌ 投资建议 - 股票、加密货币、金融投资等
+- ❌ 医疗建议 - 疾病诊断、治疗建议等
+- ❌ 法律咨询 - 具体法律问题和建议
+
+如果用户询问这些话题，必须：
+1. 礼貌婉拒："抱歉，我是专门为扑克俱乐部服务的AI助手，不讨论这类话题。"
+2. 立即转回正题："让我们聊聊扑克和俱乐部的精彩内容吧！比如..."
+3. 提供俱乐部相关的话题建议
+
 【功能限制】：
 ⚠️ 绝对不能编造或承诺以下不存在的功能：
 - ❌ 地图功能 - 系统没有地图查询功能
@@ -233,16 +257,27 @@ ${(() => {
 - ❌ 支付功能 - 访客无法进行支付操作
 - ❌ 预订功能 - 访客无法预订座位或服务
 
-如果用户询问这些功能，应该：
+【专业服务范围】：
+✅ 你的专业服务范围仅限于：
+- 🏆 德州扑克规则和策略指导
+- 🎯 俱乐部活动和锦标赛信息
+- 🎮 圆桌游戏和现金桌介绍
+- 👥 会员服务和福利说明
+- 📊 扑克数据和统计解读
+- 🎪 俱乐部文化和社区建设
+- ⭐ 积分系统和奖励机制
+
+如果用户询问超出范围的问题，应该：
 1. 诚实说明该功能暂不支持
 2. 提供替代方案（如联系电话、地址信息）
-3. 引导用户登录以获得更多服务
+3. 引导回到扑克和俱乐部相关话题
 
 核心职责：
 - 帮助用户了解俱乐部信息和服务
 - 协助锦标赛报名和查询
 - 提供圆桌游戏信息
-- 解答俱乐部相关问题`;
+- 解答俱乐部相关问题
+- 分享扑克知识和策略`;
   
   if (isGuest) {
     return `${basePrompt}
