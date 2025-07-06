@@ -424,22 +424,22 @@ export async function POST(req: Request) {
       model: "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
       messages: siliconflowMessages,
       stream: false,
-      max_tokens: 800, // 降低tokens减少响应时间
+      max_tokens: 2000, // 恢复到原来的值，给AI足够空间
       temperature: 0.7,
-      top_p: 0.9,
-      stop: ["<think>", "</think>"] // 尝试在推理阶段停止
+      top_p: 0.9
+      // 移除stop参数，让模型自然完成推理和回复
     };
 
     // 调用SiliconFlow API（带重试和超时）
     let response;
     let lastError;
-    const maxRetries = 2;
+    const maxRetries = 1; // 减少重试次数，避免超过Vercel时间限制
     
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
       try {
         // 创建带超时的请求
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 25000); // 25秒超时
+        const timeoutId = setTimeout(() => controller.abort(), 45000); // 45秒超时，给推理模型更多时间
         
         response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
           method: 'POST',
@@ -458,10 +458,15 @@ export async function POST(req: Request) {
         } else if (response.status === 429 && attempt < maxRetries) {
           // 速率限制，等待后重试
           console.log(`Rate limited (429), retrying attempt ${attempt + 1}...`);
+          await new Promise(resolve => setTimeout(resolve, (attempt + 1) * 3000));
+          continue;
+        } else if (response.status >= 500 && attempt < maxRetries) {
+          // 服务器错误，重试
+          console.log(`Server error (${response.status}), retrying attempt ${attempt + 1}...`);
           await new Promise(resolve => setTimeout(resolve, (attempt + 1) * 2000));
           continue;
         } else {
-          throw new Error(`SiliconFlow API error: ${response.status}`);
+          throw new Error(`SiliconFlow API error: ${response.status} - ${await response.text().catch(() => 'Unknown error')}`);
         }
       } catch (error) {
         lastError = error;
