@@ -420,12 +420,12 @@ export async function POST(req: Request) {
       content: msg.content
     }));
 
-    // 使用Grok3-mini模型
+    // 使用Grok3-mini模型，完全放开限制
     const xaiRequest = {
       model: "grok-3-mini", // 使用Grok3-mini模型
       messages: xaiMessages,
       stream: false,
-      max_tokens: 4000, // Grok模型支持更多token
+      max_tokens: 8000, // 大幅提升token限制，不担心消耗
       temperature: 0.7,
       top_p: 0.9
     };

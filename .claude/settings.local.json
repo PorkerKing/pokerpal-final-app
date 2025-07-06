@@ -71,7 +71,10 @@
       "Bash(--connect-timeout 10 )",
       "Bash(--connect-timeout 10 )",
       "Bash(gh repo view:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(env)",
+      "Bash(npx vercel env add:*)",
+      "Bash(npx vercel:*)"
     ],
     "deny": []
   }
