@@ -359,14 +359,14 @@ export default function HomePage() {
   }
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col text-white font-sans overflow-hidden">
+    <div className="relative min-h-screen w-full flex flex-col text-white font-sans overflow-hidden bg-[#0D0F18]">
       {/* 动态扑克背景 */}
       <PokerBackground />
       
       <Header />
       
-      {/* 主内容区 */}
-      <div className="flex-1 flex flex-col pt-20 pb-28 w-full max-w-3xl mx-auto">
+      {/* 主内容区 - 适应侧边栏布局 */}
+      <div className="flex-1 flex flex-col pt-20 pb-28 w-full max-w-4xl mx-auto px-4 lg:px-8">
          {!showWelcome && messages.length > 0 ? (
            <>
              {/* 固定的顶部控制栏 */}

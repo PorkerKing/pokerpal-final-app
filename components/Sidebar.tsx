@@ -18,8 +18,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Spade,
-  Star
+  Star,
+  Building2,
+  Globe
 } from 'lucide-react';
+import ClubSwitcher from './ClubSwitcher';
+import LanguageSwitcher from './LanguageSwitcher';
 import { cn } from '@/lib/utils';
 
 // 菜单项配置
@@ -147,6 +151,29 @@ export default function Sidebar() {
           )}
         </Link>
       </div>
+
+      {/* 俱乐部和语言切换区域 */}
+      {isExpanded && (
+        <div className="px-3 py-4 border-b border-gray-800 space-y-4">
+          {/* 俱乐部切换 */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm text-gray-400">
+              <Building2 size={16} />
+              <span>俱乐部</span>
+            </div>
+            <ClubSwitcher variant="sidebar" />
+          </div>
+
+          {/* 语言切换 */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm text-gray-400">
+              <Globe size={16} />
+              <span>语言</span>
+            </div>
+            <LanguageSwitcher variant="sidebar" />
+          </div>
+        </div>
+      )}
 
       {/* 导航菜单 */}
       <nav className="flex-1 py-6">
