@@ -243,9 +243,18 @@ export default function HomePage() {
 
     } catch (error) {
       console.error('Chat error:', error);
+      
+      // 多语言错误提示
+      const errorMessages = {
+        'zh': `😔 抱歉，我暂时无法回复您。这可能是因为：\n\n• 🔧 服务正在升级维护\n• 🌐 网络连接暂时不稳定\n• ⚡ 服务器繁忙，请稍后再试\n\n感谢您的耐心，我会尽快恢复正常！`,
+        'zh-TW': `😔 抱歉，我暫時無法回覆您。這可能是因為：\n\n• 🔧 服務正在升級維護\n• 🌐 網路連接暫時不穩定\n• ⚡ 伺服器繁忙，請稍後再試\n\n感謝您的耐心，我會盡快恢復正常！`,
+        'en': `😔 Sorry, I'm temporarily unable to respond. This might be due to:\n\n• 🔧 Service maintenance in progress\n• 🌐 Network connectivity issues\n• ⚡ Server is busy, please try again later\n\nThank you for your patience. I'll be back soon!`,
+        'ja': `😔 申し訳ございませんが、一時的に返信できません。以下の理由が考えられます：\n\n• 🔧 サービスメンテナンス中\n• 🌐 ネットワーク接続の問題\n• ⚡ サーバーが混雑中、しばらくお待ちください\n\nご理解をお願いいたします。すぐに復旧いたします！`
+      };
+      
       const errorMessage: Message = { 
         role: 'assistant', 
-        content: `抱歉，AI服务暂时不可用。这可能是因为：\n\n• 服务器正在维护\n• 网络连接问题\n• API密钥配置问题\n\n请稍后再试，或联系管理员。`, 
+        content: errorMessages[locale as keyof typeof errorMessages] || errorMessages['zh'], 
         type: 'text' 
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -373,16 +382,19 @@ export default function HomePage() {
                return (
                  <div key={index} className={`flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : ''}`}>
                    {msg.role === 'assistant' && (
-                     <div className="w-8 h-8 rounded-full bg-purple-500 flex-shrink-0 flex items-center justify-center">
-                       <Spade size={20} />
+                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex-shrink-0 flex items-center justify-center text-lg">
+                       {selectedClub?.id?.includes('shanghai') ? '👩‍💼' : 
+                        selectedClub?.id?.includes('taipei') ? '👩‍🦰' : 
+                        selectedClub?.id?.includes('osaka') ? '👘' :
+                        selectedClub?.id?.includes('kuala-lumpur') ? '👩‍🏫' : '🤖'}
                      </div>
                    )}
                    <div className={`max-w-lg p-4 rounded-2xl ${msg.role === 'user' ? 'bg-black/60 backdrop-blur-sm border border-gray-700' : 'bg-black/60 backdrop-blur-sm border border-gray-700'}`}>
                      <p className={`text-base whitespace-pre-wrap ${msg.role === 'user' ? 'text-blue-100' : 'text-blue-100'}`}>{msg.content as string}</p>
                    </div>
                    {msg.role === 'user' && (
-                     <div className="w-8 h-8 rounded-full bg-gray-600 flex-shrink-0 flex items-center justify-center">
-                       <User size={20} />
+                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex-shrink-0 flex items-center justify-center text-lg">
+                       ♠️
                      </div>
                    )}
                  </div>
@@ -411,7 +423,9 @@ export default function HomePage() {
            <div className="flex-1 flex items-center justify-center -mt-20 px-4">
              <div className="w-full max-w-2xl text-center z-10">
                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                 {getPersonalizedWelcome(locale).title.replace('{aiName}', (selectedClub?.aiPersona as any)?.fullName || selectedClub?.aiPersona?.name || 'AI助手')}
+                 {getPersonalizedWelcome(locale).title
+                   .replace('{aiName}', (selectedClub?.aiPersona as any)?.fullName || selectedClub?.aiPersona?.name || 'AI助手')
+                   .replace('{aiAvatar}', (selectedClub?.aiPersona as any)?.avatar || '🤖')}
                </h1>
                <p className="mt-4 text-xl text-gray-400">
                  {getPersonalizedWelcome(locale).subtitle}

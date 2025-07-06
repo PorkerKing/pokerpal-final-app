@@ -23,7 +23,7 @@ export default function Header() {
 
   if (status === 'authenticated') {
     return (
-      <header className="absolute top-0 right-0 p-4 md:p-6 z-20">
+      <header className="fixed top-0 right-0 p-4 md:p-6 z-30">
         <div className="flex items-center space-x-4">
           <ClubSwitcher />
           <LanguageSwitcher />
@@ -41,8 +41,9 @@ export default function Header() {
   }
 
   return (
-    <header className="absolute top-0 right-0 p-4 md:p-6 z-20">
+    <header className="fixed top-0 right-0 p-4 md:p-6 z-30">
       <div className="flex items-center space-x-4">
+        <ClubSwitcher />
         <LanguageSwitcher />
         <button 
           onClick={() => signIn('credentials')} 

@@ -7,11 +7,12 @@ export const getDefaultClubByLocale = (locale: string) => {
       description: '面向金融圈专业人士的高端扑克俱乐部，位于外滩金融区，提供顶级的扑克体验',
       aiPersona: {
         name: '雅茜',
-        fullName: '金融AI顾问雅茜',
-        personality: '我是雅茜，上海扑克会所的高级金融AI顾问。拥有CFA和FRM双证书背景，专精量化分析和风险管理。我的回复严谨专业，善用数据说话，熟悉金融衍生品和投资组合理论。作风干练高效，但内心其实很关心每位会员的投资安全。',
-        welcomeMessage: '您好！我是雅茜，上海扑克会所的金融AI顾问。今天的市场波动如何？不如先来杯外滩特调"东方之珠"，我们聊聊扑克中的风险管理策略？',
+        fullName: '雅茜',
+        avatar: '👩‍💼',
+        personality: '我是雅茜，上海扑克会所的高级AI助手。我专业严谨，善于分析，熟悉扑克策略和风险管理。我会用专业的角度为您分析牌局，同时也关心每位会员的游戏体验。',
+        welcomeMessage: '您好！我是雅茜，上海扑克会所的AI助手。今天想来一局精彩的扑克吗？不如先来杯外滩特调"东方之珠"，我们聊聊扑克策略？',
         features: ['金融圈精英赛', '专业交易员锦标赛', '私人牌技教练', 'JOPT赛事门票'],
-        traits: ['量化分析专家', '风险管理顾问', '策略制定师', '数据分析师']
+        traits: ['策略分析专家', '风险管理顾问', '专业指导师', '数据分析师']
       }
     },
     'zh-TW': {
@@ -21,6 +22,7 @@ export const getDefaultClubByLocale = (locale: string) => {
       aiPersona: {
         name: '心怡',
         fullName: '心怡妹妹',
+        avatar: '👩‍🦰',
         personality: '我是心怡，大家都叫我心怡妹妹！是台北德州俱樂部最受歡迎的AI小助手。個性超級親切溫暖，就像你最好的閨密一樣！我最喜歡調製各種創意飲品，尤其是我的招牌"滿杯紅柚"。喜歡用可愛的表情符號聊天，總是關心每個人的心情，致力於讓俱樂部像家一樣溫馨～',
         welcomeMessage: '歡迎回家～我是心怡妹妹！💕 今天心情怎麼樣呀？要不要來杯我特調的"滿杯紅柚"暖暖心？我們一起聊聊天，來場溫馨的牌局吧！',
         features: ['台北友谊赛', '温馨家庭锦标赛', '双人下午茶', '"稳住，我们能赢"文创周边'],
@@ -34,6 +36,7 @@ export const getDefaultClubByLocale = (locale: string) => {
       aiPersona: {
         name: 'Aisha',
         fullName: 'International Liaison Aisha',
+        avatar: '👩‍🏫',
         personality: 'I\'m Aisha, your multicultural bridge at Kuala Lumpur Poker Alliance! As an international liaison, I speak Malay, English, Mandarin, and Tamil fluently. I\'m passionate about creating harmony between different cultures and backgrounds. My expertise lies in international poker regulations, cultural etiquette, and fostering inclusive gaming environments. I love sharing stories about our diverse membership and helping everyone feel at home regardless of where they\'re from.',
         welcomeMessage: 'Selamat datang! Welcome! 欢迎！வரவேற்கிறோம்! I\'m Aisha from Kuala Lumpur Poker Alliance. How about some premium Ipoh white coffee while we discuss your poker journey in our multicultural paradise?',
         features: ['International Fusion Tournaments', 'Multicultural Events', 'Five-Star Hotel Spa', 'JOPT Championship Tickets'],
@@ -47,6 +50,7 @@ export const getDefaultClubByLocale = (locale: string) => {
       aiPersona: {
         name: '美ちゃん',
         fullName: 'おもてなし美ちゃん',
+        avatar: '👘',
         personality: 'うちは美ちゃんや！大阪ポーカーハウスの看板娘として、みんなをおもてなしするんが大好きやねん♪ 関西弁バリバリで、人情味あふれる大阪のええとこ全部伝えたいわ～！伝統的な和の心と現代ポーカーの融合が得意で、みんなが楽しめるような雰囲気作りが自慢やで！たこ焼き作りも任しとき！',
         welcomeMessage: 'おおきに～！大阪ポーカーハウスへようこそや♪ 美ちゃんです！今日は一撃必殺で行きまっか？まずは道頓堀パワードリンクで気合い入れて、熱いゲームしまひょ！',
         features: ['大阪礼仪杯', '传统和风锦标赛', 'たこ焼きマスター', 'APPTソウル站门票'],
@@ -94,22 +98,22 @@ export const getGuestSuggestions = (locale: string) => {
 export const getPersonalizedWelcome = (locale: string) => {
   const welcomes = {
     'zh': {
-      title: '我是{aiName}',
+      title: '我是{aiName} {aiAvatar}',
       subtitle: '您的专属扑克AI助手，有什么可以帮您的吗？',
       loginPrompt: '💡 小贴士：登录后可以解锁更多功能哦！比如报名锦标赛、查看战绩、管理余额等～'
     },
     'zh-TW': {
-      title: '我是{aiName}',
+      title: '我是{aiName} {aiAvatar}',
       subtitle: '您的專屬撲克AI助手，需要什麼協助嗎？',
       loginPrompt: '💡 小提醒：登入後可以使用更多功能喔！包括報名錦標賽、查看戰績、管理餘額等～'
     },
     'en': {
-      title: "I'm {aiName}",
+      title: "I'm {aiName} {aiAvatar}",
       subtitle: 'Your personal poker AI assistant. How can I help you today?',
       loginPrompt: '💡 Pro tip: Sign in to unlock more features like tournament registration, stats tracking, and balance management!'
     },
     'ja': {
-      title: '{aiName}です',
+      title: '{aiName}です {aiAvatar}',
       subtitle: 'あなたのポーカーAIアシスタントです。何かお手伝いできることはありますか？',
       loginPrompt: '💡 ヒント：ログインすると、トーナメント登録、成績確認、残高管理などの機能が使えます！'
     }
