@@ -525,9 +525,9 @@ export async function POST(req: Request) {
     // 5. 如果过滤后内容太短或为空，尝试提取原始内容的末尾部分
     if (!aiResponse || aiResponse.length < 10) {
       console.warn('Response too short after filtering, attempting to extract meaningful content...');
-      const lines = data.choices[0].message.content.split('\n').filter(line => line.trim());
+      const lines = data.choices[0].message.content.split('\n').filter((line: string) => line.trim());
       // 取最后几行非推理内容
-      const meaningfulLines = lines.filter(line => 
+      const meaningfulLines = lines.filter((line: string) => 
         !line.includes('推理') && 
         !line.includes('思考') && 
         !line.includes('分析') &&
