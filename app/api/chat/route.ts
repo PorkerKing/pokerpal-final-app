@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 import { 
   aiToolsAPI
 } from '@/lib/ai-tools';
+import { getDefaultClubByLocale } from '@/lib/defaultClubs';
 
 export const dynamic = 'force-dynamic';
 
@@ -287,7 +288,7 @@ export async function POST(req: Request) {
     let aiPersonaName = 'AI助手';
     
     try {
-      if (clubId && clubId !== 'guest' && clubId !== 'demo' && clubId !== 'fallback' && clubId !== 'error') {
+      if (clubId && clubId !== 'guest' && clubId !== 'demo' && clubId !== 'fallback' && clubId !== 'error' && !clubId.startsWith('guest-')) {
         const club = await prisma.club.findUnique({
           where: { id: clubId },
           include: {
@@ -301,6 +302,11 @@ export async function POST(req: Request) {
           clubName = club.name;
           aiPersonaName = club.aiPersona?.name || 'AI助手';
         }
+      } else if (clubId && clubId.startsWith('guest-')) {
+        // 访客模式使用基于语言的默认配置
+        const defaultClub = getDefaultClubByLocale(locale);
+        clubName = defaultClub.name;
+        aiPersonaName = defaultClub.aiPersona.fullName || defaultClub.aiPersona.name;
       }
     } catch (error) {
       console.error('获取俱乐部信息失败:', error);

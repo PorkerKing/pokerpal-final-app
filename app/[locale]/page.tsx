@@ -209,9 +209,10 @@ export default function HomePage() {
         clubId: selectedClub.id,
         locale: locale,
         userId: (session?.user as any)?.id || null,
+        conversationId: 'guest-chat-' + Date.now(), // 为访客模式生成唯一会话ID
       };
 
-      const response = await fetch('/api/chat-simple', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
