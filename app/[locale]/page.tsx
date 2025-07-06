@@ -10,6 +10,7 @@ import { useUserStore } from '@/stores/userStore';
 import { useTranslations, useLocale } from 'next-intl';
 import { TournamentCard } from '@/components/TournamentCard';
 import { useRouter } from '@/navigation';
+import { getDefaultClubByLocale, getGuestSuggestions, getPersonalizedWelcome } from '@/lib/defaultClubs';
 
 // ==================== 组件已移至独立文件 ====================
 
@@ -368,18 +369,17 @@ export default function HomePage() {
            <div className="flex-1 flex items-center justify-center -mt-20 px-4">
              <div className="w-full max-w-2xl text-center z-10">
                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                 {t('welcomeMessage')} 
-                 <span className="text-purple-400">👩‍💼 {selectedClub?.aiPersona?.name || 'AI助手'}</span>
+                 {getPersonalizedWelcome(locale).title.replace('{aiName}', (selectedClub?.aiPersona as any)?.fullName || selectedClub?.aiPersona?.name || 'AI助手')}
                </h1>
                <p className="mt-4 text-xl text-gray-400">
-                 {session?.user ? t('subheading') : t('guestSubheading')}
+                 {getPersonalizedWelcome(locale).subtitle}
                </p>
                
                {/* 访客提示 */}
                {!session?.user && (
                  <div className="mt-6 p-4 bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-xl">
                    <p className="text-gray-300 text-sm">
-                     {t('guestLoginHint')}
+                     {getPersonalizedWelcome(locale).loginPrompt}
                    </p>
                  </div>
                )}

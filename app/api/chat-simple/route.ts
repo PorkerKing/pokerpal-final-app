@@ -2,6 +2,7 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth/next";
 import prisma from "@/lib/prisma";
 import { NextResponse } from 'next/server';
+import { getDefaultClubByLocale } from '@/lib/defaultClubs';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +17,7 @@ const getLanguageName = (locale: string): string => {
 };
 
 // 简单的模拟AI响应（当OpenAI不可用时使用）
-const generateMockResponse = (message: string, locale: string, clubName: string, aiPersonaName: string, isAuthenticated: boolean) => {
+const generateMockResponse = (message: string, locale: string, clubName: string, aiPersonaName: string, isAuthenticated: boolean, clubId?: string) => {
   const responses = {
     'zh': {
       tournament: [
@@ -97,6 +98,14 @@ const generateMockResponse = (message: string, locale: string, clubName: string,
     return responseList[Math.floor(Math.random() * responseList.length)];
   }
 
+  // 针对不同俱乐部的个性化响应
+  if (clubId && clubId.startsWith('guest-')) {
+    const defaultClub = getDefaultClubByLocale(locale);
+    if (defaultClub.aiPersona.welcomeMessage) {
+      return defaultClub.aiPersona.welcomeMessage;
+    }
+  }
+
   // 默认通用响应
   const responseList = langResponses.general;
   return responseList[Math.floor(Math.random() * responseList.length)];
@@ -115,7 +124,7 @@ export async function POST(req: Request) {
     let aiPersonaName = 'AI助手';
     
     try {
-      if (clubId && clubId !== 'guest' && clubId !== 'demo' && clubId !== 'fallback' && clubId !== 'error') {
+      if (clubId && clubId !== 'guest' && clubId !== 'demo' && clubId !== 'fallback' && clubId !== 'error' && !clubId.startsWith('guest-')) {
         const club = await prisma.club.findUnique({
           where: { id: clubId },
           include: {
@@ -129,13 +138,18 @@ export async function POST(req: Request) {
           clubName = club.name;
           aiPersonaName = club.aiPersona?.name || 'AI助手';
         }
+      } else if (clubId && clubId.startsWith('guest-')) {
+        // 访客模式使用基于语言的默认配置
+        const defaultClub = getDefaultClubByLocale(locale);
+        clubName = defaultClub.name;
+        aiPersonaName = defaultClub.aiPersona.fullName || defaultClub.aiPersona.name;
       }
     } catch (error) {
       console.error('获取俱乐部信息失败:', error);
     }
 
     // 生成模拟AI响应
-    const reply = generateMockResponse(message, locale, clubName, aiPersonaName, isAuthenticated);
+    const reply = generateMockResponse(message, locale, clubName, aiPersonaName, isAuthenticated, clubId);
 
     // 检查是否需要认证
     const authRequired = !isAuthenticated && (

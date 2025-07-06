@@ -87,22 +87,22 @@ export function PokerBackground() {
         return (
           <div
             key={shape.id}
-            className="absolute animate-float"
+            className="absolute"
             style={{
               left: `${shape.x}%`,
               top: `${shape.y}%`,
-              transform: `rotate(${shape.rotation}deg)`,
-              animation: `float ${shape.duration}s ease-in-out infinite`,
+              animation: `float ${shape.duration}s ease-in-out infinite, rotate ${shape.duration * 2}s linear infinite`,
               animationDelay: `${Math.random() * 5}s`,
-            }}
+              '--rotation': `${shape.rotation}deg`,
+            } as React.CSSProperties}
           >
             <Icon
-              className={`${color} blur-sm`}
+              className={`${color}`}
               style={{
                 width: `${shape.size}px`,
                 height: `${shape.size}px`,
                 opacity: shape.opacity,
-                filter: 'blur(1px)',
+                filter: 'blur(0.5px)',
                 shapeRendering: 'geometricPrecision',
               }}
             />
@@ -122,10 +122,25 @@ export function PokerBackground() {
       <style jsx>{`
         @keyframes float {
           0%, 100% {
-            transform: translateY(0) rotate(var(--rotation));
+            transform: translateY(0px) translateX(0px);
+          }
+          25% {
+            transform: translateY(-15px) translateX(5px);
           }
           50% {
-            transform: translateY(-20px) rotate(calc(var(--rotation) + 10deg));
+            transform: translateY(-30px) translateX(0px);
+          }
+          75% {
+            transform: translateY(-15px) translateX(-5px);
+          }
+        }
+        
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
           }
         }
       `}</style>
