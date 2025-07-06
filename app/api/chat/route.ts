@@ -424,10 +424,10 @@ export async function POST(req: Request) {
       model: "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
       messages: siliconflowMessages,
       stream: false,
-      max_tokens: 2000, // 恢复到原来的值，给AI足够空间
+      max_tokens: 4000, // 大幅提升token限制，给AI充分的表达空间
       temperature: 0.7,
       top_p: 0.9
-      // 移除stop参数，让模型自然完成推理和回复
+      // 完全移除限制，让模型自由发挥
     };
 
     // 调用SiliconFlow API（带重试和超时）
@@ -439,7 +439,7 @@ export async function POST(req: Request) {
       try {
         // 创建带超时的请求
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 45000); // 45秒超时，给推理模型更多时间
+        const timeoutId = setTimeout(() => controller.abort(), 60000); // 60秒超时，给AI充分的思考和表达时间
         
         response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
           method: 'POST',
