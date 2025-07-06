@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Header from '@/components/Header';
 import ChatInput from '@/components/ChatInput';
 import { Spade, User, LoaderCircle, LogIn, Diamond } from 'lucide-react';
@@ -69,6 +69,7 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
   const [currentConversationId, setCurrentConversationId] = useState<string>('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // 获取俱乐部特定的缓存键和会话ID
   const getClubSpecificKey = (clubId: string, key: string) => {
@@ -303,8 +304,24 @@ export default function HomePage() {
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+      // 自动滚动到底部
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     }
   };
+
+  // 自动滚动到底部
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // 当消息更新时自动滚动
+  useEffect(() => {
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
+  }, [messages]);
 
   // 根据用户状态和角色提供个性化建议
   const getPromptSuggestions = () => {
@@ -459,6 +476,9 @@ export default function HomePage() {
                  </div>
                </div>
              )}
+             
+             {/* 消息末尾引用 - 用于自动滚动 */}
+             <div ref={messagesEndRef} />
            </div>
            </>
          ) : (
@@ -488,7 +508,11 @@ export default function HomePage() {
                  {Array.isArray(promptSuggestions) && promptSuggestions.length > 0 && promptSuggestions.map((text: string, index: number) => (
                    <div 
                      key={index} 
-                     onClick={() => handleSendMessage(text.replace(/"/g, ''))} 
+                     onClick={() => {
+                       handleSendMessage(text.replace(/"/g, ''));
+                       // 发送消息后自动滚动
+                       setTimeout(scrollToBottom, 100);
+                     }} 
                      className="group bg-white/5 border border-transparent rounded-lg p-4 hover:border-white/10 hover:bg-white/10 transition-all duration-300 cursor-pointer"
                    >
                      <p className="text-lg text-gray-300 group-hover:text-white">{text}</p>
