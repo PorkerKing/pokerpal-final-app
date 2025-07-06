@@ -68,11 +68,42 @@ export default function HomePage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
+  const [currentConversationId, setCurrentConversationId] = useState<string>('');
 
-  // 加载保存的对话记录 - 只在访客模式下加载
+  // 获取俱乐部特定的缓存键和会话ID
+  const getClubSpecificKey = (clubId: string, key: string) => {
+    return `pokerpal-${key}-${clubId}`;
+  };
+
+  const getOrCreateConversationId = (clubId: string) => {
+    const key = getClubSpecificKey(clubId, 'conversation-id');
+    let conversationId = localStorage.getItem(key);
+    if (!conversationId) {
+      conversationId = `${session?.user ? 'user' : 'guest'}-${clubId}-${Date.now()}`;
+      localStorage.setItem(key, conversationId);
+    }
+    return conversationId;
+  };
+
+  // 俱乐部切换监听和状态管理
   useEffect(() => {
+    if (!selectedClub) return;
+
+    console.log('Club changed to:', selectedClub.id);
+    
+    // 1. 生成或获取俱乐部特定的会话ID
+    const conversationId = getOrCreateConversationId(selectedClub.id);
+    setCurrentConversationId(conversationId);
+
+    // 2. 清理当前消息状态（重要：避免俱乐部间状态混淆）
+    setMessages([]);
+    setShowWelcome(true);
+    setIsLoading(false);
+
+    // 3. 加载该俱乐部的对话记录（仅访客模式）
     if (!session?.user) {
-      const savedMessages = localStorage.getItem('pokerpal-chat-history');
+      const chatHistoryKey = getClubSpecificKey(selectedClub.id, 'chat-history');
+      const savedMessages = localStorage.getItem(chatHistoryKey);
       if (savedMessages) {
         try {
           const parsed = JSON.parse(savedMessages);
@@ -85,18 +116,19 @@ export default function HomePage() {
             setShowWelcome(false);
           }
         } catch (error) {
-          console.error('Failed to parse saved messages:', error);
+          console.error('Failed to parse saved messages for club:', selectedClub.id, error);
         }
       }
     }
-  }, [session?.user]);
+  }, [selectedClub?.id, session?.user]);
 
-  // 保存对话记录
+  // 保存对话记录（按俱乐部隔离）
   useEffect(() => {
-    if (messages.length > 0) {
-      localStorage.setItem('pokerpal-chat-history', JSON.stringify(messages));
+    if (messages.length > 0 && selectedClub && !session?.user) {
+      const chatHistoryKey = getClubSpecificKey(selectedClub.id, 'chat-history');
+      localStorage.setItem(chatHistoryKey, JSON.stringify(messages));
     }
-  }, [messages]);
+  }, [messages, selectedClub?.id, session?.user]);
   const router = useRouter();
 
   // 初始化俱乐部列表和重定向逻辑
@@ -179,11 +211,22 @@ export default function HomePage() {
     signIn();
   }, []);
 
-  // 清除聊天记录
+  // 清除聊天记录（按俱乐部隔离）
   const clearChatHistory = () => {
     setMessages([]);
     setShowWelcome(true);
-    localStorage.removeItem('pokerpal-chat-history');
+    
+    if (selectedClub) {
+      // 清理当前俱乐部的缓存
+      const chatHistoryKey = getClubSpecificKey(selectedClub.id, 'chat-history');
+      const conversationIdKey = getClubSpecificKey(selectedClub.id, 'conversation-id');
+      localStorage.removeItem(chatHistoryKey);
+      localStorage.removeItem(conversationIdKey);
+      
+      // 重新生成会话ID
+      const newConversationId = getOrCreateConversationId(selectedClub.id);
+      setCurrentConversationId(newConversationId);
+    }
   };
 
   // 发送消息
@@ -209,7 +252,7 @@ export default function HomePage() {
         clubId: selectedClub.id,
         locale: locale,
         userId: (session?.user as any)?.id || null,
-        conversationId: 'guest-chat-' + Date.now(), // 为访客模式生成唯一会话ID
+        conversationId: currentConversationId || getOrCreateConversationId(selectedClub.id),
       };
 
       const response = await fetch('/api/chat', {
@@ -385,7 +428,7 @@ export default function HomePage() {
                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex-shrink-0 flex items-center justify-center text-lg">
                        {selectedClub?.id?.includes('shanghai') ? '👩‍💼' : 
                         selectedClub?.id?.includes('taipei') ? '👩‍🦰' : 
-                        selectedClub?.id?.includes('osaka') ? '👘' :
+                        selectedClub?.id?.includes('osaka') ? '👩' :
                         selectedClub?.id?.includes('kuala-lumpur') ? '👩‍🏫' : '🤖'}
                      </div>
                    )}

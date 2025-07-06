@@ -281,10 +281,20 @@ export async function POST(req: Request) {
           '目前我们的AI聊天功能正在维护中，但您仍然可以使用其他功能。',
           '感谢您的耐心等待，我们正在努力恢复AI助手服务。'
         ],
+        'zh-TW': [
+          '很抱歉，AI服務暫時不可用。不過我可以為您提供一些基本資訊：',
+          '目前我們的AI聊天功能正在維護中，但您仍然可以使用其他功能。',
+          '感謝您的耐心等待，我們正在努力恢復AI助手服務。'
+        ],
         'en': [
           'Sorry, AI service is temporarily unavailable. However, I can provide some basic information:',
           'Our AI chat feature is currently under maintenance, but you can still use other features.',
           'Thank you for your patience, we are working to restore the AI assistant service.'
+        ],
+        'ja': [
+          '申し訳ございませんが、AIサービスは一時的に利用できません。ただし、基本的な情報は提供できます：',
+          '現在、AIチャット機能はメンテナンス中ですが、他の機能はご利用いただけます。',
+          'ご迷惑をおかけして申し訳ございません。AIアシスタントサービスの復旧に努めております。'
         ]
       };
 
@@ -318,21 +328,24 @@ export async function POST(req: Request) {
           aiPersonaName = club.aiPersona?.name || 'AI助手';
         }
       } else if (clubId && clubId.startsWith('guest-')) {
-        // 访客模式使用基于语言的默认配置
-        const defaultClub = getDefaultClubByLocale(locale);
+        // 访客模式：根据实际选择的俱乐部ID获取对应配置
+        console.log('Guest mode - clubId:', clubId);
+        
+        // 从clubId中提取真实的俱乐部类型
+        let clubType = 'zh'; // 默认
+        if (clubId.includes('shanghai')) clubType = 'zh';
+        else if (clubId.includes('taipei')) clubType = 'zh-TW';
+        else if (clubId.includes('osaka')) clubType = 'ja';
+        else if (clubId.includes('kuala-lumpur')) clubType = 'en';
+        
+        const defaultClub = getDefaultClubByLocale(clubType);
         clubName = defaultClub.name;
         aiPersonaName = defaultClub.aiPersona.fullName || defaultClub.aiPersona.name;
         
-        // 设置AI角色的母语信息
-        const clubLocaleMapping = {
-          'guest-shanghai-poker-club': 'zh',
-          'guest-taipei-texas-club': 'zh-TW', 
-          'guest-osaka-poker-house': 'ja',
-          'guest-kuala-lumpur-alliance': 'en'
-        };
+        console.log('Selected club type:', clubType, 'Club name:', clubName, 'AI name:', aiPersonaName);
         
-        // 传递AI母语信息到系统提示构建
-        (globalThis as any).aiNativeLanguage = clubLocaleMapping[clubId as keyof typeof clubLocaleMapping] || 'zh';
+        // 直接根据检测到的俱乐部类型设置AI母语
+        (globalThis as any).aiNativeLanguage = clubType;
       }
     } catch (error) {
       console.error('获取俱乐部信息失败:', error);
@@ -386,17 +399,34 @@ export async function POST(req: Request) {
     }
 
     const data = await response.json();
-    let aiResponse = data.choices[0]?.message?.content || '抱歉，我无法生成回复。';
+    
+    // 更好的错误处理和调试信息
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      console.error('Unexpected API response structure:', JSON.stringify(data, null, 2));
+      throw new Error('Invalid API response structure');
+    }
+    
+    let aiResponse = data.choices[0].message.content;
+    
+    if (!aiResponse || typeof aiResponse !== 'string') {
+      console.error('Empty or invalid AI response content:', aiResponse);
+      throw new Error('Empty AI response received');
+    }
+    
+    console.log('Raw AI response length:', aiResponse.length);
+    console.log('Raw AI response preview:', aiResponse.substring(0, 200) + '...');
 
     // DeepSeek-R1 是推理模型，需要提取对话输出部分，过滤掉推理过程
     // 推理过程通常包含在 <think> 标签或类似标记中
     if (aiResponse.includes('<think>')) {
       // 移除推理过程标签及其内容
       aiResponse = aiResponse.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+      console.log('Removed <think> tags, new length:', aiResponse.length);
     }
     
     // 如果还有其他推理标记，也进行清理
     if (aiResponse.includes('推理过程：') || aiResponse.includes('思考过程：')) {
+      console.log('Found reasoning markers, processing...');
       // 提取最后的对话输出部分
       const lines = aiResponse.split('\n');
       const outputLines = [];
@@ -418,7 +448,20 @@ export async function POST(req: Request) {
       
       if (outputLines.length > 0) {
         aiResponse = outputLines.join('\n').trim();
+        console.log('Processed reasoning output, final length:', aiResponse.length);
       }
+    }
+    
+    // 确保响应不为空
+    if (!aiResponse || aiResponse.trim().length === 0) {
+      console.warn('AI response became empty after processing, using fallback');
+      const fallbackMessages = {
+        'zh': '抱歉，我正在思考中，请稍后再试或者换个问题。',
+        'zh-TW': '抱歉，我正在思考中，請稍後再試或者換個問題。',
+        'en': 'Sorry, I\'m still thinking. Please try again later or ask a different question.',
+        'ja': '申し訳ございませんが、考え中です。しばらくしてからもう一度お試しいただくか、別の質問をお願いします。'
+      };
+      aiResponse = fallbackMessages[locale as keyof typeof fallbackMessages] || fallbackMessages['zh'];
     }
 
     console.log('AI Response (filtered):', aiResponse);
@@ -464,10 +507,29 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Chat API Error:", error);
     
-    // 提供降级响应
+    // 多语言错误消息
+    const errorMessages = {
+      'zh': {
+        apiKey: '抱歉，AI服务配置有误。请联系管理员检查API密钥设置。',
+        general: '抱歉，聊天服务暂时不可用，请稍后再试。'
+      },
+      'zh-TW': {
+        apiKey: '抱歉，AI服務配置有誤。請聯繫管理員檢查API金鑰設定。',
+        general: '抱歉，聊天服務暫時不可用，請稍後再試。'
+      },
+      'en': {
+        apiKey: 'Sorry, AI service configuration error. Please contact administrator to check API key settings.',
+        general: 'Sorry, chat service is temporarily unavailable. Please try again later.'
+      },
+      'ja': {
+        apiKey: '申し訳ございませんが、AIサービスの設定にエラーがあります。管理者にAPIキー設定の確認をお願いします。',
+        general: '申し訳ございませんが、チャットサービスは一時的に利用できません。しばらくしてからもう一度お試しください。'
+      }
+    };
+    
+    const messages = errorMessages[locale as keyof typeof errorMessages] || errorMessages['zh'];
     const fallbackMessage = error instanceof Error && error.message.includes('API key') ?
-      '抱歉，AI服务配置有误。请联系管理员检查API密钥设置。' :
-      '抱歉，聊天服务暂时不可用，请稍后再试。';
+      messages.apiKey : messages.general;
 
     return NextResponse.json({
       success: true,

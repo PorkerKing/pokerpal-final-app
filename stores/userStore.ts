@@ -34,6 +34,7 @@ interface UserState {
   user: User | null;
   clubs: Club[];
   selectedClub: Club | null;
+  selectedClubId: string | null; // 用于持久化
   
   // 加载状态
   isLoadingClubs: boolean;
@@ -68,6 +69,7 @@ export const useUserStore = create<UserState>()(
       user: null,
       clubs: [],
       selectedClub: null,
+      selectedClubId: null,
       isLoadingClubs: false,
       isLoadingUser: false,
       clubsError: null,
@@ -88,6 +90,7 @@ export const useUserStore = create<UserState>()(
         state.session = null;
         state.user = null;
         state.selectedClub = null;
+        state.selectedClubId = null;
         state.clubs = [];
         state.clubsError = null;
         state.userError = null;
@@ -102,14 +105,30 @@ export const useUserStore = create<UserState>()(
         state.clubs = Array.isArray(clubs) ? clubs : [];
         state.clubsError = null;
         
-        // 如果当前选中的俱乐部不在新列表中，重置选择
-        if (state.selectedClub && state.clubs.length > 0 && !state.clubs.find(c => c.id === state.selectedClub!.id)) {
-          state.selectedClub = state.clubs.length > 0 ? state.clubs[0] : null;
+        // 尝试根据selectedClubId恢复selectedClub
+        if (state.selectedClubId && state.clubs.length > 0) {
+          const foundClub = state.clubs.find(c => c.id === state.selectedClubId);
+          if (foundClub) {
+            state.selectedClub = foundClub;
+          } else {
+            // 如果找不到，选择第一个俱乐部
+            state.selectedClub = state.clubs[0];
+            state.selectedClubId = state.clubs[0]?.id || null;
+          }
+        } else if (!state.selectedClub && state.clubs.length > 0) {
+          // 如果没有选中的俱乐部，选择第一个
+          state.selectedClub = state.clubs[0];
+          state.selectedClubId = state.clubs[0].id;
+        } else if (state.selectedClub && state.clubs.length > 0 && !state.clubs.find(c => c.id === state.selectedClub!.id)) {
+          // 如果当前选中的俱乐部不在新列表中，重置选择
+          state.selectedClub = state.clubs[0];
+          state.selectedClubId = state.clubs[0]?.id || null;
         }
       }),
       
       setSelectedClub: (club) => set((state) => {
         state.selectedClub = club;
+        state.selectedClubId = club?.id || null;
       }),
       
       // 异步 Actions
@@ -126,14 +145,12 @@ export const useUserStore = create<UserState>()(
           }
           
           const data = await response.json();
+          
+          // 使用setClubs来处理clubs设置和selectedClub恢复
+          get().setClubs(data.clubs || []);
+          
           set((state) => {
-            state.clubs = data.clubs || [];
             state.isLoadingClubs = false;
-            
-            // 自动选择第一个俱乐部
-            if (!state.selectedClub && state.clubs.length > 0) {
-              state.selectedClub = state.clubs[0];
-            }
           });
         } catch (error) {
           set((state) => {
@@ -185,13 +202,19 @@ export const useUserStore = create<UserState>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ 
         // 只持久化选中的俱乐部ID，不持久化敏感数据
-        selectedClubId: state.selectedClub?.id 
+        selectedClubId: state.selectedClubId 
       }),
       onRehydrateStorage: () => (state) => {
-        // 恢复时重新获取数据
-        if (state?.session) {
-          state.fetchClubs();
-          state.fetchUser();
+        // 恢复时的数据处理
+        if (state) {
+          // 确保selectedClub被重置，等待setClubs时根据selectedClubId恢复
+          state.selectedClub = null;
+          
+          // 如果有session，重新获取数据
+          if (state.session) {
+            state.fetchClubs();
+            state.fetchUser();
+          }
         }
       },
     }
