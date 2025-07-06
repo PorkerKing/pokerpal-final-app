@@ -227,8 +227,12 @@ function convertToCoreMessages(
 }
 
 export async function POST(req: Request) {
+  let locale = 'zh'; // 默认语言
+  
   try {
-    const { message, history, clubId, locale, userId, conversationId } = await req.json();
+    const body = await req.json();
+    const { message, history, clubId, userId, conversationId } = body;
+    locale = body.locale || 'zh'; // 提取locale到外部作用域
     
     // 获取会话信息
     const session = await getServerSession(authOptions);
