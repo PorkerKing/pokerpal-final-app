@@ -273,7 +273,7 @@ export default function HomePage() {
   const promptSuggestions = getPromptSuggestions() || [];
 
   // 加载中状态 - 只在NextAuth session真正加载时显示
-  if (status === 'loading') {
+  if (status === 'loading' || !selectedClub) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#0D0F18]">
         <LoaderCircle className="w-12 h-12 text-purple-400 animate-spin" />
@@ -336,8 +336,8 @@ export default function HomePage() {
                        <Spade size={20} />
                      </div>
                    )}
-                   <div className={`max-w-lg p-3 rounded-lg ${msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-100'}`}>
-                     <p className="text-base whitespace-pre-wrap">{msg.content as string}</p>
+                   <div className={`max-w-lg p-4 rounded-2xl ${msg.role === 'user' ? 'bg-black/60 backdrop-blur-sm border border-gray-700' : 'bg-black/60 backdrop-blur-sm border border-gray-700'}`}>
+                     <p className={`text-base whitespace-pre-wrap ${msg.role === 'user' ? 'text-blue-100' : 'text-blue-100'}`}>{msg.content as string}</p>
                    </div>
                    {msg.role === 'user' && (
                      <div className="w-8 h-8 rounded-full bg-gray-600 flex-shrink-0 flex items-center justify-center">
@@ -354,7 +354,7 @@ export default function HomePage() {
                  <div className="w-8 h-8 rounded-full bg-purple-500 flex-shrink-0 flex items-center justify-center">
                    <Spade size={20} />
                  </div>
-                 <div className="max-w-lg p-3 rounded-lg bg-white/10">
+                 <div className="max-w-lg p-4 rounded-2xl bg-black/60 backdrop-blur-sm border border-gray-700">
                    <div className="flex items-center space-x-1">
                      <span className="w-2 h-2 bg-white rounded-full animate-pulse delay-0"></span>
                      <span className="w-2 h-2 bg-white rounded-full animate-pulse delay-150"></span>

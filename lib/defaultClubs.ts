@@ -94,22 +94,22 @@ export const getGuestSuggestions = (locale: string) => {
 export const getPersonalizedWelcome = (locale: string) => {
   const welcomes = {
     'zh': {
-      title: '嗨！我是{aiName} 👋',
+      title: '我是{aiName}',
       subtitle: '您的专属扑克AI助手，有什么可以帮您的吗？',
       loginPrompt: '💡 小贴士：登录后可以解锁更多功能哦！比如报名锦标赛、查看战绩、管理余额等～'
     },
     'zh-TW': {
-      title: '哈囉！我是{aiName} 👋',
+      title: '我是{aiName}',
       subtitle: '您的專屬撲克AI助手，需要什麼協助嗎？',
       loginPrompt: '💡 小提醒：登入後可以使用更多功能喔！包括報名錦標賽、查看戰績、管理餘額等～'
     },
     'en': {
-      title: "Hi! I'm {aiName} 👋",
+      title: "I'm {aiName}",
       subtitle: 'Your personal poker AI assistant. How can I help you today?',
       loginPrompt: '💡 Pro tip: Sign in to unlock more features like tournament registration, stats tracking, and balance management!'
     },
     'ja': {
-      title: 'こんにちは！{aiName}です 👋',
+      title: '{aiName}です',
       subtitle: 'あなたのポーカーAIアシスタントです。何かお手伝いできることはありますか？',
       loginPrompt: '💡 ヒント：ログインすると、トーナメント登録、成績確認、残高管理などの機能が使えます！'
     }
