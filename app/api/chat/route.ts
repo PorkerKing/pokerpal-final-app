@@ -420,14 +420,14 @@ export async function POST(req: Request) {
       content: msg.content
     }));
 
+    // 尝试更稳定的模型 - Qwen系列通常更可靠
     const siliconflowRequest = {
-      model: "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+      model: "Qwen/Qwen2.5-72B-Instruct", // 切换到更稳定的Qwen模型
       messages: siliconflowMessages,
       stream: false,
-      max_tokens: 4000, // 大幅提升token限制，给AI充分的表达空间
+      max_tokens: 3000, // Qwen模型不需要太多token
       temperature: 0.7,
       top_p: 0.9
-      // 完全移除限制，让模型自由发挥
     };
 
     // 调用SiliconFlow API（带重试和超时）
@@ -439,7 +439,7 @@ export async function POST(req: Request) {
       try {
         // 创建带超时的请求
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 60000); // 60秒超时，给AI充分的思考和表达时间
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30秒超时，Qwen模型响应更快
         
         response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
           method: 'POST',
@@ -500,51 +500,19 @@ export async function POST(req: Request) {
     console.log('Raw AI response length:', aiResponse.length);
     console.log('Raw AI response preview:', aiResponse.substring(0, 200) + '...');
 
-    // DeepSeek-R1 推理内容过滤（增强版）
+    // Qwen模型内容处理（简化版）
     const originalLength = aiResponse.length;
     
-    // 1. 移除 <think> 标签
+    // 1. 简单清理可能的推理标记（Qwen通常不会有这些）
     aiResponse = aiResponse.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     
-    // 2. 移除其他推理标记
-    const reasoningPatterns = [
-      /推理过程[：:]\s*[\s\S]*?(?=回复[：:]|答案[：:]|回答[：:]|$)/g,
-      /思考过程[：:]\s*[\s\S]*?(?=回复[：:]|答案[：:]|回答[：:]|$)/g,
-      /分析[：:]\s*[\s\S]*?(?=回复[：:]|答案[：:]|回答[：:]|$)/g,
-      /Analysis:\s*[\s\S]*?(?=Response:|Answer:|Reply:|$)/gi,
-      /Thinking:\s*[\s\S]*?(?=Response:|Answer:|Reply:|$)/gi
-    ];
-    
-    for (const pattern of reasoningPatterns) {
-      aiResponse = aiResponse.replace(pattern, '').trim();
-    }
-    
-    // 3. 清理多余的标记词
+    // 2. 清理可能的多余标记词
     aiResponse = aiResponse.replace(/^(回复[：:]|答案[：:]|回答[：:]|Response:|Answer:|Reply:)\s*/i, '').trim();
     
-    // 4. 移除空行和多余空格
+    // 3. 基本的空行清理
     aiResponse = aiResponse.replace(/\n\s*\n/g, '\n').trim();
     
-    console.log(`Content filtering: ${originalLength} → ${aiResponse.length} chars`);
-    
-    // 5. 如果过滤后内容太短或为空，尝试提取原始内容的末尾部分
-    if (!aiResponse || aiResponse.length < 10) {
-      console.warn('Response too short after filtering, attempting to extract meaningful content...');
-      const lines = data.choices[0].message.content.split('\n').filter((line: string) => line.trim());
-      // 取最后几行非推理内容
-      const meaningfulLines = lines.filter((line: string) => 
-        !line.includes('推理') && 
-        !line.includes('思考') && 
-        !line.includes('分析') &&
-        !line.includes('<think>') &&
-        line.length > 5
-      ).slice(-3);
-      
-      if (meaningfulLines.length > 0) {
-        aiResponse = meaningfulLines.join('\n');
-        console.log('Extracted meaningful content:', aiResponse.length, 'chars');
-      }
-    }
+    console.log(`Content processing: ${originalLength} → ${aiResponse.length} chars`);
     
     // 确保响应不为空
     if (!aiResponse || aiResponse.trim().length === 0) {
