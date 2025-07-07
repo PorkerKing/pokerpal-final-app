@@ -314,7 +314,7 @@ async function main() {
       create: {
         clubId: club.id,
         userId: cashierUser.id,
-        role: 'CASHIER',
+        role: 'RECEPTIONIST',
         status: 'ACTIVE',
         balance: 0.00,
         totalBuyIn: 0.00,

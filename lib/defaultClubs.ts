@@ -11,7 +11,19 @@ export const getDefaultClubByLocale = (locale: string) => {
         drinks: ['东方之珠特调', '陆家嘴咖啡', '金融街威士忌', '数据分析师特饮'],
         activities: ['金融圈精英赛', '周末商业人士聚会', '投资策略交流会', '专业牌技培训'],
         rewards: ['高级商务礼品', 'JOPT赛事门票', '金融论坛VIP席位', '私人理财咨询'],
-        atmosphere: '专业商务环境，高端金融圈社交'
+        atmosphere: '专业商务环境，高端金融圈社交',
+        dailyTournaments: {
+          schedule: {
+            '周一': '快节奏商务午休赛 (12:30-14:00, 买入¥500)',
+            '周二': '数据分析师专场 (19:00-22:00, 买入¥800)',
+            '周三': '金融精英夜赛 (20:00-23:30, 买入¥1000)',
+            '周四': '投资策略锦标赛 (18:30-22:30, 买入¥1200)',
+            '周五': '商务人士周末热身赛 (19:30-01:00, 买入¥800)',
+            '周六': '周末金融圈大赛 (15:00-00:00, 买入¥1500)',
+            '周日': '外滩精英休闲赛 (16:00-22:00, 买入¥600)'
+          },
+          info: '每日都有精彩赛事，随时欢迎参与！特别推荐周六的金融圈大赛，是我们的旗舰赛事。'
+        }
       },
       aiPersona: {
         name: '雅茜',
@@ -41,7 +53,19 @@ export const getDefaultClubByLocale = (locale: string) => {
         drinks: ['滿杯紅柚特調', '珍珠奶茶調酒', '文創咖啡', '電競能量飲'],
         activities: ['週末友誼賽', '電競主題牌局', '文創市集聚會', '新手教學時光'],
         rewards: ['文創小物', '誠品書店禮券', '王者榮耀周邊', '手工調酒體驗'],
-        atmosphere: '溫馨家庭式環境，文創電競風格社交'
+        atmosphere: '溫馨家庭式環境，文創電競風格社交',
+        dailyTournaments: {
+          schedule: {
+            '週一': '新手友善入門賽 (17:00-20:00, 買入NT$300)',
+            '週二': '電競主題夜賽 (19:00-23:00, 買入NT$500)',
+            '週三': '文創咖啡時光賽 (18:30-21:30, 買入NT$400)',
+            '週四': '珍奶特調錦標賽 (19:30-22:30, 買入NT$600)',
+            '週五': '週末暖身友誼賽 (20:00-24:00, 買入NT$500)',
+            '週六': '家庭式溫馨大賽 (16:00-23:00, 買入NT$800)',
+            '週日': '文創市集休閒賽 (15:00-21:00, 買入NT$400)'
+          },
+          info: '每日都有溫馨友善的比賽，特別歡迎新手參與！週六的家庭式大賽最受歡迎呢～'
+        }
       },
       aiPersona: {
         name: '心怡',
@@ -72,7 +96,19 @@ export const getDefaultClubByLocale = (locale: string) => {
         drinks: ['Premium Ipoh White Coffee', 'Teh Tarik Special', 'Multicultural Fusion Cocktails', 'Halal Mocktails'],
         activities: ['International Fusion Tournaments', 'Cultural Exchange Events', 'Language Learning Circles', 'Halal Food Festivals'],
         rewards: ['Five-Star Hotel Spa Vouchers', 'JOPT Championship Tickets', 'Malaysian Cultural Tours', 'Premium Teh Tarik Sets'],
-        atmosphere: 'Multicultural international environment respecting all faiths and backgrounds'
+        atmosphere: 'Multicultural international environment respecting all faiths and backgrounds',
+        dailyTournaments: {
+          schedule: {
+            'Monday': 'Halal International Beginners (18:00-21:00, Buy-in RM200)',
+            'Tuesday': 'Multicultural Fusion Night (19:00-23:00, Buy-in RM300)',
+            'Wednesday': 'Language Exchange Poker (18:30-21:30, Buy-in RM250)',
+            'Thursday': 'Teh Tarik Special Tournament (19:30-22:30, Buy-in RM350)',
+            'Friday': 'Cultural Celebration Pre-Weekend (20:00-24:00, Buy-in RM300)',
+            'Saturday': 'International Fusion Championship (16:00-23:00, Buy-in RM500)',
+            'Sunday': 'Peaceful Community Tournament (15:00-21:00, Buy-in RM200)'
+          },
+          info: 'Daily tournaments celebrating our multicultural community! Insha\'Allah, all games follow halal gaming principles. Saturday\'s International Fusion Championship is our signature event!'
+        }
       },
       aiPersona: {
         name: 'Aisha',
@@ -105,7 +141,19 @@ export const getDefaultClubByLocale = (locale: string) => {
         drinks: ['道頓堀パワードリンク', 'たこ焼きカクテル', 'アニメ風特調', 'コスプレ限定ドリンク'],
         activities: ['関西弁ポーカー大会', 'アニメテーマナイト', 'コスプレイベント', 'たこ焼き作り教室'],
         rewards: ['限定アニメグッズ', 'コスプレ衣装', 'たこ焼き器セット', 'USJ入場券'],
-        atmosphere: '熱気あふれる大阪風、アニメ・コスプレ文化'
+        atmosphere: '熱気あふれる大阪風、アニメ・コスプレ文化',
+        dailyTournaments: {
+          schedule: {
+            '月曜日': '新人歓迎アニメナイト (18:00-21:00, バイイン¥1000)',
+            '火曜日': 'コスプレ特別大会 (19:00-23:00, バイイン¥1500)',
+            '水曜日': 'たこ焼き杯関西弁トーナメント (18:30-21:30, バイイン¥1200)',
+            '木曜日': '道頓堀パワー夜戦 (19:30-22:30, バイイン¥1800)',
+            '金曜日': '週末準備熱血戦 (20:00-24:00, バイイン¥1500)',
+            '土曜日': '大阪魂チャンピオンシップ (16:00-23:00, バイイン¥2500)',
+            '日曜日': 'まったりアニメ談義杯 (15:00-21:00, バイイン¥1000)'
+          },
+          info: '毎日やったるで～！土曜日の大阪魂チャンピオンシップは特にめっちゃ熱いで！コスプレでの参加も大歓迎やねん♪'
+        }
       },
       aiPersona: {
         name: '美ちゃん',

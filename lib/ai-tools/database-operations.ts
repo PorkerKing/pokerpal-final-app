@@ -3,9 +3,9 @@
 
 import { CoreTool } from 'ai';
 
-// 调整用户余额工具（出纳/管理员权限）
+// 调整用户余额工具（前台/管理员权限）
 export const adjustUserBalanceTool: CoreTool = {
-  description: '调整指定用户的余额，支持增加或减少金额，需要出纳或管理员权限',
+  description: '调整指定用户的余额，支持增加或减少金额，需要前台或管理员权限',
   parameters: {
     type: 'object',
     properties: {
@@ -218,7 +218,7 @@ export const modifyMemberTool: CoreTool = {
         properties: {
           role: {
             type: 'string',
-            enum: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER'],
+            enum: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST'],
             description: '新角色'
           },
           status: {
@@ -278,7 +278,7 @@ export const modifyMemberTool: CoreTool = {
   }
 };
 
-// 处理充值申请工具（出纳权限）
+// 处理充值申请工具（前台权限）
 export const processDepositTool: CoreTool = {
   description: '处理用户的充值申请，确认充值金额并更新余额',
   parameters: {
@@ -302,7 +302,7 @@ export const processDepositTool: CoreTool = {
       },
       operatorId: { 
         type: 'string', 
-        description: '出纳员ID' 
+        description: '前台员ID' 
       },
       notes: { 
         type: 'string', 

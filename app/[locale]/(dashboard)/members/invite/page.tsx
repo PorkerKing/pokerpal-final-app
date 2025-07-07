@@ -190,7 +190,7 @@ export default function InviteMembersPage() {
             <option value="MEMBER">{t('roles.member')}</option>
             <option value="VIP">{t('roles.vip')}</option>
             <option value="DEALER">{t('roles.dealer')}</option>
-            <option value="CASHIER">{t('roles.cashier')}</option>
+            <option value="RECEPTIONIST">{t('roles.cashier')}</option>
             <option value="MANAGER">{t('roles.manager')}</option>
             <option value="ADMIN">{t('roles.admin')}</option>
           </select>

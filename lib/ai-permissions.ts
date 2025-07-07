@@ -14,57 +14,85 @@ export interface OperationConfig {
   confirmationMessage: string;
 }
 
-// 操作分类配置
+// 操作分类配置 - 根据用户角色细化权限
 export const AI_OPERATIONS: Record<string, OperationConfig> = {
-  // === 查询操作 - 个人信息 (无需确认) ===
+  // === 会员权限: 查询和操作自己的账号信息和公开信息 ===
   'view_my_balance': {
     type: 'query',
     requiresConfirmation: false,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER'],
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST'],
     description: '查看自己的余额',
     confirmationMessage: ''
   },
   'view_my_points': {
     type: 'query',
     requiresConfirmation: false,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER'],
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST'],
     description: '查看自己的积分',
     confirmationMessage: ''
   },
   'view_my_statistics': {
     type: 'query',
     requiresConfirmation: false,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER'],
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST'],
     description: '查看个人战绩',
     confirmationMessage: ''
   },
   'view_my_transactions': {
     type: 'query',
     requiresConfirmation: false,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER'],
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST'],
     description: '查看个人交易记录',
     confirmationMessage: ''
+  },
+  'consultation': {
+    type: 'query',
+    requiresConfirmation: false,
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST'],
+    description: '咨询服务',
+    confirmationMessage: ''
+  },
+  'register_tournament': {
+    type: 'modify',
+    requiresConfirmation: true,
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'RECEPTIONIST'],
+    description: '比赛报名',
+    confirmationMessage: '您确定要报名参加这个比赛吗？'
+  },
+  'change_table': {
+    type: 'modify',
+    requiresConfirmation: true,
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER'],
+    description: '换桌',
+    confirmationMessage: '您确定要申请换桌吗？'
+  },
+  'rebuy': {
+    type: 'modify',
+    requiresConfirmation: true,
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER'],
+    description: 'Rebuy补充筹码',
+    confirmationMessage: '您确定要进行Rebuy吗？'
   },
 
   // === 查询操作 - 公开信息 (无需确认) ===
   'view_tournaments': {
     type: 'query',
     requiresConfirmation: false,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER'],
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST'],
     description: '查看锦标赛列表',
     confirmationMessage: ''
   },
   'view_tables': {
     type: 'query',
     requiresConfirmation: false,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER'],
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST'],
     description: '查看牌桌状态',
     confirmationMessage: ''
   },
   'view_club_info': {
     type: 'query',
     requiresConfirmation: false,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER'],
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST'],
     description: '查看俱乐部基本信息',
     confirmationMessage: ''
   },
@@ -99,103 +127,87 @@ export const AI_OPERATIONS: Record<string, OperationConfig> = {
     confirmationMessage: ''
   },
 
-  // === 修改操作 - 会员权限 (需要确认) ===
-  'register_tournament': {
-    type: 'modify',
-    requiresConfirmation: true,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER'],
-    description: '报名参加锦标赛',
-    confirmationMessage: '您确定要报名参加这个锦标赛吗？这将从您的余额中扣除报名费。'
+  // === 前台权限: 比赛报名，会员查询，退赛，放奖，财务报表 ===
+  'member_query': {
+    type: 'query',
+    requiresConfirmation: false,
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'RECEPTIONIST'],
+    description: '会员查询',
+    confirmationMessage: ''
   },
-  'redeem_points': {
+  'tournament_unregister': {
     type: 'modify',
     requiresConfirmation: true,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER'],
-    description: '积分兑换礼品',
-    confirmationMessage: '您确定要用积分兑换这个物品吗？兑换后积分将被扣除且无法撤销。'
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'RECEPTIONIST'],
+    description: '退赛',
+    confirmationMessage: '您确定要为这位会员办理退赛吗？'
   },
-  'join_table': {
+  'distribute_prize': {
     type: 'modify',
     requiresConfirmation: true,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER'],
-    description: '加入牌桌',
-    confirmationMessage: '您确定要加入这个牌桌吗？这将从您的余额中扣除买入金额。'
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'RECEPTIONIST'],
+    description: '放奖',
+    confirmationMessage: '您确定要发放这个奖金吗？请确认金额和获奖者信息。'
+  },
+  'view_financial_report': {
+    type: 'query',
+    requiresConfirmation: false,
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'RECEPTIONIST'],
+    description: '财务报表',
+    confirmationMessage: ''
   },
 
-  // === 修改操作 - 荷官权限 (需要确认，管理者继承) ===
-  'manage_table': {
+  // === DL权限: 核对，确认 ===
+  'verify_operation': {
+    type: 'query',
+    requiresConfirmation: false,
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'DEALER'],
+    description: '核对操作',
+    confirmationMessage: ''
+  },
+  'confirm_operation': {
     type: 'modify',
     requiresConfirmation: true,
     requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'DEALER'],
-    description: '管理牌桌状态',
-    confirmationMessage: '您确定要对这个牌桌进行操作吗？这可能会影响正在游戏的玩家。'
-  },
-  'start_game': {
-    type: 'modify',
-    requiresConfirmation: true,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'DEALER'],
-    description: '开始游戏',
-    confirmationMessage: '您确定要开始这场游戏吗？'
-  },
-  'pause_game': {
-    type: 'modify',
-    requiresConfirmation: true,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'DEALER'],
-    description: '暂停游戏',
-    confirmationMessage: '您确定要暂停这场游戏吗？这会影响所有参与的玩家。'
+    description: '确认操作',
+    confirmationMessage: '您确定要确认这个操作吗？'
   },
 
-  // === 修改操作 - 出纳权限 (需要确认，管理者继承) ===
-  'adjust_balance': {
-    type: 'modify',
-    requiresConfirmation: true,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'CASHIER'],
-    description: '调整用户余额',
-    confirmationMessage: '您确定要调整这位用户的余额吗？这个操作将被记录并无法轻易撤销。'
-  },
-  'process_withdrawal': {
-    type: 'modify',
-    requiresConfirmation: true,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'CASHIER'],
-    description: '处理提现申请',
-    confirmationMessage: '您确定要处理这笔提现申请吗？请确保已完成相关审核流程。'
-  },
-  'process_deposit': {
-    type: 'modify',
-    requiresConfirmation: true,
-    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'CASHIER'],
-    description: '处理充值申请',
-    confirmationMessage: '您确定要处理这笔充值申请吗？请确认金额和付款信息。'
-  },
-
-  // === 修改操作 - 管理员权限 (需要确认) ===
+  // === 管理权限: 创建比赛，暂停比赛，比赛调整，桌位调整，数据分析 ===
   'create_tournament': {
     type: 'modify',
     requiresConfirmation: true,
     requiredRoles: ['OWNER', 'ADMIN', 'MANAGER'],
-    description: '创建锦标赛',
-    confirmationMessage: '您确定要创建这个锦标赛吗？创建后其他会员将能看到并报名参加。'
+    description: '创建比赛',
+    confirmationMessage: '您确定要创建这个比赛吗？创建后会员将能看到并报名参加。'
   },
-  'open_table': {
+  'pause_tournament': {
     type: 'modify',
     requiresConfirmation: true,
     requiredRoles: ['OWNER', 'ADMIN', 'MANAGER'],
-    description: '开设新牌桌',
-    confirmationMessage: '您确定要开设这个新牌桌吗？这将消耗俱乐部资源并需要荷官管理。'
+    description: '暂停比赛',
+    confirmationMessage: '您确定要暂停这个比赛吗？这会影响所有参与的玩家。'
   },
-  'modify_member': {
+  'adjust_tournament': {
     type: 'modify',
     requiresConfirmation: true,
     requiredRoles: ['OWNER', 'ADMIN', 'MANAGER'],
-    description: '修改会员信息',
-    confirmationMessage: '您确定要修改这位会员的信息吗？这个操作将被记录在系统中。'
+    description: '比赛调整',
+    confirmationMessage: '您确定要调整这个比赛的设置吗？'
   },
-  'invite_member': {
+  'adjust_table': {
     type: 'modify',
     requiresConfirmation: true,
     requiredRoles: ['OWNER', 'ADMIN', 'MANAGER'],
-    description: '邀请新会员',
-    confirmationMessage: '您确定要邀请这位新会员加入俱乐部吗？'
+    description: '桌位调整',
+    confirmationMessage: '您确定要调整桌位安排吗？这可能会影响正在游戏的玩家。'
+  },
+  'data_analysis': {
+    type: 'query',
+    requiresConfirmation: false,
+    requiredRoles: ['OWNER', 'ADMIN', 'MANAGER'],
+    description: '数据分析',
+    confirmationMessage: ''
   },
 
   // === 修改操作 - 最高权限 (仅OWNER和ADMIN) ===
@@ -304,14 +316,14 @@ export const ROLE_DESCRIPTIONS = {
   'MANAGER': '经理 - 拥有高级管理权限，包含出纳和荷官的所有权限',
   'MEMBER': '会员 - 只能查看个人信息和俱乐部公开信息，可参与游戏',
   'DEALER': '荷官 - 负责牌桌管理，可开始/暂停游戏，无财务权限',
-  'CASHIER': '出纳 - 负责财务操作，可调整余额和处理充提，无牌桌管理权限'
+  'RECEPTIONIST': '出纳 - 负责财务操作，可调整余额和处理充提，无牌桌管理权限'
 };
 
 // 权限层级 (数字越高权限越大)
 export const ROLE_HIERARCHY = {
   'MEMBER': 1,
   'DEALER': 2,
-  'CASHIER': 2,
+  'RECEPTIONIST': 2,
   'MANAGER': 4,
   'ADMIN': 5,
   'OWNER': 6

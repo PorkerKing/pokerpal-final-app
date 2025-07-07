@@ -46,7 +46,7 @@ const roleIcons = {
   MANAGER: UserCheck,
   MEMBER: Users,
   DEALER: Users,
-  CASHIER: Users,
+  RECEPTIONIST: Users,
   VIP: Star,
   GUEST: Users
 };
@@ -58,7 +58,7 @@ const roleColors = {
   MANAGER: 'text-blue-600 bg-blue-100',
   MEMBER: 'text-gray-600 bg-gray-100',
   DEALER: 'text-green-600 bg-green-100',
-  CASHIER: 'text-orange-600 bg-orange-100',
+  RECEPTIONIST: 'text-orange-600 bg-orange-100',
   VIP: 'text-pink-600 bg-pink-100',
   GUEST: 'text-gray-400 bg-gray-50'
 };
@@ -187,7 +187,7 @@ export default function MembersPage() {
           <option value="MANAGER">{t('roles.manager')}</option>
           <option value="MEMBER">{t('roles.member')}</option>
           <option value="DEALER">{t('roles.dealer')}</option>
-          <option value="CASHIER">{t('roles.cashier')}</option>
+          <option value="RECEPTIONIST">{t('roles.cashier')}</option>
           <option value="VIP">{t('roles.vip')}</option>
         </select>
 

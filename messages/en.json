@@ -42,8 +42,8 @@
         "Need help with player seating arrangements?",
         "Check the blind structure for tables?"
       ],
-      "cashier": [
-        "Cashier, how are today's finances looking?",
+      "receptionist": [
+        "Receptionist, how are today's finances looking?",
         "Need to process player buy-ins?",
         "Any pending withdrawal requests to review?",
         "Check member balance change records?"
@@ -120,7 +120,7 @@
       "MANAGER": "Manager",
       "MEMBER": "Member",
       "DEALER": "Dealer",
-      "CASHIER": "Cashier",
+      "RECEPTIONIST": "Receptionist",
       "VIP": "VIP Member",
       "GUEST": "Guest"
     }
@@ -410,7 +410,7 @@
       "manager": "Manager",
       "member": "Member",
       "dealer": "Dealer",
-      "cashier": "Cashier",
+      "receptionist": "Receptionist",
       "vip": "VIP Member",
       "guest": "Guest"
     }
@@ -526,7 +526,7 @@
       "manager": "Manager",
       "member": "Member",
       "dealer": "Dealer",
-      "cashier": "Cashier",
+      "receptionist": "Receptionist",
       "vip": "VIP Member",
       "guest": "Guest"
     },

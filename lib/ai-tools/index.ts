@@ -438,7 +438,7 @@ export const listMembersAPITool: CoreTool = {
       },
       role: { 
         type: 'string', 
-        enum: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER', 'VIP', 'GUEST'],
+        enum: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST', 'VIP', 'GUEST'],
         description: '按角色筛选（可选）' 
       },
       limit: { 
@@ -780,7 +780,7 @@ export const smartTaskWizardAPITool: CoreTool = {
     properties: {
       userRole: {
         type: 'string',
-        enum: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER', 'VIP', 'GUEST'],
+        enum: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST', 'VIP', 'GUEST'],
         description: '用户角色'
       },
       taskType: {
@@ -804,7 +804,7 @@ export const smartTaskWizardAPITool: CoreTool = {
       'MANAGER': ['tournament_setup', 'ring_game_setup'],
       'MEMBER': ['user_registration', 'balance_management'],
       'DEALER': ['ring_game_setup'],
-      'CASHIER': ['balance_management', 'financial_setup'],
+      'RECEPTIONIST': ['balance_management', 'financial_setup'],
       'VIP': ['user_registration', 'balance_management'],
       'GUEST': ['user_registration']
     };

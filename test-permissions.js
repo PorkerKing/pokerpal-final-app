@@ -8,7 +8,7 @@ const testUsers = {
   admin: { email: 'admin@pokerpal.com', password: 'password123', role: 'OWNER' },
   player1: { email: 'player1@pokerpal.com', password: 'password123', role: 'MEMBER' },
   dealer: { email: 'dealer@pokerpal.com', password: 'password123', role: 'DEALER' },
-  cashier: { email: 'cashier@pokerpal.com', password: 'password123', role: 'CASHIER' }
+  cashier: { email: 'cashier@pokerpal.com', password: 'password123', role: 'RECEPTIONIST' }
 };
 
 // 测试场景
@@ -26,7 +26,7 @@ const testScenarios = [
     expectConfirmation: true
   },
   {
-    description: '出纳调整用户余额 (需要确认)',
+    description: '前台调整用户余额 (需要确认)',
     user: 'cashier',
     message: '调整用户余额',
     expectConfirmation: true

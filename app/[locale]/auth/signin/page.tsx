@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { signIn, getProviders } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
-import { Github, Mail, Lock, User, ArrowLeft, Spade, Diamond } from 'lucide-react';
+import { Mail, Lock, User, ArrowLeft, Spade, Diamond } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from '@/navigation';
 
@@ -20,16 +20,6 @@ export default function SignInPage() {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState<string | null>(null);
 
-  const handleGithubSignIn = async () => {
-    setIsLoading(true);
-    try {
-      await signIn('github', { callbackUrl: `/${locale}` });
-    } catch (error) {
-      console.error('GitHub login error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleCredentialsSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,25 +102,6 @@ export default function SignInPage() {
         )}
 
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 space-y-6">
-          {/* GitHub 登录 */}
-          <button
-            onClick={handleGithubSignIn}
-            disabled={isLoading}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors disabled:opacity-50"
-          >
-            <Github className="h-5 w-5" />
-            {t('signInWithGithub')}
-          </button>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-600"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-900 text-gray-400">{t('or')}</span>
-            </div>
-          </div>
-
           {/* 邮箱密码登录 */}
           <form onSubmit={handleCredentialsSignIn} className="space-y-4">
             <div>

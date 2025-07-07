@@ -74,7 +74,10 @@
       "Bash(touch:*)",
       "Bash(env)",
       "Bash(npx vercel env add:*)",
-      "Bash(npx vercel:*)"
+      "Bash(npx vercel:*)",
+      "Bash(for:*)",
+      "Bash(do echo \"Updating $file\")",
+      "Bash(done)"
     ],
     "deny": []
   }

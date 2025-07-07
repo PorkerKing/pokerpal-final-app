@@ -79,28 +79,28 @@ export default function Sidebar() {
       label: t('finance'),
       icon: DollarSign,
       href: '/finance',
-      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'CASHIER']
+      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'RECEPTIONIST']
     },
     {
       key: 'store',
       label: t('store'),
       icon: Store,
       href: '/store',
-      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER']
+      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST']
     },
     {
       key: 'achievements',
       label: t('achievements'),
       icon: Award,
       href: '/achievements',
-      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER']
+      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST']
     },
     {
       key: 'points',
       label: '积分管理',
       icon: Star,
       href: '/points',
-      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER']
+      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'RECEPTIONIST']
     },
     {
       key: 'reports',
@@ -234,7 +234,7 @@ export default function Sidebar() {
             {userRole === 'MANAGER' && '经理'}
             {userRole === 'MEMBER' && '会员'}
             {userRole === 'DEALER' && '荷官'}
-            {userRole === 'CASHIER' && '出纳'}
+            {userRole === 'RECEPTIONIST' && '出纳'}
             {userRole === 'VIP' && 'VIP会员'}
             {userRole === 'GUEST' && '访客'}
           </div>

@@ -9,7 +9,7 @@ const ROLE_LEVELS = {
   MEMBER: 1,
   VIP: 2,
   DEALER: 3,
-  CASHIER: 4,
+  RECEPTIONIST: 4,
   MANAGER: 5,
   ADMIN: 6,
   OWNER: 7
@@ -128,7 +128,7 @@ export async function validateManagerPermission(request: NextRequest, clubId: st
 
 // 财务权限验证
 export async function validateFinancePermission(request: NextRequest, clubId: string) {
-  return validateClubPermission(request, clubId, ['CASHIER', 'MANAGER', 'ADMIN', 'OWNER']);
+  return validateClubPermission(request, clubId, ['RECEPTIONIST', 'MANAGER', 'ADMIN', 'OWNER']);
 }
 
 // 错误响应辅助函数

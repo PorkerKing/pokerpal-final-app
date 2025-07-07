@@ -42,8 +42,8 @@
         "需要我帮您处理玩家座位安排吗？",
         "查看一下牌桌的盲注结构？"
       ],
-      "cashier": [
-        "出纳员，今天的财务状况如何？",
+      "receptionist": [
+        "前台，今天的财务状况如何？",
         "需要处理玩家买入操作吗？",
         "有待处理的提现申请要看看吗？",
         "查看会员余额变动记录？"
@@ -286,7 +286,7 @@
       "MANAGER": "经理",
       "MEMBER": "会员",
       "DEALER": "荷官",
-      "CASHIER": "出纳",
+      "RECEPTIONIST": "前台",
       "VIP": "VIP会员",
       "GUEST": "访客"
     }
@@ -576,7 +576,7 @@
       "manager": "经理",
       "member": "会员",
       "dealer": "荷官",
-      "cashier": "出纳",
+      "receptionist": "前台",
       "vip": "VIP会员",
       "guest": "访客"
     }
@@ -704,7 +704,7 @@
       "manager": "经理",
       "member": "会员",
       "dealer": "荷官",
-      "cashier": "出纳",
+      "receptionist": "前台",
       "vip": "VIP会员",
       "guest": "访客"
     },

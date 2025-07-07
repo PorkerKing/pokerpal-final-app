@@ -126,21 +126,21 @@ export default function SidebarNav() {
       key: 'finance',
       label: t('finance.main'),
       icon: DollarSign,
-      requiredRoles: ['OWNER', 'ADMIN', 'CASHIER'],
+      requiredRoles: ['OWNER', 'ADMIN', 'RECEPTIONIST'],
       children: [
         {
           key: 'finance-overview',
           label: t('finance.overview'),
           icon: BarChart3,
           href: '/finance',
-          requiredRoles: ['OWNER', 'ADMIN', 'CASHIER']
+          requiredRoles: ['OWNER', 'ADMIN', 'RECEPTIONIST']
         },
         {
           key: 'finance-transactions',
           label: t('finance.transactions'),
           icon: CreditCard,
           href: '/finance/transactions',
-          requiredRoles: ['OWNER', 'ADMIN', 'CASHIER']
+          requiredRoles: ['OWNER', 'ADMIN', 'RECEPTIONIST']
         }
       ]
     },
@@ -330,7 +330,7 @@ export default function SidebarNav() {
             {userRole === 'MANAGER' && t('roles.manager')}
             {userRole === 'MEMBER' && t('roles.member')}
             {userRole === 'DEALER' && t('roles.dealer')}
-            {userRole === 'CASHIER' && t('roles.cashier')}
+            {userRole === 'RECEPTIONIST' && t('roles.cashier')}
             {userRole === 'VIP' && t('roles.vip')}
             {userRole === 'GUEST' && t('roles.guest')}
           </div>

@@ -80,7 +80,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     }),
     
     // 财务汇总（如果用户有权限）
-    ['OWNER', 'ADMIN', 'CASHIER'].includes(membership.role) ? 
+    ['OWNER', 'ADMIN', 'RECEPTIONIST'].includes(membership.role) ? 
       prisma.transaction.groupBy({
         by: ['type'],
         where: { 
@@ -157,7 +157,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     },
     
     // 财务概览（仅对有权限的用户显示）
-    finance: ['OWNER', 'ADMIN', 'CASHIER'].includes(membership.role) ? {
+    finance: ['OWNER', 'ADMIN', 'RECEPTIONIST'].includes(membership.role) ? {
       dailyRevenue,
       monthlyRevenue,
       currency: 'USD' // TODO: 从俱乐部设置获取
@@ -175,7 +175,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     
     // 用户权限
     userRole: membership.role,
-    canViewFinance: ['OWNER', 'ADMIN', 'CASHIER'].includes(membership.role)
+    canViewFinance: ['OWNER', 'ADMIN', 'RECEPTIONIST'].includes(membership.role)
   };
 
   return createSuccessResponse(summary);

@@ -39,7 +39,7 @@ export const ROLE_HIERARCHY: Record<Role, number> = {
   MEMBER: 1,
   VIP: 2,
   DEALER: 3,
-  CASHIER: 4,
+  RECEPTIONIST: 4,
   MANAGER: 5,
   ADMIN: 6,
   OWNER: 7

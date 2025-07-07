@@ -345,8 +345,8 @@ export default function HomePage() {
         suggestions = t('suggestions.manager');
       } else if (userRole === 'DEALER') {
         suggestions = t('suggestions.dealer');
-      } else if (userRole === 'CASHIER') {
-        suggestions = t('suggestions.cashier');
+      } else if (userRole === 'RECEPTIONIST') {
+        suggestions = t('suggestions.receptionist');
       } else {
         // 普通会员和VIP
         suggestions = t('suggestions.member');
