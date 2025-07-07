@@ -894,16 +894,63 @@ export const getClubDetailsAPITool: CoreTool = {
   },
   execute: async ({ clubId, includeStore = true, includeTournaments = true }) => {
     try {
-      // 获取基本俱乐部信息
-      const clubResponse = await fetch(`${process.env.NEXTAUTH_URL}/api/clubs/${clubId}?includeStats=true`);
-      const clubData = await clubResponse.json();
+      // 直接从数据库获取俱乐部信息，避免循环调用
+      const { PrismaClient } = await import('@prisma/client');
+      const prisma = new PrismaClient();
       
-      if (!clubData.success) {
-        return `获取俱乐部信息失败: ${clubData.error}`;
-      }
+      try {
+        // 映射访客模式的clubId到真实的数据库clubId
+        let realClubId = clubId;
+        if (clubId.startsWith('guest-')) {
+          if (clubId.includes('shanghai')) {
+            // 查找上海扑克会所
+            const shanghaClub = await prisma.club.findFirst({
+              where: { name: '上海扑克会所' }
+            });
+            realClubId = shanghaClub?.id || clubId;
+          } else if (clubId.includes('taipei')) {
+            // 查找台北德州俱乐部
+            const taipeiClub = await prisma.club.findFirst({
+              where: { name: '台北德州俱乐部' }
+            });
+            realClubId = taipeiClub?.id || clubId;
+          } else if (clubId.includes('osaka')) {
+            // 查找大阪ポーカーハウス
+            const osakaClub = await prisma.club.findFirst({
+              where: { name: '大阪ポーカーハウス' }
+            });
+            realClubId = osakaClub?.id || clubId;
+          } else if (clubId.includes('kuala-lumpur')) {
+            // 查找吉隆坡扑克联盟
+            const klClub = await prisma.club.findFirst({
+              where: { name: '吉隆坡扑克联盟' }
+            });
+            realClubId = klClub?.id || clubId;
+          }
+        }
 
-      const club = clubData.data;
-      let result = `🏛️ **${club.name}**
+        const club = await prisma.club.findUnique({
+          where: { id: realClubId },
+          include: {
+            storeItems: includeStore ? {
+              where: { isActive: true },
+              orderBy: { pointsRequired: 'asc' },
+              take: 6
+            } : false,
+            tournaments: includeTournaments ? {
+              where: { 
+                status: { in: ['SCHEDULED', 'REGISTERING'] }
+              },
+              orderBy: { startTime: 'asc' },
+              take: 5
+            } : false
+          }
+        });
+
+        if (!club) {
+          return `未找到俱乐部信息 (ID: ${clubId})`;
+        }
+        let result = `🏛️ **${club.name}**
 📍 位置：${club.timezone?.includes('Shanghai') ? '上海市黄浦区外滩金融区' : 
              club.timezone?.includes('Taipei') ? '台北市大安區文創園區附近' : 
              club.timezone?.includes('Tokyo') ? '大阪市中央区道頓堀' : 
@@ -914,58 +961,98 @@ export const getClubDetailsAPITool: CoreTool = {
 
 ✨ **俱乐部特色：**`;
 
-      // 获取商城信息
-      if (includeStore) {
-        try {
-          const storeResponse = await fetch(`${process.env.NEXTAUTH_URL}/api/clubs/${clubId}/store`);
-          const storeData = await storeResponse.json();
-          
-          if (storeData.success && storeData.data?.length > 0) {
-            result += `\n\n🎁 **积分兑换商城：**`;
-            storeData.data.slice(0, 6).forEach((item: any) => {
-              result += `\n• ${item.name} (${item.pointsRequired.toLocaleString()}积分)`;
-              if (item.description) {
-                result += `\n  ${item.description}`;
-              }
-            });
-          }
-        } catch (error) {
-          console.log('Store data fetch failed:', error);
+        // 添加商城信息
+        if (includeStore && club.storeItems && club.storeItems.length > 0) {
+          result += `\n\n🎁 **积分兑换商城：**`;
+          club.storeItems.forEach((item: any) => {
+            result += `\n• ${item.name} (${item.pointsRequired.toLocaleString()}积分)`;
+            if (item.description) {
+              result += `\n  ${item.description}`;
+            }
+          });
         }
-      }
 
-      // 获取锦标赛信息
-      if (includeTournaments) {
-        try {
-          const tournamentsResponse = await fetch(`${process.env.NEXTAUTH_URL}/api/tournaments?clubId=${clubId}&limit=5`);
-          const tournamentsData = await tournamentsResponse.json();
-          
-          if (tournamentsData.success && tournamentsData.data?.length > 0) {
-            result += `\n\n🏆 **特色锦标赛：**`;
-            tournamentsData.data.forEach((tournament: any) => {
-              result += `\n• ${tournament.name}`;
-              if (tournament.buyIn > 0) {
-                result += ` (买入：${tournament.buyIn} ${club.currency})`;
-              }
-              if (tournament.description) {
-                result += `\n  ${tournament.description}`;
-              }
-            });
-          }
-        } catch (error) {
-          console.log('Tournament data fetch failed:', error);
+        // 添加锦标赛信息  
+        if (includeTournaments && club.tournaments && club.tournaments.length > 0) {
+          result += `\n\n🏆 **特色锦标赛：**`;
+          club.tournaments.forEach((tournament: any) => {
+            result += `\n• ${tournament.name}`;
+            if (tournament.buyIn > 0) {
+              result += ` (买入：${tournament.buyIn} ${club.currency})`;
+            }
+            if (tournament.description) {
+              result += `\n  ${tournament.description}`;
+            }
+          });
         }
-      }
 
-      // 添加欢迎信息
-      result += `\n\n🌟 **欢迎来到${club.name}！**
+        // 添加欢迎信息
+        result += `\n\n🌟 **欢迎来到${club.name}！**
 💫 这里是交朋友、同场竞技的绝佳场所
 🎯 我们期待与您一起创造精彩的扑克时光
 📞 如需了解更多信息，请随时与我们联系`;
 
-      return result;
+        return result;
+        
+      } finally {
+        await prisma.$disconnect();
+      }
     } catch (error) {
-      return `获取俱乐部详细信息时出错: ${error}`;
+      console.error('getClubDetails error:', error);
+      
+      // 数据库不可用时的降级处理，提供基本信息
+      if (clubId.includes('shanghai')) {
+        return `🏛️ **上海扑克会所**
+📍 位置：上海市黄浦区外滩金融区
+🕐 时区：Asia/Shanghai
+💰 货币：CNY
+📋 简介：面向金融圈专业人士的高端扑克俱乐部，注重专业性与严谨的游戏体验
+
+🌟 **欢迎来到上海扑克会所！**
+💫 这里是交朋友、同场竞技的绝佳场所
+🎯 我们期待与您一起创造精彩的扑克时光
+📞 如需了解更多信息，请随时与我们联系
+
+⚠️ 数据库连接中，详细信息将稍后更新`;
+      } else if (clubId.includes('taipei')) {
+        return `🏛️ **台北德州俱乐部**
+📍 位置：台北市大安區文創園區附近
+🕐 时区：Asia/Taipei
+💰 货币：TWD
+📋 简介：充满温馨社交氛围的台北扑克俱乐部，欢迎各界朋友交流切磋
+
+🌟 **欢迎来到台北德州俱乐部！**
+💫 这里是交朋友、同场竞技的绝佳场所
+🎯 我们期待与您一起创造精彩的扑克时光
+
+⚠️ 数据库连接中，详细信息将稍后更新`;
+      } else if (clubId.includes('osaka')) {
+        return `🏛️ **大阪ポーカーハウス**
+📍 位置：大阪市中央区道頓堀
+🕐 时区：Asia/Tokyo
+💰 货币：JPY
+📋 简介：秉承日式传统礼仪的扑克俱乐部，营造尊重礼貌的游戏环境
+
+🌟 **欢迎来到大阪ポーカーハウス！**
+💫 这里是交朋友、同场竞技的绝佳场所
+🎯 我们期待与您一起创造精彩的扑克时光
+
+⚠️ 数据库连接中，详细信息将稍后更新`;
+      } else if (clubId.includes('kuala-lumpur')) {
+        return `🏛️ **吉隆坡扑克联盟**
+📍 位置：Kuala Lumpur City Centre (KLCC Area)
+🕐 时区：Asia/Kuala_Lumpur
+💰 货币：MYR
+📋 简介：多元文化融合的国际化扑克平台，欢迎来自世界各地的牌手
+
+🌟 **Welcome to Kuala Lumpur Poker Alliance！**
+💫 这里是交朋友、同场竞技的绝佳场所
+🎯 我们期待与您一起创造精彩的扑克时光
+
+⚠️ 数据库连接中，详细信息将稍后更新`;
+      }
+      
+      return `获取俱乐部详细信息时出错，请稍后再试。如需帮助，请随时与我们联系。`;
     }
   }
 };
