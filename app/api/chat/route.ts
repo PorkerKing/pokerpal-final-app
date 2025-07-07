@@ -79,7 +79,8 @@ async function buildSystemPrompt(
   isGuest: boolean,
   combinedHistory: Array<{role: string, content: string}> = [],
   aiNativeLanguage?: string,
-  clubDescription?: string
+  clubDescription?: string,
+  clubInfo?: any
 ): Promise<string> {
   // 获取俱乐部信息（包括时区）
   let aiPersona = null;
@@ -274,14 +275,26 @@ ${(() => {
 - ❌ 支付功能 - 访客无法进行支付操作
 - ❌ 预订功能 - 访客无法预订座位或服务
 
-【俱乐部基本信息】：
+【俱乐部完整信息】：
 📍 俱乐部名称：${clubName}
 📋 俱乐部简介：${clubDescription || '专业的德州扑克俱乐部，提供优质的扑克游戏体验'}
+${clubInfo && clubInfo.specialties ? `
+🕐 营业时间：${clubInfo.businessHours || '全天营业'}
+📍 位置：${clubInfo.location || '市中心'}
 
-💡 【关于俱乐部位置和服务的询问】：
-- 用户询问位置时，可以参考俱乐部简介中的地理信息
-- 如需具体地址，建议用户联系俱乐部获取详细信息
-- 可以介绍俱乐部的特色和服务范围
+🍸 特色酒水：${clubInfo.specialties.drinks?.join('、') || '精选调酒'}
+🎉 特色活动：${clubInfo.specialties.activities?.join('、') || '各类主题活动'}
+🎁 积分奖励：${clubInfo.specialties.rewards?.join('、') || '丰富礼品'}
+🌟 环境氛围：${clubInfo.specialties.atmosphere || '舒适优雅'}` : ''}
+
+💡 【作为客服AI的职责】：
+✨ 你是俱乐部的形象大使，要主动吸引客户！
+- 热情介绍俱乐部的所有特色和优势
+- 主动推荐特色酒水、活动和服务
+- 营造"欢迎来交朋友、同场竞技"的氛围
+- 详细回答营业时间、位置、活动等公开信息
+- 积极介绍积分兑换、会员福利等
+- 让每个客户都感受到俱乐部的魅力和温暖
 
 【专业服务范围】：
 ✅ 你的专业服务范围仅限于：
@@ -631,8 +644,9 @@ export async function POST(req: Request) {
         
         // 直接根据检测到的俱乐部类型设置AI母语
         (globalThis as any).aiNativeLanguage = clubType;
-        // 存储俱乐部描述信息
+        // 存储俱乐部完整信息
         (globalThis as any).clubDescription = defaultClub.description;
+        (globalThis as any).clubInfo = defaultClub;
       }
     } catch (error) {
       console.error('获取俱乐部信息失败:', error);
@@ -641,6 +655,7 @@ export async function POST(req: Request) {
     // 构建系统提示
     const aiNativeLanguage = (globalThis as any).aiNativeLanguage;
     const clubDescription = (globalThis as any).clubDescription;
+    const clubInfo = (globalThis as any).clubInfo;
     const systemPrompt = await buildSystemPrompt(
       clubId, 
       clubName, 
@@ -649,7 +664,8 @@ export async function POST(req: Request) {
       !isAuthenticated,
       combinedHistory,
       aiNativeLanguage,
-      clubDescription
+      clubDescription,
+      clubInfo
     );
 
     // 转换消息格式

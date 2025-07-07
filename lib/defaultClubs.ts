@@ -5,6 +5,14 @@ export const getDefaultClubByLocale = (locale: string) => {
       id: 'shanghai-poker-club',
       name: '上海扑克会所',
       description: '面向金融圈专业人士的高端扑克俱乐部，位于外滩金融区，提供顶级的扑克体验',
+      businessHours: '周一至周日 14:00-02:00',
+      location: '上海市黄浦区外滩金融区',
+      specialties: {
+        drinks: ['东方之珠特调', '陆家嘴咖啡', '金融街威士忌', '数据分析师特饮'],
+        activities: ['金融圈精英赛', '周末商业人士聚会', '投资策略交流会', '专业牌技培训'],
+        rewards: ['高级商务礼品', 'JOPT赛事门票', '金融论坛VIP席位', '私人理财咨询'],
+        atmosphere: '专业商务环境，高端金融圈社交'
+      },
       aiPersona: {
         name: '雅茜',
         fullName: '雅茜',
@@ -27,6 +35,14 @@ export const getDefaultClubByLocale = (locale: string) => {
       id: 'taipei-texas-club',
       name: '台北德州俱乐部',
       description: '充满温馨社交氛围的台北扑克俱乐部，就像回到家一样温暖，每个人都是朋友',
+      businessHours: '週一至週日 15:00-01:00',
+      location: '台北市大安區文創園區附近',
+      specialties: {
+        drinks: ['滿杯紅柚特調', '珍珠奶茶調酒', '文創咖啡', '電競能量飲'],
+        activities: ['週末友誼賽', '電競主題牌局', '文創市集聚會', '新手教學時光'],
+        rewards: ['文創小物', '誠品書店禮券', '王者榮耀周邊', '手工調酒體驗'],
+        atmosphere: '溫馨家庭式環境，文創電競風格社交'
+      },
       aiPersona: {
         name: '心怡',
         fullName: '心怡妹妹',
@@ -50,6 +66,14 @@ export const getDefaultClubByLocale = (locale: string) => {
       id: 'kuala-lumpur-alliance',
       name: 'Kuala Lumpur Poker Alliance',
       description: 'A multicultural international poker platform where East meets West, bringing together players from diverse backgrounds',
+      businessHours: 'Monday-Sunday 17:00-03:00',
+      location: 'Kuala Lumpur City Centre (KLCC Area)',
+      specialties: {
+        drinks: ['Premium Ipoh White Coffee', 'Teh Tarik Special', 'Multicultural Fusion Cocktails', 'Halal Mocktails'],
+        activities: ['International Fusion Tournaments', 'Cultural Exchange Events', 'Language Learning Circles', 'Halal Food Festivals'],
+        rewards: ['Five-Star Hotel Spa Vouchers', 'JOPT Championship Tickets', 'Malaysian Cultural Tours', 'Premium Teh Tarik Sets'],
+        atmosphere: 'Multicultural international environment respecting all faiths and backgrounds'
+      },
       aiPersona: {
         name: 'Aisha',
         fullName: 'International Liaison Aisha',
@@ -75,6 +99,14 @@ export const getDefaultClubByLocale = (locale: string) => {
       id: 'osaka-poker-house',
       name: '大阪ポーカーハウス',
       description: '道頓堀の活気と大阪人の人情味溢れる、熱いポーカーハウス。関西弁で盛り上がりましょう！',
+      businessHours: '月曜日〜日曜日 16:00-02:00',
+      location: '大阪市中央区道頓堀',
+      specialties: {
+        drinks: ['道頓堀パワードリンク', 'たこ焼きカクテル', 'アニメ風特調', 'コスプレ限定ドリンク'],
+        activities: ['関西弁ポーカー大会', 'アニメテーマナイト', 'コスプレイベント', 'たこ焼き作り教室'],
+        rewards: ['限定アニメグッズ', 'コスプレ衣装', 'たこ焼き器セット', 'USJ入場券'],
+        atmosphere: '熱気あふれる大阪風、アニメ・コスプレ文化'
+      },
       aiPersona: {
         name: '美ちゃん',
         fullName: 'おもてなし美ちゃん',
