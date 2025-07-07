@@ -76,8 +76,7 @@ async function createTestAccounts() {
           create: {
             name: userData.name,
             email: userData.email,
-            password: hashedPassword,
-            preferredLanguage: 'zh'
+            password: hashedPassword
           }
         });
         console.log(`✅ Created/Updated user: ${userData.email}`);
