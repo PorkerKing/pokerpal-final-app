@@ -715,5 +715,58 @@
     "notFound": "Requested resource not found",
     "forbidden": "You don't have permission to access this resource",
     "timeout": "Request timed out, please try again"
+  },
+  "SaaSFeatures": {
+    "title": "🚀 PokerPal SaaS Core Features Demo",
+    "subtitle": "Next-Generation Texas Hold'em Club Management Platform • Complete SaaS Solution",
+    "demoHint": "This is a proof-of-concept version showcasing core features of the complete SaaS platform",
+    "showFeatures": "Feature Demo",
+    "close": "Close",
+    "aiAssistant": {
+      "title": "🤖 AI Smart Assistant",
+      "description": "Customized AI assistants for each club with unique personalities and local characteristics",
+      "highlight": "4 Unique Personalities × Localization",
+      "demo": "Shanghai Yaxi: \"You know, this strategy is quite good...\"\nTaipei Xinyi: \"Hey~ Stay calm, we can win!\"\nOsaka Mii-chan: \"Let's do this! This is awesome♪\"\nKuala Lumpur Aisha: \"MashaAllah, excellent strategy! 🌙\""
+    },
+    "databaseOps": {
+      "title": "🗄️ Natural Language Database Operations",
+      "description": "Use AI to directly operate databases without complex interfaces - natural language commands for management",
+      "highlight": "Revolutionary SaaS Innovation",
+      "demo": "\"Please adjust John's balance, add $500\"\n→ System automatically executes SQL operations and logs audit trail\n\n\"Query this month's tournament participation\"\n→ Real-time statistical report generation"
+    },
+    "multiTenant": {
+      "title": "🏢 Multi-Tenant Architecture",
+      "description": "Completely isolated club data with unlimited scalability",
+      "highlight": "Enterprise-Grade Data Security",
+      "demo": "✅ User data isolated by club\n✅ Chat history independently managed\n✅ Hierarchical permission control\n✅ Secure financial data isolation"
+    },
+    "tournament": {
+      "title": "🏆 Smart Tournament Management",
+      "description": "End-to-end automated management from registration to settlement",
+      "highlight": "Full Process Automation",
+      "demo": "📅 Smart Scheduling → 🎫 Online Registration → 💰 Auto Deduction → 📊 Real-time Stats → 🏅 Prize Distribution"
+    },
+    "financial": {
+      "title": "💰 Banking-Grade Financial System",
+      "description": "Complete financial features including balance management, points system, and transaction records",
+      "highlight": "Banking-Grade Security Standards",
+      "demo": "🏦 Balance Management: Deposit/Withdraw/Transfer\n⭐ Points System: Earn/Redeem/Rewards\n📈 Transaction Records: Complete audit trail\n📊 Financial Reports: Real-time analytics"
+    },
+    "analytics": {
+      "title": "📊 Intelligent Data Analytics",
+      "description": "Deep data insights to empower club operational decisions",
+      "highlight": "AI-Driven Business Insights",
+      "demo": "📈 Member growth trends\n🎯 Activity analysis\n💡 Revenue forecasting\n🔍 User behavior insights"
+    },
+    "features": {
+      "aiChat": "AI Chat",
+      "aiChatDesc": "Natural language interaction",
+      "enterpriseSecurity": "Enterprise Security",
+      "enterpriseSecurityDesc": "Multi-layer data protection",
+      "multiLanguage": "Multi-Language",
+      "multiLanguageDesc": "Internationalization support",
+      "highPerformance": "High Performance",
+      "highPerformanceDesc": "Cloud-native architecture"
+    }
   }
 } 
