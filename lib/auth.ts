@@ -127,7 +127,10 @@ export const authOptions = {
         const duplicatePattern = `/${locale}/${locale}`;
         if (url.includes(duplicatePattern)) {
           const fixedUrl = url.replace(duplicatePattern, `/${locale}`);
-          console.log(`Fixed duplicate locale in URL: ${url} -> ${fixedUrl}`);
+          // 在开发环境记录修复日志
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`Fixed duplicate locale in URL: ${url} -> ${fixedUrl}`);
+          }
           return `${baseUrl}${fixedUrl}`;
         }
       }

@@ -38,15 +38,14 @@ export default function SignInPage() {
         email,
         password,
         callbackUrl: `/${locale}/dashboard`,
-        redirect: false
+        redirect: true
       });
       
+      // 如果设置了redirect: true，NextAuth会自动处理重定向
+      // 只有在出错时才会执行到这里
       if (result?.error) {
         console.error('Login error:', result.error);
         setLoginError(result.error === 'CredentialsSignin' ? t('invalidCredentials') : t('signInError'));
-      } else if (result?.ok) {
-        // 登录成功，直接重定向到dashboard
-        router.push(`/${locale}/dashboard`);
       }
     } catch (error) {
       console.error('Credentials login error:', error);
