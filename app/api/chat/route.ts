@@ -6,6 +6,13 @@ import {
   aiToolsAPI
 } from '@/lib/ai-tools';
 import { getDefaultClubByLocale } from '@/lib/defaultClubs';
+import { 
+  identifyOperation, 
+  hasPermission, 
+  requiresConfirmation, 
+  getConfirmationMessage,
+  AI_OPERATIONS 
+} from '@/lib/ai-permissions';
 
 export const dynamic = 'force-dynamic';
 
@@ -398,6 +405,101 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
     const isAuthenticated = !!session?.user;
     const actualUserId = userId || (session as any)?.user?.id;
+    
+    // 权限检查和确认机制
+    console.log('🔍 权限检查 - isAuthenticated:', isAuthenticated, 'actualUserId:', actualUserId, 'clubId:', clubId);
+    if (isAuthenticated && actualUserId && clubId && !clubId.includes('guest') && !clubId.includes('demo')) {
+      // 识别用户意图的操作类型
+      const operation = identifyOperation(message);
+      console.log('🎯 识别到操作:', operation, 'for message:', message);
+      
+      if (operation) {
+        // 获取用户在当前俱乐部的角色
+        try {
+          const membership = await prisma.clubMember.findFirst({
+            where: {
+              userId: actualUserId,
+              clubId: clubId
+            },
+            select: {
+              role: true
+            }
+          });
+          
+          if (membership) {
+            const userRole = {
+              role: membership.role,
+              clubId: clubId,
+              userId: actualUserId
+            };
+            
+            // 检查权限
+            if (!hasPermission(userRole, operation)) {
+              return NextResponse.json({
+                success: true,
+                reply: locale === 'zh' ? '抱歉，您没有权限执行此操作。' : 
+                       locale === 'zh-TW' ? '抱歉，您沒有權限執行此操作。' :
+                       locale === 'ja' ? '申し訳ございませんが、この操作を実行する権限がありません。' :
+                       'Sorry, you do not have permission to perform this operation.',
+                type: 'text'
+              });
+            }
+            
+            // 检查是否需要确认
+            if (requiresConfirmation(operation)) {
+              // 检查是否已经是确认消息
+              const isConfirmation = message.toLowerCase().includes('确认') || 
+                                   message.toLowerCase().includes('确定') ||
+                                   message.toLowerCase().includes('是的') ||
+                                   message.toLowerCase().includes('yes') ||
+                                   message.toLowerCase().includes('confirm');
+              
+              const isCancel = message.toLowerCase().includes('取消') ||
+                             message.toLowerCase().includes('不') ||
+                             message.toLowerCase().includes('no') ||
+                             message.toLowerCase().includes('cancel');
+              
+              // 如果是确认消息，继续处理
+              if (isConfirmation && !isCancel) {
+                // 在消息中添加确认标记，让AI知道用户已确认
+                const confirmedMessage = `[用户已确认操作] ${message}`;
+                body.message = confirmedMessage;
+              } else if (isCancel) {
+                // 用户取消操作
+                return NextResponse.json({
+                  success: true,
+                  reply: locale === 'zh' ? '操作已取消。' : 
+                         locale === 'zh-TW' ? '操作已取消。' :
+                         locale === 'ja' ? '操作がキャンセルされました。' :
+                         'Operation cancelled.',
+                  type: 'text'
+                });
+              } else {
+                // 需要用户确认，返回确认消息
+                const confirmationMsg = getConfirmationMessage(operation);
+                const localizedConfirmation = locale === 'zh' ? confirmationMsg :
+                  locale === 'zh-TW' ? confirmationMsg.replace(/您/g, '您').replace(/吗/g, '嗎') :
+                  locale === 'ja' ? 'この操作を実行してもよろしいですか？' :
+                  'Are you sure you want to perform this operation?';
+                  
+                return NextResponse.json({
+                  success: true,
+                  reply: `${localizedConfirmation}\n\n${locale === 'zh' ? '请回复"确认"继续，或"取消"停止操作。' : 
+                          locale === 'zh-TW' ? '請回覆「確認」繼續，或「取消」停止操作。' :
+                          locale === 'ja' ? '「確認」と返信して続行するか、「キャンセル」で操作を停止してください。' :
+                          'Reply "confirm" to continue or "cancel" to stop the operation.'}`,
+                  type: 'confirmation',
+                  operation: operation
+                });
+              }
+            }
+          }
+        } catch (error) {
+          console.error('权限检查失败:', error);
+          // 权限检查失败，继续正常处理
+        }
+      }
+    }
     
     // 获取用户的历史对话上下文（最近5条消息，优化性能）
     let userHistory: Array<{role: string, content: string}> = [];

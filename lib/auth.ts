@@ -39,13 +39,13 @@ export const authOptions = {
       async authorize(credentials) {
         // 输入验证
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email and password are required");
+          return null;
         }
 
         // 邮箱格式验证
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(credentials.email)) {
-          throw new Error("Invalid email format");
+          return null;
         }
 
         try {
@@ -55,12 +55,12 @@ export const authOptions = {
 
           if (!user) {
             // 避免暴露用户是否存在
-            throw new Error("Invalid credentials");
+            return null;
           }
           
           // 必须有密码才能进行密码登录
           if (!user.password) {
-            throw new Error("Password login not available for this account");
+            return null;
           }
 
           const isPasswordValid = await bcrypt.compare(
@@ -69,7 +69,7 @@ export const authOptions = {
           );
 
           if (!isPasswordValid) {
-            throw new Error("Invalid credentials");
+            return null;
           }
           
           // 返回用户信息

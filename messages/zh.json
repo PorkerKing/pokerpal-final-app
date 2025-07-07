@@ -929,7 +929,8 @@
     "signIn": "登录",
     "noAccount": "还没有账户？",
     "signUp": "立即注册",
-    "agreementText": "登录即表示您同意我们的服务条款和隐私政策"
+    "agreementText": "登录即表示您同意我们的服务条款和隐私政策",
+    "emailPasswordRequired": "邮箱和密码为必填项"
   },
   "AuthError": {
     "signInFailed": "登录失败",

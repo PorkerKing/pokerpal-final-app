@@ -79,28 +79,28 @@ export default function Sidebar() {
       label: t('finance'),
       icon: DollarSign,
       href: '/finance',
-      requiredRoles: ['OWNER', 'ADMIN', 'CASHIER']
+      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'CASHIER']
     },
     {
       key: 'store',
       label: t('store'),
       icon: Store,
       href: '/store',
-      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER']
+      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER']
     },
     {
       key: 'achievements',
       label: t('achievements'),
       icon: Award,
       href: '/achievements',
-      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER']
+      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER']
     },
     {
       key: 'points',
       label: '积分管理',
       icon: Star,
       href: '/points',
-      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER']
+      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER', 'MEMBER', 'DEALER', 'CASHIER']
     },
     {
       key: 'reports',
@@ -114,7 +114,7 @@ export default function Sidebar() {
       label: t('settings'),
       icon: Settings,
       href: '/settings',
-      requiredRoles: ['OWNER', 'ADMIN']
+      requiredRoles: ['OWNER', 'ADMIN', 'MANAGER']
     }
   ];
 

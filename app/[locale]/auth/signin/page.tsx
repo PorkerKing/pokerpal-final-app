@@ -36,6 +36,13 @@ export default function SignInPage() {
     setIsLoading(true);
     setLoginError(null);
     
+    // Client-side validation
+    if (!email || !password) {
+      setLoginError(t('emailPasswordRequired'));
+      setIsLoading(false);
+      return;
+    }
+    
     try {
       const result = await signIn('credentials', {
         email,
@@ -46,13 +53,13 @@ export default function SignInPage() {
       
       if (result?.error) {
         console.error('Login error:', result.error);
-        setLoginError(result.error);
+        setLoginError(result.error === 'CredentialsSignin' ? t('invalidCredentials') : t('signInError'));
       } else if (result?.url) {
         router.push(`/${locale}`);
       }
     } catch (error) {
       console.error('Credentials login error:', error);
-      setLoginError('An unexpected error occurred');
+      setLoginError(t('signInError'));
     } finally {
       setIsLoading(false);
     }

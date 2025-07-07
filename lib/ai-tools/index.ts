@@ -870,15 +870,34 @@ ${guide.steps.map((step: string) => step).join('\n')}
 };
 
 // 导出所有工具
+// 导入数据库操作工具
+import { databaseOperationTools } from './database-operations';
+
 export const aiToolsAPI = {
+  // 查询工具
   listTournaments: listTournamentsAPITool,
-  tournamentRegister: tournamentRegisterAPITool,
-  createTournament: createTournamentAPITool,
   getUserClubInfo: getUserClubInfoAPITool,
   getClubStats: getClubStatsAPITool,
   getDashboardSummary: getDashboardSummaryAPITool,
   listRingGames: listRingGamesAPITool,
   listMembers: listMembersAPITool,
+  
+  // 修改工具 - 会员权限
+  tournamentRegister: tournamentRegisterAPITool,
+  redeemPoints: databaseOperationTools.redeemPoints,
+  
+  // 修改工具 - 荷官权限
+  manageTable: databaseOperationTools.manageTable,
+  
+  // 修改工具 - 出纳权限
+  adjustUserBalance: databaseOperationTools.adjustUserBalance,
+  processDeposit: databaseOperationTools.processDeposit,
+  
+  // 修改工具 - 管理员权限
+  createTournament: createTournamentAPITool,
+  modifyMember: databaseOperationTools.modifyMember,
+  
+  // 引导工具
   guidedTournamentCreation: guidedTournamentCreationAPITool,
   guidedTournamentRegistration: guidedTournamentRegistrationAPITool,
   smartTaskWizard: smartTaskWizardAPITool

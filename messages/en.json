@@ -687,7 +687,8 @@
     "signIn": "Sign In",
     "noAccount": "Don't have an account?",
     "signUp": "Sign Up",
-    "agreementText": "By signing in, you agree to our Terms of Service and Privacy Policy"
+    "agreementText": "By signing in, you agree to our Terms of Service and Privacy Policy",
+    "emailPasswordRequired": "Email and password are required"
   },
   "AuthError": {
     "signInFailed": "Sign In Failed",
