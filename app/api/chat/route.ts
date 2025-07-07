@@ -78,7 +78,8 @@ async function buildSystemPrompt(
   locale: string, 
   isGuest: boolean,
   combinedHistory: Array<{role: string, content: string}> = [],
-  aiNativeLanguage?: string
+  aiNativeLanguage?: string,
+  clubDescription?: string
 ): Promise<string> {
   // 获取俱乐部信息（包括时区）
   let aiPersona = null;
@@ -183,10 +184,15 @@ ${aiPersona?.personality || '我是一个专业、友好的扑克俱乐部助手
 
 ${characterBackground ? `角色背景：${characterBackground}` : ''}
 
-🕐 当前时间信息：
+🕐 时间信息（仅在需要时使用）：
 - 俱乐部当前时间：${currentTime}
 - 时区：${clubTimezone}
-- 你可以在回答中自然地引用当前时间，比如问候语、营业时间提醒等
+- 【重要】只在以下情况使用时间信息：
+  * 用户明确询问当前时间
+  * 用户要求预约或安排活动（如"今天晚上"、"明天"等）
+  * 用户询问营业时间或活动时间
+  * 涉及时间敏感的操作时
+- 正常对话中不要主动报时间，避免每次都说"现在是几点几分"
 
 【重要行为规则】：
 - 🚫 不要重复自我介绍：如果历史对话中已经介绍过自己，就不要再次介绍
@@ -267,6 +273,15 @@ ${(() => {
 - ❌ 视频功能 - 不支持视频相关服务
 - ❌ 支付功能 - 访客无法进行支付操作
 - ❌ 预订功能 - 访客无法预订座位或服务
+
+【俱乐部基本信息】：
+📍 俱乐部名称：${clubName}
+📋 俱乐部简介：${clubDescription || '专业的德州扑克俱乐部，提供优质的扑克游戏体验'}
+
+💡 【关于俱乐部位置和服务的询问】：
+- 用户询问位置时，可以参考俱乐部简介中的地理信息
+- 如需具体地址，建议用户联系俱乐部获取详细信息
+- 可以介绍俱乐部的特色和服务范围
 
 【专业服务范围】：
 ✅ 你的专业服务范围仅限于：
@@ -616,6 +631,8 @@ export async function POST(req: Request) {
         
         // 直接根据检测到的俱乐部类型设置AI母语
         (globalThis as any).aiNativeLanguage = clubType;
+        // 存储俱乐部描述信息
+        (globalThis as any).clubDescription = defaultClub.description;
       }
     } catch (error) {
       console.error('获取俱乐部信息失败:', error);
@@ -623,6 +640,7 @@ export async function POST(req: Request) {
 
     // 构建系统提示
     const aiNativeLanguage = (globalThis as any).aiNativeLanguage;
+    const clubDescription = (globalThis as any).clubDescription;
     const systemPrompt = await buildSystemPrompt(
       clubId, 
       clubName, 
@@ -630,7 +648,8 @@ export async function POST(req: Request) {
       locale, 
       !isAuthenticated,
       combinedHistory,
-      aiNativeLanguage
+      aiNativeLanguage,
+      clubDescription
     );
 
     // 转换消息格式
