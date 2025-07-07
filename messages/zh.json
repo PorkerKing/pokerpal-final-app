@@ -2,7 +2,9 @@
   "Header": {
     "clubSwitcherLabel": "切换俱乐部",
     "signOut": "退出登录",
-    "signInOrSignUp": "登录 / 注册"
+    "signInOrSignUp": "登录 / 注册",
+    "saasFeatures": "SaaS功能",
+    "saasFeaturesShort": "功能"
   },
   "HomePage": {
     "welcomeMessage": "我是",
@@ -955,5 +957,58 @@
     "notFound": "找不到请求的资源",
     "forbidden": "您没有权限访问此资源",
     "timeout": "请求超时，请重试"
+  },
+  "SaaSFeatures": {
+    "title": "🚀 PokerPal SaaS 核心功能展示",
+    "subtitle": "下一代德州扑克俱乐部管理平台 • 完备的SaaS解决方案",
+    "demoHint": "这是概念验证版本，展示完整SaaS平台的核心功能",
+    "showFeatures": "功能展示",
+    "close": "关闭",
+    "aiAssistant": {
+      "title": "🤖 AI智能客服",
+      "description": "为每个俱乐部定制专属AI客服，具备独特人设和地方特色",
+      "highlight": "4种独特人设 × 本地化特色",
+      "demo": "上海雅茜：「侬晓得伐，这个策略蛮好额...」\n台北心怡：「欸～穩住，我們能贏！」\n大阪美ちゃん：「やったるで！めっちゃええやん♪」\n吉隆坡Aisha：「MashaAllah, excellent strategy! 🌙」"
+    },
+    "databaseOps": {
+      "title": "🗄️ 自然语言数据库操作",
+      "description": "用AI直接操作数据库，无需复杂界面，自然语言即可完成管理",
+      "highlight": "革命性SaaS创新",
+      "demo": "「帮我调整张三的余额，增加500元」\n→ 系统自动执行SQL操作并记录审计日志\n\n「查询本月锦标赛参与人数」\n→ 实时生成统计报表"
+    },
+    "multiTenant": {
+      "title": "🏢 多租户架构",
+      "description": "完全隔离的俱乐部数据，支持无限扩展",
+      "highlight": "企业级数据安全",
+      "demo": "✅ 用户数据按俱乐部隔离\n✅ 聊天记录独立管理\n✅ 权限体系分级控制\n✅ 财务数据安全隔离"
+    },
+    "tournament": {
+      "title": "🏆 智能锦标赛管理",
+      "description": "从报名到结算的全流程自动化管理",
+      "highlight": "全流程自动化",
+      "demo": "📅 智能排期 → 🎫 在线报名 → 💰 自动扣款 → 📊 实时统计 → 🏅 奖金分配"
+    },
+    "financial": {
+      "title": "💰 金融级财务系统",
+      "description": "支持余额管理、积分系统、交易记录等完整财务功能",
+      "highlight": "金融级安全标准",
+      "demo": "🏦 余额管理：充值/提现/转账\n⭐ 积分系统：赚取/兑换/奖励\n📈 交易记录：完整审计追踪\n📊 财务报表：实时统计分析"
+    },
+    "analytics": {
+      "title": "📊 智能数据分析",
+      "description": "深度数据洞察，助力俱乐部运营决策",
+      "highlight": "AI驱动的商业洞察",
+      "demo": "📈 会员增长趋势\n🎯 活跃度分析\n💡 收入预测\n🔍 用户行为洞察"
+    },
+    "features": {
+      "aiChat": "AI对话",
+      "aiChatDesc": "自然语言交互",
+      "enterpriseSecurity": "企业安全",
+      "enterpriseSecurityDesc": "多重数据保护",
+      "multiLanguage": "多语言",
+      "multiLanguageDesc": "国际化支持",
+      "highPerformance": "高性能",
+      "highPerformanceDesc": "云原生架构"
+    }
   }
 } 

@@ -2,7 +2,9 @@
   "Header": {
     "clubSwitcherLabel": "Switch Club",
     "signOut": "Sign Out",
-    "signInOrSignUp": "Sign In / Sign Up"
+    "signInOrSignUp": "Sign In / Sign Up",
+    "saasFeatures": "SaaS Features",
+    "saasFeaturesShort": "Features"
   },
   "HomePage": {
     "welcomeMessage": "I am",

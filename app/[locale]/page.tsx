@@ -9,7 +9,6 @@ import { useSession, signIn } from 'next-auth/react';
 import { useUserStore } from '@/stores/userStore';
 import { useTranslations, useLocale } from 'next-intl';
 import { TournamentCard } from '@/components/TournamentCard';
-import { SaaSFeatureShowcase } from '@/components/SaaSFeatureShowcase';
 import { useRouter } from '@/navigation';
 import { getDefaultClubByLocale, getGuestSuggestions, getPersonalizedWelcome } from '@/lib/defaultClubs';
 
@@ -505,10 +504,6 @@ export default function HomePage() {
                  </div>
                )}
                
-               {/* SaaS功能展示 */}
-               <div className="mt-8 max-w-4xl mx-auto">
-                 <SaaSFeatureShowcase />
-               </div>
 
                {/* 快捷提示 */}
                <div className="mt-8 space-y-4 text-left">
