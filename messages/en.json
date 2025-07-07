@@ -671,6 +671,31 @@
       "show_status": "Show your achievement status to other players"
     }
   },
+  "Auth": {
+    "backToHome": "Back to Home",
+    "welcomeBack": "Welcome Back to PokerPal",
+    "signInToContinue": "Sign in to your account to continue",
+    "invalidCredentials": "Invalid email or password",
+    "signInError": "An error occurred during sign in, please try again",
+    "signInWithGithub": "Sign in with GitHub",
+    "or": "or",
+    "email": "Email Address",
+    "enterEmail": "Enter your email",
+    "password": "Password",
+    "enterPassword": "Enter your password",
+    "signingIn": "Signing in...",
+    "signIn": "Sign In",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "agreementText": "By signing in, you agree to our Terms of Service and Privacy Policy"
+  },
+  "AuthError": {
+    "signInFailed": "Sign In Failed",
+    "errorCode": "Error Code",
+    "signInAgain": "Sign In Again",
+    "backToHome": "Back to Home",
+    "contactSupport": "If the problem persists, please contact technical support"
+  },
   "Error": {
     "title": "Something went wrong",
     "description": "Sorry, the application encountered an error. Our team has been notified.",

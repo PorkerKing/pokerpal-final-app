@@ -18,6 +18,7 @@ export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const handleGithubSignIn = async () => {
     setIsLoading(true);
@@ -33,6 +34,7 @@ export default function SignInPage() {
   const handleCredentialsSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setLoginError(null);
     
     try {
       const result = await signIn('credentials', {
@@ -44,11 +46,13 @@ export default function SignInPage() {
       
       if (result?.error) {
         console.error('Login error:', result.error);
+        setLoginError(result.error);
       } else if (result?.url) {
-        router.push('/');
+        router.push(`/${locale}`);
       }
     } catch (error) {
       console.error('Credentials login error:', error);
+      setLoginError('An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -90,10 +94,12 @@ export default function SignInPage() {
         </div>
 
         {/* 错误提示 */}
-        {error && (
+        {(error || loginError) && (
           <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
             <p className="text-red-400 text-sm text-center">
-              {error === 'CredentialsSignin' ? t('invalidCredentials') : t('signInError')}
+              {(error === 'CredentialsSignin' || loginError === 'CredentialsSignin') 
+                ? t('invalidCredentials') 
+                : t('signInError')}
             </p>
           </div>
         )}

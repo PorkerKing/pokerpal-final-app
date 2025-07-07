@@ -209,8 +209,9 @@ export default function HomePage() {
 
   // 处理登录
   const handleSignIn = useCallback(() => {
-    signIn();
-  }, []);
+    // 使用正确的登录页面路径，包含语言前缀
+    signIn(undefined, { callbackUrl: `/${locale}` });
+  }, [locale]);
 
   // 清除聊天记录（按俱乐部隔离）
   const clearChatHistory = () => {
