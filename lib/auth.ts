@@ -111,6 +111,28 @@ export const authOptions = {
       
       return token;
     },
+    async redirect({ url, baseUrl }) {
+      // 处理错误重定向，确保包含语言前缀
+      if (url.includes('/auth/error')) {
+        // 从URL中提取语言代码或使用默认语言
+        const locale = url.includes('/zh-TW/') ? 'zh-TW' : 
+                      url.includes('/ja/') ? 'ja' :
+                      url.includes('/en/') ? 'en' : 'zh';
+        return `${baseUrl}/${locale}/auth/error${url.includes('?') ? url.substring(url.indexOf('?')) : ''}`;
+      }
+      
+      // 处理登录成功后的重定向
+      if (url.startsWith("/")) {
+        return `${baseUrl}${url}`;
+      }
+      
+      // 外部URL直接返回
+      if (new URL(url).origin === baseUrl) {
+        return url;
+      }
+      
+      return baseUrl;
+    },
   },
   events: {
     // 记录登录事件
