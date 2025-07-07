@@ -126,10 +126,15 @@ model User {
   emailVerified        DateTime?
   image                String?
   password             String?
-  phone                String?
-  preferredLanguage    String                         @default("zh")
-  isActive             Boolean                        @default(true)
-  lastLoginAt          DateTime?
+  coins                Int                            @default(0)
+  level                Int                            @default(1)
+  exp                  Int                            @default(0)
+  statistics           Json                           @default("{}")
+  achievements         String[]                       @default([])
+  purchasedItems       String[]                       @default([])
+  currentAvatarFrame   String?
+  currentCardBack      String?
+  settings             Json                           @default("{}")
   createdAt            DateTime                       @default(now())
   updatedAt            DateTime                       @updatedAt
   
@@ -141,7 +146,7 @@ model User {
   cashGameSessions     RingGameSession[]
   transactions         Transaction[]
   leaderboardEntries   LeaderboardEntry[]
-  achievements         UserAchievement[]
+  userAchievements     UserAchievement[]
   storePurchases       UserStorePurchase[]
   storeRedemptions     StoreRedemption[]
   responsibleGaming    ResponsibleGamingSettings?
@@ -149,7 +154,6 @@ model User {
   chatMessages         ChatMessage[]
   
   @@index([email])
-  @@index([isActive])
 }
 
 model ClubMember {
