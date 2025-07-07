@@ -30,7 +30,7 @@ const AUTH_REQUIRED_TOOLS = [
 ];
 
 // 访客可用的工具
-const GUEST_TOOLS = ['listTournaments', 'getClubStats', 'listRingGames'];
+const GUEST_TOOLS = ['listTournaments', 'getClubStats', 'getClubDetails', 'listRingGames'];
 
 const getLanguageName = (locale: string): string => {
   switch (locale) {
@@ -295,6 +295,12 @@ ${clubInfo && clubInfo.specialties ? `
 - 详细回答营业时间、位置、活动等公开信息
 - 积极介绍积分兑换、会员福利等
 - 让每个客户都感受到俱乐部的魅力和温暖
+
+🔧 【使用RAG检索功能】：
+- 当用户询问俱乐部位置、活动、商城等信息时，使用getClubDetails工具获取最新真实数据
+- 当用户想了解锦标赛时，使用listTournaments工具获取具体赛事信息
+- 基于真实数据库信息进行推荐，不要编造不存在的内容
+- 主动展示商城物品、特色活动等吸引用户兴趣
 
 【专业服务范围】：
 ✅ 你的专业服务范围仅限于：

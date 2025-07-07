@@ -869,6 +869,107 @@ ${guide.steps.map((step: string) => step).join('\n')}
   }
 };
 
+// 获取俱乐部完整信息工具（包括商城物品、特色活动等）
+export const getClubDetailsAPITool: CoreTool = {
+  description: '获取俱乐部的详细信息，包括位置、营业时间、特色酒水、活动、积分兑换商城等完整信息',
+  parameters: {
+    type: 'object',
+    properties: {
+      clubId: { 
+        type: 'string', 
+        description: '俱乐部ID' 
+      },
+      includeStore: { 
+        type: 'boolean', 
+        description: '是否包含商城物品信息（默认true）',
+        default: true
+      },
+      includeTournaments: { 
+        type: 'boolean', 
+        description: '是否包含锦标赛信息（默认true）',
+        default: true
+      }
+    },
+    required: ['clubId']
+  },
+  execute: async ({ clubId, includeStore = true, includeTournaments = true }) => {
+    try {
+      // 获取基本俱乐部信息
+      const clubResponse = await fetch(`${process.env.NEXTAUTH_URL}/api/clubs/${clubId}?includeStats=true`);
+      const clubData = await clubResponse.json();
+      
+      if (!clubData.success) {
+        return `获取俱乐部信息失败: ${clubData.error}`;
+      }
+
+      const club = clubData.data;
+      let result = `🏛️ **${club.name}**
+📍 位置：${club.timezone?.includes('Shanghai') ? '上海市黄浦区外滩金融区' : 
+             club.timezone?.includes('Taipei') ? '台北市大安區文創園區附近' : 
+             club.timezone?.includes('Tokyo') ? '大阪市中央区道頓堀' : 
+             club.timezone?.includes('Kuala_Lumpur') ? 'Kuala Lumpur City Centre (KLCC Area)' : '市中心'}
+🕐 时区：${club.timezone}
+💰 货币：${club.currency}
+📋 简介：${club.description}
+
+✨ **俱乐部特色：**`;
+
+      // 获取商城信息
+      if (includeStore) {
+        try {
+          const storeResponse = await fetch(`${process.env.NEXTAUTH_URL}/api/clubs/${clubId}/store`);
+          const storeData = await storeResponse.json();
+          
+          if (storeData.success && storeData.data?.length > 0) {
+            result += `\n\n🎁 **积分兑换商城：**`;
+            storeData.data.slice(0, 6).forEach((item: any) => {
+              result += `\n• ${item.name} (${item.pointsRequired.toLocaleString()}积分)`;
+              if (item.description) {
+                result += `\n  ${item.description}`;
+              }
+            });
+          }
+        } catch (error) {
+          console.log('Store data fetch failed:', error);
+        }
+      }
+
+      // 获取锦标赛信息
+      if (includeTournaments) {
+        try {
+          const tournamentsResponse = await fetch(`${process.env.NEXTAUTH_URL}/api/tournaments?clubId=${clubId}&limit=5`);
+          const tournamentsData = await tournamentsResponse.json();
+          
+          if (tournamentsData.success && tournamentsData.data?.length > 0) {
+            result += `\n\n🏆 **特色锦标赛：**`;
+            tournamentsData.data.forEach((tournament: any) => {
+              result += `\n• ${tournament.name}`;
+              if (tournament.buyIn > 0) {
+                result += ` (买入：${tournament.buyIn} ${club.currency})`;
+              }
+              if (tournament.description) {
+                result += `\n  ${tournament.description}`;
+              }
+            });
+          }
+        } catch (error) {
+          console.log('Tournament data fetch failed:', error);
+        }
+      }
+
+      // 添加欢迎信息
+      result += `\n\n🌟 **欢迎来到${club.name}！**
+💫 这里是交朋友、同场竞技的绝佳场所
+🎯 我们期待与您一起创造精彩的扑克时光
+📞 如需了解更多信息，请随时与我们联系`;
+
+      return result;
+    } catch (error) {
+      return `获取俱乐部详细信息时出错: ${error}`;
+    }
+  }
+};
+
 // 导出所有工具
 // 导入数据库操作工具
 import { databaseOperationTools } from './database-operations';
@@ -878,6 +979,7 @@ export const aiToolsAPI = {
   listTournaments: listTournamentsAPITool,
   getUserClubInfo: getUserClubInfoAPITool,
   getClubStats: getClubStatsAPITool,
+  getClubDetails: getClubDetailsAPITool,
   getDashboardSummary: getDashboardSummaryAPITool,
   listRingGames: listRingGamesAPITool,
   listMembers: listMembersAPITool,
