@@ -6,6 +6,7 @@ import {
   aiToolsAPI
 } from '@/lib/ai-tools';
 import { getDefaultClubByLocale } from '@/lib/defaultClubs';
+import { getPersonalizedSystemPrompt } from '@/lib/ai-persona-enhancer';
 import { 
   identifyOperation, 
   hasPermission, 
@@ -172,7 +173,13 @@ async function buildSystemPrompt(
     }
   }
 
+  // 暂时使用简化的系统提示来避免JSON错误
+  // const enhancedPersonalityPrompt = getPersonalizedSystemPrompt(clubId, clubName, customName, locale, aiPersona);
+  
   const basePrompt = aiPersona?.systemPrompt || `你是${clubName}的专属AI助手${customName}。
+
+个性特征：
+${aiPersona?.personality || '我是一个专业、友好的扑克俱乐部助手。我了解扑克规则，能够帮助用户报名参加锦标赛，查询战绩，并提供各种俱乐部服务。我总是礼貌耐心，用简洁明了的语言回答问题。'}
 
 ${characterBackground ? `角色背景：${characterBackground}` : ''}
 
@@ -180,9 +187,6 @@ ${characterBackground ? `角色背景：${characterBackground}` : ''}
 - 俱乐部当前时间：${currentTime}
 - 时区：${clubTimezone}
 - 你可以在回答中自然地引用当前时间，比如问候语、营业时间提醒等
-
-个性特征：
-${aiPersona?.personality || '我是一个专业、友好的扑克俱乐部助手。我了解扑克规则，能够帮助用户报名参加锦标赛，查询战绩，并提供各种俱乐部服务。我总是礼貌耐心，用简洁明了的语言回答问题。'}
 
 【重要行为规则】：
 - 🚫 不要重复自我介绍：如果历史对话中已经介绍过自己，就不要再次介绍
