@@ -111,7 +111,7 @@ export const authOptions = {
       
       return token;
     },
-    async redirect({ url, baseUrl }) {
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       // 处理错误重定向，确保包含语言前缀
       if (url.includes('/auth/error')) {
         // 从URL中提取语言代码或使用默认语言
