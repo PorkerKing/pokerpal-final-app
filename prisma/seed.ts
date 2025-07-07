@@ -18,8 +18,7 @@ async function main() {
     create: {
       name: '俱乐部所有者',
       email: 'owner@pokerpal.com',
-      password: hashedPassword,
-      preferredLanguage: 'zh'
+      password: hashedPassword
     }
   });
 
@@ -30,8 +29,7 @@ async function main() {
     create: {
       name: '管理员',
       email: 'admin@pokerpal.com',
-      password: hashedPassword,
-      preferredLanguage: 'zh'
+      password: hashedPassword
     }
   });
 
@@ -42,8 +40,7 @@ async function main() {
     create: {
       name: '运营经理',
       email: 'manager@pokerpal.com',
-      password: hashedPassword,
-      preferredLanguage: 'zh'
+      password: hashedPassword
     }
   });
 
@@ -54,8 +51,7 @@ async function main() {
     create: {
       name: '会员张三',
       email: 'member1@pokerpal.com',
-      password: hashedPassword,
-      preferredLanguage: 'zh'
+      password: hashedPassword
     }
   });
 
@@ -65,8 +61,7 @@ async function main() {
     create: {
       name: '会员李四',
       email: 'member2@pokerpal.com',
-      password: hashedPassword,
-      preferredLanguage: 'zh'
+      password: hashedPassword
     }
   });
 
@@ -77,8 +72,7 @@ async function main() {
     create: {
       name: '荷官小王',
       email: 'dealer@pokerpal.com',
-      password: hashedPassword,
-      preferredLanguage: 'zh'
+      password: hashedPassword
     }
   });
 
@@ -89,8 +83,7 @@ async function main() {
     create: {
       name: '前台小李',
       email: 'receptionist@pokerpal.com',
-      password: hashedPassword,
-      preferredLanguage: 'zh'
+      password: hashedPassword
     }
   });
 
@@ -101,8 +94,7 @@ async function main() {
     create: {
       name: 'VIP会员',
       email: 'vip@pokerpal.com',
-      password: hashedPassword,
-      preferredLanguage: 'zh'
+      password: hashedPassword
     }
   });
 
@@ -947,7 +939,6 @@ async function main() {
       name: '环球玩家 Alex Chen',
       email: 'global.player1@pokerpal.com',
       password: hashedPassword,
-      preferredLanguage: 'zh'
     }
   });
 
@@ -958,7 +949,6 @@ async function main() {
       name: '国际牌手 Sarah Kim',
       email: 'global.player2@pokerpal.com',
       password: hashedPassword,
-      preferredLanguage: 'en'
     }
   });
 
@@ -969,7 +959,6 @@ async function main() {
       name: '世界旅行者 Hiroshi Tanaka',
       email: 'global.player3@pokerpal.com',
       password: hashedPassword,
-      preferredLanguage: 'ja'
     }
   });
 
@@ -980,7 +969,6 @@ async function main() {
       name: '职业牌手 David Wang',
       email: 'pro.player@pokerpal.com',
       password: hashedPassword,
-      preferredLanguage: 'zh-TW'
     }
   });
 
@@ -991,7 +979,6 @@ async function main() {
       name: '商务经理 Lisa Chen',
       email: 'business.manager@pokerpal.com',
       password: hashedPassword,
-      preferredLanguage: 'en'
     }
   });
 

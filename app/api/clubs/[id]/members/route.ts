@@ -67,8 +67,7 @@ export const GET = withErrorHandler(async (
           id: true,
           name: true,
           email: true,
-          image: true,
-          lastLoginAt: true
+          image: true
         }
       },
       club: {
