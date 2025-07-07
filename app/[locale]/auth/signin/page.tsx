@@ -37,15 +37,16 @@ export default function SignInPage() {
       const result = await signIn('credentials', {
         email,
         password,
-        callbackUrl: `/${locale}`,
+        callbackUrl: `/${locale}/dashboard`,
         redirect: false
       });
       
       if (result?.error) {
         console.error('Login error:', result.error);
         setLoginError(result.error === 'CredentialsSignin' ? t('invalidCredentials') : t('signInError'));
-      } else if (result?.url) {
-        router.push(`/${locale}`);
+      } else if (result?.ok) {
+        // 登录成功，直接重定向到dashboard
+        router.push(`/${locale}/dashboard`);
       }
     } catch (error) {
       console.error('Credentials login error:', error);

@@ -112,26 +112,55 @@ export const authOptions = {
       return token;
     },
     async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+      // 支持的语言列表
+      const supportedLocales = ['en', 'zh', 'zh-TW', 'ja'];
+      
       // 处理错误重定向，确保包含语言前缀
       if (url.includes('/auth/error')) {
         // 从URL中提取语言代码或使用默认语言
-        const locale = url.includes('/zh-TW/') ? 'zh-TW' : 
-                      url.includes('/ja/') ? 'ja' :
-                      url.includes('/en/') ? 'en' : 'zh';
+        const locale = supportedLocales.find(loc => url.includes(`/${loc}/`)) || 'zh';
         return `${baseUrl}/${locale}/auth/error${url.includes('?') ? url.substring(url.indexOf('?')) : ''}`;
+      }
+      
+      // 检测并修复重复的语言代码（适用于所有支持的语言）
+      for (const locale of supportedLocales) {
+        const duplicatePattern = `/${locale}/${locale}`;
+        if (url.includes(duplicatePattern)) {
+          const fixedUrl = url.replace(duplicatePattern, `/${locale}`);
+          console.log(`Fixed duplicate locale in URL: ${url} -> ${fixedUrl}`);
+          return `${baseUrl}${fixedUrl}`;
+        }
       }
       
       // 处理登录成功后的重定向
       if (url.startsWith("/")) {
+        // 检查是否为根语言路径，如果是则重定向到dashboard
+        const isRootLocalePath = supportedLocales.some(locale => url === `/${locale}`);
+        if (isRootLocalePath) {
+          return `${baseUrl}${url}/dashboard`;
+        }
+        
+        // 确保URL包含有效的语言前缀
+        const hasValidLocalePrefix = supportedLocales.some(locale => url.startsWith(`/${locale}/`));
+        if (!hasValidLocalePrefix && url !== '/') {
+          // 如果没有语言前缀，添加默认语言前缀
+          return `${baseUrl}/zh${url}`;
+        }
+        
         return `${baseUrl}${url}`;
       }
       
-      // 外部URL直接返回
-      if (new URL(url).origin === baseUrl) {
-        return url;
+      // 外部URL检查
+      try {
+        if (new URL(url).origin === baseUrl) {
+          return url;
+        }
+      } catch (error) {
+        console.warn('Invalid URL in redirect:', url);
       }
       
-      return baseUrl;
+      // 默认重定向到中文dashboard
+      return `${baseUrl}/zh/dashboard`;
     },
   },
   events: {

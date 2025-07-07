@@ -5,12 +5,13 @@ import Image from 'next/image';
 import { Sparkles } from 'lucide-react';
 // import ClubSwitcher from './ClubSwitcher';
 // import LanguageSwitcher from './LanguageSwitcher';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { SaaSFeatureShowcase } from './SaaSFeatureShowcase';
 
 export default function Header() {
   const { data: session, status } = useSession();
   const t = useTranslations('Header');
+  const locale = useLocale();
   const [hasMounted, setHasMounted] = useState(false);
   const [showSaaSShowcase, setShowSaaSShowcase] = useState(false);
 
@@ -66,7 +67,7 @@ export default function Header() {
           </div>
           <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl">
             <button 
-              onClick={() => signIn('credentials')} 
+              onClick={() => signIn('credentials', { callbackUrl: `/${locale}/dashboard` })} 
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-4 md:px-6 py-2.5 md:py-3 rounded-2xl text-sm md:text-base font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 whitespace-nowrap"
             >
               <span className="hidden sm:inline">{t('signInOrSignUp')}</span>
