@@ -77,7 +77,9 @@
       "Bash(npx vercel:*)",
       "Bash(for:*)",
       "Bash(do echo \"Updating $file\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(npx @supabase-community/supabase-mcp:*)",
+      "Bash(do echo \"=== $lang.json ===\")"
     ],
     "deny": []
   }

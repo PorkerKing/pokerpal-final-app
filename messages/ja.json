@@ -408,6 +408,31 @@
       "pending": "保留中"
     }
   },
+  "Auth": {
+    "backToHome": "ホームに戻る",
+    "welcomeBack": "PokerPal へようこそ",
+    "signInToContinue": "アカウントにサインインして続行",
+    "invalidCredentials": "メールアドレスまたはパスワードが間違っています",
+    "signInError": "サインイン中にエラーが発生しました。再試行してください",
+    "or": "または",
+    "email": "メールアドレス",
+    "enterEmail": "メールアドレスを入力",
+    "password": "パスワード",
+    "enterPassword": "パスワードを入力",
+    "signingIn": "サインイン中...",
+    "signIn": "サインイン",
+    "noAccount": "アカウントをお持ちでない方は？",
+    "signUp": "今すぐ登録",
+    "agreementText": "サインインすることで、利用規約とプライバシーポリシーに同意したことになります",
+    "emailPasswordRequired": "メールアドレスとパスワードは必須項目です"
+  },
+  "AuthError": {
+    "signInFailed": "サインインに失敗しました",
+    "errorCode": "エラーコード",
+    "signInAgain": "再度サインイン",
+    "backToHome": "ホームに戻る",
+    "contactSupport": "問題が持続する場合は、技術サポートにお問い合わせください"
+  },
   "Settings": {
     "title": "⚙️ クラブ設定",
     "aiConfig": "AIアシスタント設定",

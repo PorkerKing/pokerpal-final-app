@@ -408,6 +408,31 @@
       "pending": "待審核"
     }
   },
+  "Auth": {
+    "backToHome": "返回首頁",
+    "welcomeBack": "歡迎回到 PokerPal",
+    "signInToContinue": "登入您的帳戶繼續使用",
+    "invalidCredentials": "郵箱或密碼錯誤",
+    "signInError": "登入時發生錯誤，請重試",
+    "or": "或",
+    "email": "郵箱地址",
+    "enterEmail": "輸入您的郵箱",
+    "password": "密碼",
+    "enterPassword": "輸入您的密碼",
+    "signingIn": "登入中...",
+    "signIn": "登入",
+    "noAccount": "還沒有帳戶？",
+    "signUp": "立即註冊",
+    "agreementText": "登入即表示您同意我們的服務條款和隱私政策",
+    "emailPasswordRequired": "郵箱和密碼為必填項"
+  },
+  "AuthError": {
+    "signInFailed": "登入失敗",
+    "errorCode": "錯誤代碼",
+    "signInAgain": "重新登入",
+    "backToHome": "返回首頁",
+    "contactSupport": "如果問題持續存在，請聯繫技術支援"
+  },
   "Settings": {
     "title": "⚙️ 俱樂部設定",
     "aiConfig": "AI助手配置",

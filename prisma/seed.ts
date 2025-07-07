@@ -8,10 +8,23 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('开始创建种子数据...');
 
-  // 创建测试用户
+  // 创建测试用户 - 各角色完整测试账号
   const hashedPassword = await bcrypt.hash('password123', 12);
   
-  const user1 = await prisma.user.upsert({
+  // OWNER 账号
+  const ownerUser = await prisma.user.upsert({
+    where: { email: 'owner@pokerpal.com' },
+    update: {},
+    create: {
+      name: '俱乐部所有者',
+      email: 'owner@pokerpal.com',
+      password: hashedPassword,
+      preferredLanguage: 'zh'
+    }
+  });
+
+  // ADMIN 账号
+  const adminUser = await prisma.user.upsert({
     where: { email: 'admin@pokerpal.com' },
     update: {},
     create: {
@@ -22,28 +35,42 @@ async function main() {
     }
   });
 
-  const user2 = await prisma.user.upsert({
-    where: { email: 'player1@pokerpal.com' },
+  // MANAGER 账号
+  const managerUser = await prisma.user.upsert({
+    where: { email: 'manager@pokerpal.com' },
     update: {},
     create: {
-      name: '玩家一号',
-      email: 'player1@pokerpal.com',
+      name: '运营经理',
+      email: 'manager@pokerpal.com',
       password: hashedPassword,
       preferredLanguage: 'zh'
     }
   });
 
-  const user3 = await prisma.user.upsert({
-    where: { email: 'player2@pokerpal.com' },
+  // MEMBER 账号
+  const memberUser1 = await prisma.user.upsert({
+    where: { email: 'member1@pokerpal.com' },
     update: {},
     create: {
-      name: '玩家二号',
-      email: 'player2@pokerpal.com',
+      name: '会员张三',
+      email: 'member1@pokerpal.com',
       password: hashedPassword,
       preferredLanguage: 'zh'
     }
   });
 
+  const memberUser2 = await prisma.user.upsert({
+    where: { email: 'member2@pokerpal.com' },
+    update: {},
+    create: {
+      name: '会员李四',
+      email: 'member2@pokerpal.com',
+      password: hashedPassword,
+      preferredLanguage: 'zh'
+    }
+  });
+
+  // DEALER 账号
   const dealerUser = await prisma.user.upsert({
     where: { email: 'dealer@pokerpal.com' },
     update: {},
@@ -55,16 +82,35 @@ async function main() {
     }
   });
 
-  const cashierUser = await prisma.user.upsert({
-    where: { email: 'cashier@pokerpal.com' },
+  // RECEPTIONIST 账号 (前台)
+  const receptionistUser = await prisma.user.upsert({
+    where: { email: 'receptionist@pokerpal.com' },
     update: {},
     create: {
-      name: '出纳小李',
-      email: 'cashier@pokerpal.com',
+      name: '前台小李',
+      email: 'receptionist@pokerpal.com',
       password: hashedPassword,
       preferredLanguage: 'zh'
     }
   });
+
+  // VIP 账号
+  const vipUser = await prisma.user.upsert({
+    where: { email: 'vip@pokerpal.com' },
+    update: {},
+    create: {
+      name: 'VIP会员',
+      email: 'vip@pokerpal.com',
+      password: hashedPassword,
+      preferredLanguage: 'zh'
+    }
+  });
+
+  // 兼容旧的变量名
+  const user1 = adminUser;
+  const user2 = memberUser1;
+  const user3 = memberUser2;
+  const cashierUser = receptionistUser;
 
   // 创建4个特定俱乐部
   
@@ -216,41 +262,83 @@ async function main() {
     }
   });
 
-  // 为每个俱乐部创建成员
+  // 为每个俱乐部创建成员 - 完整角色测试账号
   for (const club of clubs) {
-    // 管理员作为OWNER
+    // OWNER - 俱乐部所有者
     await prisma.clubMember.upsert({
       where: {
         clubId_userId: {
           clubId: club.id,
-          userId: user1.id
+          userId: ownerUser.id
         }
       },
       update: {},
       create: {
         clubId: club.id,
-        userId: user1.id,
+        userId: ownerUser.id,
         role: 'OWNER',
         status: 'ACTIVE',
-        balance: 10000.00,
+        balance: 50000.00,
         totalBuyIn: 0,
         totalCashOut: 0,
         vipLevel: 3
       }
     });
 
-    // 玩家1作为普通会员
+    // ADMIN - 管理员
     await prisma.clubMember.upsert({
       where: {
         clubId_userId: {
           clubId: club.id,
-          userId: user2.id
+          userId: adminUser.id
         }
       },
       update: {},
       create: {
         clubId: club.id,
-        userId: user2.id,
+        userId: adminUser.id,
+        role: 'ADMIN',
+        status: 'ACTIVE',
+        balance: 20000.00,
+        totalBuyIn: 0,
+        totalCashOut: 0,
+        vipLevel: 3
+      }
+    });
+
+    // MANAGER - 运营经理
+    await prisma.clubMember.upsert({
+      where: {
+        clubId_userId: {
+          clubId: club.id,
+          userId: managerUser.id
+        }
+      },
+      update: {},
+      create: {
+        clubId: club.id,
+        userId: managerUser.id,
+        role: 'MANAGER',
+        status: 'ACTIVE',
+        balance: 10000.00,
+        totalBuyIn: 5000.00,
+        totalCashOut: 3000.00,
+        vipLevel: 2
+      }
+    });
+
+    // MEMBER - 会员1
+    await prisma.clubMember.upsert({
+      where: {
+        clubId_userId: {
+          clubId: club.id,
+          userId: memberUser1.id
+        }
+      },
+      update: {},
+      create: {
+        clubId: club.id,
+        userId: memberUser1.id,
         role: 'MEMBER',
         status: 'ACTIVE',
         balance: 5000.00,
@@ -260,18 +348,18 @@ async function main() {
       }
     });
 
-    // 玩家2作为普通会员
+    // MEMBER - 会员2
     await prisma.clubMember.upsert({
       where: {
         clubId_userId: {
           clubId: club.id,
-          userId: user3.id
+          userId: memberUser2.id
         }
       },
       update: {},
       create: {
         clubId: club.id,
-        userId: user3.id,
+        userId: memberUser2.id,
         role: 'MEMBER',
         status: 'ACTIVE',
         balance: 3000.00,
@@ -281,7 +369,7 @@ async function main() {
       }
     });
 
-    // 荷官
+    // DEALER - 荷官
     await prisma.clubMember.upsert({
       where: {
         clubId_userId: {
@@ -295,31 +383,52 @@ async function main() {
         userId: dealerUser.id,
         role: 'DEALER',
         status: 'ACTIVE',
-        balance: 0.00,
+        balance: 1000.00,
         totalBuyIn: 0.00,
         totalCashOut: 0.00,
         vipLevel: 1
       }
     });
 
-    // 出纳
+    // RECEPTIONIST - 前台
     await prisma.clubMember.upsert({
       where: {
         clubId_userId: {
           clubId: club.id,
-          userId: cashierUser.id
+          userId: receptionistUser.id
         }
       },
       update: {},
       create: {
         clubId: club.id,
-        userId: cashierUser.id,
+        userId: receptionistUser.id,
         role: 'RECEPTIONIST',
         status: 'ACTIVE',
-        balance: 0.00,
+        balance: 1000.00,
         totalBuyIn: 0.00,
         totalCashOut: 0.00,
         vipLevel: 1
+      }
+    });
+
+    // VIP - VIP会员
+    await prisma.clubMember.upsert({
+      where: {
+        clubId_userId: {
+          clubId: club.id,
+          userId: vipUser.id
+        }
+      },
+      update: {},
+      create: {
+        clubId: club.id,
+        userId: vipUser.id,
+        role: 'VIP',
+        status: 'ACTIVE',
+        balance: 15000.00,
+        totalBuyIn: 10000.00,
+        totalCashOut: 8000.00,
+        vipLevel: 3
       }
     });
 
