@@ -68,11 +68,11 @@ export default function SignInPage() {
         {/* 返回按钮 */}
         <div className="flex items-center">
           <Link
-            href="/"
+            href={`/${locale}`}
             className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            返回首页
+            {t('backToHome')}
           </Link>
         </div>
 
@@ -82,10 +82,10 @@ export default function SignInPage() {
             <Spade className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-3xl font-bold text-white">
-            欢迎回到 PokerPal
+            {t('welcomeBack')}
           </h2>
           <p className="mt-2 text-gray-400">
-            登录您的账户继续使用
+            {t('signInToContinue')}
           </p>
         </div>
 
@@ -93,7 +93,7 @@ export default function SignInPage() {
         {error && (
           <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
             <p className="text-red-400 text-sm text-center">
-              {error === 'CredentialsSignin' ? '邮箱或密码错误' : '登录时发生错误，请重试'}
+              {error === 'CredentialsSignin' ? t('invalidCredentials') : t('signInError')}
             </p>
           </div>
         )}
@@ -106,7 +106,7 @@ export default function SignInPage() {
             className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors disabled:opacity-50"
           >
             <Github className="h-5 w-5" />
-            使用 GitHub 登录
+            {t('signInWithGithub')}
           </button>
 
           <div className="relative">
@@ -114,7 +114,7 @@ export default function SignInPage() {
               <div className="w-full border-t border-gray-600"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-900 text-gray-400">或</span>
+              <span className="px-2 bg-gray-900 text-gray-400">{t('or')}</span>
             </div>
           </div>
 
@@ -122,7 +122,7 @@ export default function SignInPage() {
           <form onSubmit={handleCredentialsSignIn} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                邮箱地址
+                {t('email')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -133,14 +133,14 @@ export default function SignInPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="输入您的邮箱"
+                  placeholder={t('enterEmail')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-                密码
+                {t('password')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -151,7 +151,7 @@ export default function SignInPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="输入您的密码"
+                  placeholder={t('enterPassword')}
                 />
               </div>
             </div>
@@ -162,20 +162,20 @@ export default function SignInPage() {
               className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50"
             >
               <User className="h-5 w-5" />
-              {isLoading ? '登录中...' : '登录'}
+              {isLoading ? t('signingIn') : t('signIn')}
             </button>
           </form>
 
           {/* 底部链接 */}
           <div className="text-center space-y-2">
             <p className="text-gray-400 text-sm">
-              还没有账户？
-              <Link href="/auth/signup" className="text-purple-400 hover:text-purple-300 ml-1">
-                立即注册
+              {t('noAccount')}
+              <Link href={`/${locale}/auth/signup`} className="text-purple-400 hover:text-purple-300 ml-1">
+                {t('signUp')}
               </Link>
             </p>
             <p className="text-gray-500 text-xs">
-              登录即表示您同意我们的服务条款和隐私政策
+              {t('agreementText')}
             </p>
           </div>
         </div>

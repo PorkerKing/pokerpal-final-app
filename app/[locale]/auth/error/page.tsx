@@ -158,8 +158,8 @@ export default function AuthErrorPage() {
       }
     };
 
-    const suggestions = suggestions[locale] || suggestions['zh'];
-    return suggestions[errorCode] || suggestions['Default'];
+    const localeSuggestions = suggestions[locale] || suggestions['zh'];
+    return localeSuggestions[errorCode] || localeSuggestions['Default'];
   };
 
   return (
