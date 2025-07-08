@@ -479,5 +479,14 @@
       "hard": "困難",
       "legendary": "伝説"
     }
+  },
+  "AIChat": {
+    "welcomeMessage": "こんにちは！PokerPal AIアシスタントです。何かお手伝いできることはありますか？",
+    "contextWelcome": "こんにちは！{context}モジュールの専属アシスタントです。何かご質問はありますか？",
+    "inputPlaceholder": "質問を入力してください...",
+    "thinking": "考え中...",
+    "errorMessage": "申し訳ございませんが、問題が発生しました。しばらくしてからもう一度お試しください。",
+    "errorResponse": "申し訳ございませんが、お客様のリクエストを処理できません。",
+    "guestChatCleared": "💡 ゲストチャット履歴がプライバシー保護のため自動的にクリアされました。"
   }
 }

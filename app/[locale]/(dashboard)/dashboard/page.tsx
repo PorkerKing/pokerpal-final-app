@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
+import { useDashboardData } from '@/hooks/useDashboardData';
+import { useSelectedClub } from '@/stores/userStore';
 import NewSidebar from '@/components/NewSidebar';
 import Window from '@/components/Window';
 import AIChat from '@/components/AIChat';
@@ -30,6 +32,8 @@ interface OpenWindow {
 export default function DashboardPage() {
   const { data: session } = useSession();
   const t = useTranslations();
+  const selectedClub = useSelectedClub();
+  const { stats, loading, error } = useDashboardData();
   const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
   const [activeWindow, setActiveWindow] = useState<string | null>(null);
   const [nextZIndex, setNextZIndex] = useState(100);
@@ -40,56 +44,76 @@ export default function DashboardPage() {
       case 'dashboard':
         return (
           <div className="text-white">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {/* 统计卡片 */}
-              <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 rounded-xl">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-purple-100 text-sm">总会员</p>
-                    <p className="text-2xl font-bold text-white">156</p>
+            {loading ? (
+              <div className="flex items-center justify-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+              </div>
+            ) : error ? (
+              <div className="bg-red-600/20 border border-red-500/50 rounded-xl p-6 mb-6">
+                <h3 className="text-red-300 font-semibold mb-2">数据加载失败</h3>
+                <p className="text-red-200">{error}</p>
+              </div>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                  {/* 统计卡片 */}
+                  <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 rounded-xl">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-purple-100 text-sm">总会员</p>
+                        <p className="text-2xl font-bold text-white">{stats.totalMembers}</p>
+                      </div>
+                      <Users className="w-10 h-10 text-purple-200" />
+                    </div>
                   </div>
-                  <Users className="w-10 h-10 text-purple-200" />
-                </div>
-              </div>
-              
-              <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-6 rounded-xl">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-green-100 text-sm">活跃比赛</p>
-                    <p className="text-2xl font-bold text-white">8</p>
+                  
+                  <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-6 rounded-xl">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-green-100 text-sm">活跃比赛</p>
+                        <p className="text-2xl font-bold text-white">{stats.activeTournaments}</p>
+                      </div>
+                      <Trophy className="w-10 h-10 text-green-200" />
+                    </div>
                   </div>
-                  <Trophy className="w-10 h-10 text-green-200" />
-                </div>
-              </div>
-              
-              <div className="bg-gradient-to-r from-yellow-600 to-orange-600 p-6 rounded-xl">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-yellow-100 text-sm">今日收入</p>
-                    <p className="text-2xl font-bold text-white">¥12,450</p>
+                  
+                  <div className="bg-gradient-to-r from-yellow-600 to-orange-600 p-6 rounded-xl">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-yellow-100 text-sm">今日收入</p>
+                        <p className="text-2xl font-bold text-white">¥{stats.todayRevenue.toLocaleString()}</p>
+                      </div>
+                      <DollarSign className="w-10 h-10 text-yellow-200" />
+                    </div>
                   </div>
-                  <DollarSign className="w-10 h-10 text-yellow-200" />
                 </div>
-              </div>
-            </div>
-            
-            <div className="bg-gray-800/50 p-6 rounded-xl">
-              <h3 className="text-lg font-semibold mb-4">最近活动</h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
-                  <span>新会员注册：张三</span>
-                  <span className="text-sm text-gray-400">2分钟前</span>
+                
+                <div className="bg-gray-800/50 p-6 rounded-xl">
+                  <h3 className="text-lg font-semibold mb-4">最近活动</h3>
+                  <div className="space-y-3">
+                    {stats.recentActivities.length > 0 ? (
+                      stats.recentActivities.map((activity) => (
+                        <div key={activity.id} className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
+                          <span>{activity.description}</span>
+                          <span className="text-sm text-gray-400">
+                            {new Date(activity.timestamp).toLocaleString('zh-CN', {
+                              month: 'short',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </span>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-gray-400 text-center py-8">
+                        暂无最近活动
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
-                  <span>周日锦标赛开始</span>
-                  <span className="text-sm text-gray-400">5分钟前</span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
-                  <span>现金游戏桌1满员</span>
-                  <span className="text-sm text-gray-400">10分钟前</span>
-                </div>
-              </div>
-            </div>
+              </>
+            )}
           </div>
         );
       

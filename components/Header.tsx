@@ -25,7 +25,16 @@ export default function Header() {
     );
   }
 
-  if (status === 'authenticated') {
+  // 在会话加载期间显示加载状态
+  if (status === 'loading') {
+    return (
+      <header className="absolute top-0 right-0 p-4 md:p-6 z-20">
+        <div className="h-[40px] w-[250px] bg-white/5 rounded-lg animate-pulse"></div>
+      </header>
+    );
+  }
+
+  if (status === 'authenticated' && session?.user) {
     return (
       <header className="fixed top-0 right-0 p-4 md:p-6 z-30">
         <div className="flex items-center space-x-3">

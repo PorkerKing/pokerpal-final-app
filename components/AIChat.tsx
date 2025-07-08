@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { Send, Bot, User, Loader2 } from 'lucide-react';
 
@@ -17,6 +18,7 @@ interface AIChatProps {
 }
 
 export default function AIChat({ context = 'general', placeholder }: AIChatProps) {
+  const { data: session } = useSession();
   const t = useTranslations('AIChat');
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -31,6 +33,7 @@ export default function AIChat({ context = 'general', placeholder }: AIChatProps
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const clearTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -39,6 +42,94 @@ export default function AIChat({ context = 'general', placeholder }: AIChatProps
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Auto-clear guest chat history every 10 minutes
+  useEffect(() => {
+    const isGuest = !session?.user;
+    
+    if (isGuest) {
+      // Clear any existing timer
+      if (clearTimerRef.current) {
+        clearTimeout(clearTimerRef.current);
+      }
+      
+      // Set up 10-minute auto-clear timer
+      clearTimerRef.current = setTimeout(() => {
+        setMessages([
+          {
+            id: '1',
+            content: context === 'general' 
+              ? t('welcomeMessage') 
+              : t('contextWelcome', { context }),
+            role: 'assistant',
+            timestamp: new Date()
+          }
+        ]);
+        
+        // Show a notification that chat was cleared
+        const clearNotification: Message = {
+          id: `clear-${Date.now()}`,
+          content: t('guestChatCleared', { 
+            defaultValue: '💡 Guest chat history has been automatically cleared for privacy.'
+          }),
+          role: 'assistant',
+          timestamp: new Date()
+        };
+        
+        setTimeout(() => {
+          setMessages(prev => [...prev, clearNotification]);
+        }, 1000);
+        
+      }, 10 * 60 * 1000); // 10 minutes
+    }
+    
+    // Cleanup function
+    return () => {
+      if (clearTimerRef.current) {
+        clearTimeout(clearTimerRef.current);
+      }
+    };
+  }, [session, context, t]);
+
+  // Reset timer when new messages are added (for guest users)
+  useEffect(() => {
+    const isGuest = !session?.user;
+    
+    if (isGuest && messages.length > 1) {
+      // Clear existing timer
+      if (clearTimerRef.current) {
+        clearTimeout(clearTimerRef.current);
+      }
+      
+      // Set new 10-minute timer
+      clearTimerRef.current = setTimeout(() => {
+        setMessages([
+          {
+            id: '1',
+            content: context === 'general' 
+              ? t('welcomeMessage') 
+              : t('contextWelcome', { context }),
+            role: 'assistant',
+            timestamp: new Date()
+          }
+        ]);
+        
+        const clearNotification: Message = {
+          id: `clear-${Date.now()}`,
+          content: t('guestChatCleared', { 
+            defaultValue: '💡 Guest chat history has been automatically cleared for privacy.'
+          }),
+          role: 'assistant',
+          timestamp: new Date()
+        };
+        
+        setTimeout(() => {
+          setMessages(prev => [...prev, clearNotification]);
+        }, 1000);
+        
+      }, 10 * 60 * 1000);
+    }
+  }, [messages.length, session, context, t]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;

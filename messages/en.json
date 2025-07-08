@@ -768,5 +768,14 @@
       "highPerformance": "High Performance",
       "highPerformanceDesc": "Cloud-native architecture"
     }
+  },
+  "AIChat": {
+    "welcomeMessage": "Hello! I'm the PokerPal AI assistant. How can I help you?",
+    "contextWelcome": "Hello! I'm the {context} module assistant. What questions do you have?",
+    "inputPlaceholder": "Type your question...",
+    "thinking": "Thinking...",
+    "errorMessage": "Sorry, something went wrong. Please try again later.",
+    "errorResponse": "Sorry, I cannot process your request.",
+    "guestChatCleared": "💡 Guest chat history has been automatically cleared for privacy."
   }
-} 
+}
