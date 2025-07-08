@@ -1,7 +1,6 @@
 import { getServerSession } from 'next-auth/next';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
-import SidebarNav from '@/components/SidebarNav';
 import DashboardHeader from '@/components/DashboardHeader';
 
 export default async function DashboardLayout({
@@ -19,12 +18,9 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* 固定侧边栏 */}
-      <SidebarNav />
-      
-      {/* 主内容区域 */}
-      <div className="lg:pl-72">
+    <div className="min-h-screen">
+      {/* 主内容区域 - UnifiedSidebar已在根布局中渲染 */}
+      <div className="lg:ml-64 transition-all duration-300">
         {/* 顶部导航栏 */}
         <DashboardHeader />
         

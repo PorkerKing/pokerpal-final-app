@@ -5,9 +5,10 @@ import { useSession, signOut } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { useSelectedClub } from '@/stores/userStore';
-import NewSidebar from '@/components/NewSidebar';
 import Window from '@/components/Window';
 import AIChat from '@/components/AIChat';
+import SaaSFeatures from '@/components/SaaSFeatures';
+import { Z_INDEX } from '@/lib/z-index';
 import { 
   Home,
   Users, 
@@ -36,7 +37,7 @@ export default function DashboardPage() {
   const { stats, loading, error } = useDashboardData();
   const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
   const [activeWindow, setActiveWindow] = useState<string | null>(null);
-  const [nextZIndex, setNextZIndex] = useState(100);
+  const [nextZIndex, setNextZIndex] = useState<number>(Z_INDEX.WINDOW_BASE);
 
   // 功能模块窗口内容组件
   const getModuleContent = (id: string) => {
@@ -270,13 +271,8 @@ export default function DashboardPage() {
     setNextZIndex(prev => prev + 1);
   };
 
-  // 侧边栏点击处理
-  const handleSidebarClick = (item: string) => {
-    if (item === 'logout') {
-      signOut();
-      return;
-    }
-
+  // 快速访问功能模块的辅助函数
+  const openQuickModule = (moduleId: string) => {
     const titles: Record<string, string> = {
       dashboard: '仪表板',
       members: '会员管理',
@@ -290,17 +286,13 @@ export default function DashboardPage() {
       profile: '个人资料',
     };
 
-    // 打开对应的功能模块窗口
-    openModuleWindow(item, titles[item] || item);
+    openModuleWindow(moduleId, titles[moduleId] || moduleId);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 relative flex">
-      {/* 侧边栏 */}
-      <NewSidebar onItemClick={handleSidebarClick} activeItem={activeWindow || undefined} />
-
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 relative">
       {/* 主内容区域 - AI聊天界面 */}
-      <div className="flex-1 transition-all duration-300 ease-in-out ml-0 lg:ml-20 xl:ml-64 min-h-screen relative flex flex-col">
+      <div className="min-h-screen relative flex flex-col">
         {/* 背景装饰 */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-20 w-64 h-64 bg-purple-600/5 rounded-full blur-3xl"></div>
@@ -308,7 +300,7 @@ export default function DashboardPage() {
         </div>
 
         {/* AI聊天主界面 */}
-        <div className="flex-1 relative z-10 p-3 md:p-6">
+        <div className="flex-1 relative p-3 md:p-6" style={{ zIndex: Z_INDEX.AI_CHAT }}>
           <div className="h-full bg-black/20 backdrop-blur-sm border border-white/10 rounded-2xl">
             <div className="h-full flex flex-col">
               {/* 聊天头部 */}
@@ -330,19 +322,31 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* AI聊天内容区域 */}
+              {/* AI聊天和SaaS功能区域 */}
               <div className="flex-1 overflow-hidden">
-                <AIChat 
-                  context="general" 
-                  placeholder="您好！我是 PokerPal AI 助手，有什么可以帮您的吗？点击菜单可以查看具体功能数据..." 
-                />
+                <div className="h-full flex flex-col lg:flex-row gap-4">
+                  {/* AI聊天区域 */}
+                  <div className="flex-1">
+                    <AIChat 
+                      context="general" 
+                      placeholder="您好！我是 PokerPal AI 助手，有什么可以帮您的吗？点击菜单可以查看具体功能数据..." 
+                    />
+                  </div>
+                  
+                  {/* SaaS功能面板 - 桌面端侧边显示 */}
+                  <div className="lg:w-96 lg:border-l lg:border-white/10 lg:pl-4">
+                    <div className="h-full">
+                      <SaaSFeatures className="h-full" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* 功能模块窗口叠加层 */}
-        <div className="absolute inset-0 pointer-events-none z-20">
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: Z_INDEX.WINDOW_BASE }}>
           {openWindows.map(window => (
             <div key={window.id} className="pointer-events-auto" style={{ zIndex: window.zIndex }}>
               <Window
@@ -364,7 +368,7 @@ export default function DashboardPage() {
 
         {/* 功能提示浮动按钮 */}
         {openWindows.length === 0 && (
-          <div className="absolute bottom-6 right-6 z-30">
+          <div className="absolute bottom-6 right-6" style={{ zIndex: Z_INDEX.TOOLTIP }}>
             <div className="bg-purple-600/90 backdrop-blur-sm text-white px-4 py-3 rounded-xl shadow-lg animate-pulse">
               <div className="text-sm font-medium mb-1">💡 试试点击左侧菜单</div>
               <div className="text-xs text-purple-200">查看仪表板、会员管理等功能</div>
@@ -373,9 +377,9 @@ export default function DashboardPage() {
         )}
 
         {/* 快速访问按钮（移动端） */}
-        <div className="absolute bottom-6 left-6 z-30 md:hidden">
+        <div className="absolute bottom-6 left-6 md:hidden" style={{ zIndex: Z_INDEX.TOOLTIP }}>
           <button
-            onClick={() => openModuleWindow('dashboard', '仪表板')}
+            onClick={() => openQuickModule('dashboard')}
             className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
             title="打开仪表板"
           >

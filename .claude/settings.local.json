@@ -79,7 +79,12 @@
       "Bash(do echo \"Updating $file\")",
       "Bash(done)",
       "Bash(npx @supabase-community/supabase-mcp:*)",
-      "Bash(do echo \"=== $lang.json ===\")"
+      "Bash(do echo \"=== $lang.json ===\")",
+      "Bash(claude doctor)",
+      "Bash(claude --version)",
+      "Bash(npm outdated:*)",
+      "Bash(DATABASE_URL=\"postgresql://postgres:Githubisgood1@db.pkjkbvvpthneaciyxskv.supabase.co:5432/postgres\" npx prisma db push)",
+      "Bash(./scripts/pre-deploy-check.sh:*)"
     ],
     "deny": []
   }

@@ -538,8 +538,8 @@ export default function HomePage() {
          )}
       </div>
 
-      {/* 输入框 */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#0D0F18]/80 backdrop-blur-sm" style={{ marginLeft: '80px' }}>
+      {/* 输入框 - 响应式适配 */}
+      <div className="fixed bottom-0 left-0 right-0 bg-[#0D0F18]/80 backdrop-blur-sm lg:ml-20">
         <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
       </div>
     </div>

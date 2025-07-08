@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { locales } from '../../i18n';
 import Providers from '@/components/Providers';
-import Sidebar from '@/components/Sidebar';
+import UnifiedSidebar from '@/components/UnifiedSidebar';
 import { getMessages } from 'next-intl/server';
 import type { Metadata } from 'next';
 
@@ -28,9 +28,9 @@ export default async function LocaleLayout({
 
   return (
     <Providers locale={locale} messages={messages}>
-      <div className="flex min-h-screen bg-gray-50">
-        <Sidebar />
-        <main className="flex-1 transition-all duration-300 ml-20">
+      <div className="min-h-screen bg-gray-50">
+        <UnifiedSidebar />
+        <main className="transition-all duration-300 lg:ml-20">
           <div className="min-h-screen">
             {children}
           </div>
