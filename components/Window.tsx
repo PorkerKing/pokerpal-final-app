@@ -90,13 +90,15 @@ export default function Window({
     <div
       className={`fixed bg-gray-900/95 backdrop-blur-md rounded-lg shadow-2xl transition-all duration-200 z-30
         ${isActive ? 'border-2 border-purple-500' : 'border border-gray-700'}
-        ${isMaximized ? 'inset-4' : 'min-w-96 min-h-80'}
+        ${isMaximized ? 'inset-4 md:inset-8' : 'min-w-80 min-h-96'}
       `}
       style={isMaximized ? {} : { 
-        left: position.x, 
-        top: position.y,
-        width: '600px',
-        height: '500px'
+        left: Math.max(10, position.x), 
+        top: Math.max(10, position.y),
+        width: 'min(90vw, 700px)',
+        height: 'min(80vh, 600px)',
+        maxWidth: '100vw',
+        maxHeight: '100vh'
       }}
       onClick={onFocus}
     >
@@ -105,16 +107,16 @@ export default function Window({
         className="flex items-center justify-between p-3 border-b border-gray-700 cursor-move bg-gray-800/50 rounded-t-lg"
         onMouseDown={handleMouseDown}
       >
-        <h3 className="text-white font-semibold truncate">{title}</h3>
+        <h3 className="text-white font-semibold truncate flex-1 mr-2">{title}</h3>
         
         {/* 窗口控制按钮 */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-1">
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleMinimize();
             }}
-            className="p-1 text-gray-400 hover:text-yellow-400 hover:bg-yellow-400/10 rounded transition-all"
+            className="p-1.5 text-gray-400 hover:text-yellow-400 hover:bg-yellow-400/10 rounded transition-all"
             title="最小化"
           >
             <Minimize2 className="w-4 h-4" />
@@ -125,7 +127,7 @@ export default function Window({
               e.stopPropagation();
               handleMaximize();
             }}
-            className="p-1 text-gray-400 hover:text-green-400 hover:bg-green-400/10 rounded transition-all"
+            className="p-1.5 text-gray-400 hover:text-green-400 hover:bg-green-400/10 rounded transition-all"
             title={isMaximized ? "还原" : "最大化"}
           >
             <Maximize2 className="w-4 h-4" />
@@ -136,7 +138,7 @@ export default function Window({
               e.stopPropagation();
               onClose();
             }}
-            className="p-1 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded transition-all"
+            className="p-1.5 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded transition-all"
             title="关闭"
           >
             <X className="w-4 h-4" />
@@ -145,7 +147,7 @@ export default function Window({
       </div>
 
       {/* 窗口内容 */}
-      <div className="p-4 h-full overflow-auto">
+      <div className="overflow-auto" style={{ height: 'calc(100% - 56px)' }}>
         {children}
       </div>
     </div>
