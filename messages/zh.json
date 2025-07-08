@@ -915,6 +915,14 @@
       "show_status": "向其他玩家展示您的成就地位"
     }
   },
+  "AIChat": {
+    "welcomeMessage": "您好！我是 PokerPal AI 助手，有什么可以帮您的吗？",
+    "contextWelcome": "您好！我是{context}模块的专属助手，有什么问题吗？",
+    "inputPlaceholder": "输入您的问题...",
+    "thinking": "思考中...",
+    "errorMessage": "抱歉，出现了一些问题，请稍后重试。",
+    "errorResponse": "抱歉，我无法处理您的请求。"
+  },
   "Auth": {
     "backToHome": "返回首页",
     "welcomeBack": "欢迎回到 PokerPal",

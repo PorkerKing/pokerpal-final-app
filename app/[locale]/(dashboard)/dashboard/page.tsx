@@ -1,329 +1,270 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
-import { useSelectedClub } from '@/stores/userStore';
+import NewSidebar from '@/components/NewSidebar';
+import Window from '@/components/Window';
+import AIChat from '@/components/AIChat';
 import { 
+  Home,
   Users, 
   Trophy, 
-  Circle, 
   DollarSign, 
-  TrendingUp, 
-  Calendar,
-  Play,
+  Settings,
+  Store,
+  BarChart3,
+  Medal,
   Clock,
-  Plus,
-  ArrowRight
+  UserCog,
+  Bot
 } from 'lucide-react';
-import { Link } from '@/navigation';
-import { formatCurrency, formatRelativeTime } from '@/lib/utils';
 
-// 数据类型定义
-interface DashboardSummary {
-  members: {
-    total: number;
-    active: number;
-    growth: number;
-  };
-  tournaments: {
-    total: number;
-    active: number;
-    upcoming: number;
-  };
-  ringGames: {
-    total: number;
-    active: number;
-    waiting: number;
-  };
-  finance?: {
-    dailyRevenue: number;
-    monthlyRevenue: number;
-    currency: string;
-  };
-  recentActivity: Array<{
-    id: string;
-    name: string;
-    type: string;
-    startTime: string;
-    status: string;
-    playerCount: number;
-  }>;
-  userRole: string;
-  canViewFinance: boolean;
-}
-
-// 统计卡片组件
-interface StatCardProps {
+interface OpenWindow {
+  id: string;
   title: string;
-  value: string | number;
-  subtitle?: string;
-  icon: any; // 使用any类型以避免Lucide图标的复杂类型
-  trend?: number;
-  color?: 'blue' | 'green' | 'purple' | 'orange';
+  component: React.ReactNode;
+  zIndex: number;
 }
-
-const StatCard = ({ title, value, subtitle, icon: Icon, trend, color = 'blue' }: StatCardProps) => {
-  const colorClasses = {
-    blue: 'bg-blue-500',
-    green: 'bg-green-500',
-    purple: 'bg-purple-500',
-    orange: 'bg-orange-500'
-  };
-
-  return (
-    <div className="bg-white rounded-lg shadow p-6 border border-gray-200">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className="text-2xl font-bold text-gray-900">{value}</p>
-          {subtitle && (
-            <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
-          )}
-        </div>
-        <div className={`p-3 rounded-full ${colorClasses[color]}`}>
-          <Icon size={24} className="text-white" />
-        </div>
-      </div>
-      {trend !== undefined && (
-        <div className="flex items-center mt-4">
-          <TrendingUp size={16} className={trend >= 0 ? 'text-green-500' : 'text-red-500'} />
-          <span className={`text-sm ml-1 ${trend >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-            {trend >= 0 ? '+' : ''}{trend}%
-          </span>
-          <span className="text-sm text-gray-500 ml-1">vs 上月</span>
-        </div>
-      )}
-    </div>
-  );
-};
-
-// 快速操作按钮组件
-interface QuickActionProps {
-  title: string;
-  href: string;
-  icon: any; // 使用any类型以避免Lucide图标的复杂类型
-  description: string;
-}
-
-const QuickAction = ({ title, href, icon: Icon, description }: QuickActionProps) => (
-  <Link href={href} className="group">
-    <div className="bg-white rounded-lg shadow p-4 border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-purple-100 group-hover:bg-purple-200 transition-colors">
-            <Icon size={20} className="text-purple-600" />
-          </div>
-          <div>
-            <h3 className="font-medium text-gray-900">{title}</h3>
-            <p className="text-sm text-gray-500">{description}</p>
-          </div>
-        </div>
-        <ArrowRight size={16} className="text-gray-400 group-hover:text-purple-600 transition-colors" />
-      </div>
-    </div>
-  </Link>
-);
 
 export default function DashboardPage() {
-  const t = useTranslations('Dashboard');
-  const selectedClub = useSelectedClub();
-  const [summary, setSummary] = useState<DashboardSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: session } = useSession();
+  const t = useTranslations();
+  const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
+  const [activeWindow, setActiveWindow] = useState<string | null>(null);
+  const [nextZIndex, setNextZIndex] = useState(100);
 
-  // 获取仪表盘数据
-  useEffect(() => {
-    if (!selectedClub) return;
-
-    const fetchSummary = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`/api/dashboard/summary?clubId=${selectedClub.id}`);
-        const data = await response.json();
-        
-        if (data.success) {
-          setSummary(data.data);
-        } else {
-          setError(data.error || '获取数据失败');
-        }
-      } catch (err) {
-        setError('网络错误，请稍后重试');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSummary();
-  }, [selectedClub]);
-
-  if (!selectedClub) {
-    return (
-      <div className="p-8 text-center">
-        <p className="text-gray-500">请先选择一个俱乐部</p>
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="p-8">
-        <div className="animate-pulse">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="bg-gray-200 h-32 rounded-lg"></div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="p-8 text-center">
-        <p className="text-red-500">{error}</p>
-      </div>
-    );
-  }
-
-  if (!summary) return null;
-
-  // 快速操作配置
-  const quickActions = [
-    {
-      title: t('quickActions.createTournament'),
-      href: '/tournaments/create',
-      icon: Trophy,
-      description: '🏆 创建新的锦标赛'
-    },
-    {
-      title: t('quickActions.openRingGame'),
-      href: '/ring-games/create',
-      icon: Circle,
-      description: '🎯 开设新的圆桌游戏'
-    },
-    {
-      title: t('quickActions.manageMembers'),
-      href: '/members',
-      icon: Users,
-      description: '👥 管理俱乐部会员'
-    },
-    {
-      title: t('quickActions.viewReports'),
-      href: '/reports',
-      icon: TrendingUp,
-      description: '📊 查看详细报告'
-    }
-  ].filter(action => {
-    // 根据用户角色过滤快速操作
-    if (action.href.includes('create') || action.href.includes('members') || action.href.includes('reports')) {
-      return ['OWNER', 'ADMIN', 'MANAGER'].includes(summary.userRole);
-    }
-    return true;
-  });
-
-  return (
-    <div className="p-8 space-y-8">
-      {/* 页面标题 */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
-        <p className="text-gray-600 mt-2">
-          {selectedClub.name} - {t('overview')}
-        </p>
-      </div>
-
-      {/* 统计卡片 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title={t('members.title')}
-          value={summary.members.total}
-          subtitle={`${summary.members.active} ${t('members.active')}`}
-          icon={Users}
-          trend={summary.members.growth}
-          color="blue"
-        />
-        
-        <StatCard
-          title={t('tournaments.title')}
-          value={summary.tournaments.total}
-          subtitle={`${summary.tournaments.active} ${t('tournaments.active')}`}
-          icon={Trophy}
-          color="green"
-        />
-        
-        <StatCard
-          title={t('ringGames.title')}
-          value={summary.ringGames.total}
-          subtitle={`${summary.ringGames.active} ${t('ringGames.active')}`}
-          icon={Circle}
-          color="purple"
-        />
-        
-        {summary.finance && (
-          <StatCard
-            title={t('finance.dailyRevenue')}
-            value={formatCurrency(summary.finance.dailyRevenue)}
-            subtitle={`本月: ${formatCurrency(summary.finance.monthlyRevenue)}`}
-            icon={DollarSign}
-            color="orange"
-          />
-        )}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* 最近活动 */}
-        <div className="bg-white rounded-lg shadow border border-gray-200">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">{t('recentActivity.title')}</h2>
-          </div>
-          <div className="p-6">
-            {summary.recentActivity.length > 0 ? (
-              <div className="space-y-4">
-                {summary.recentActivity.map((activity) => (
-                  <div key={activity.id} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-full bg-purple-100">
-                        <Trophy size={16} className="text-purple-600" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-gray-900">{activity.name}</h3>
-                        <p className="text-sm text-gray-500">
-                          {activity.playerCount} {t('recentActivity.players')} • {formatRelativeTime(activity.startTime)}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`px-2 py-1 text-xs rounded-full ${
-                        activity.status === 'IN_PROGRESS' ? 'bg-green-100 text-green-800' :
-                        activity.status === 'SCHEDULED' ? 'bg-blue-100 text-blue-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}>
-                        {activity.status === 'IN_PROGRESS' && '进行中'}
-                        {activity.status === 'SCHEDULED' && '已安排'}
-                        {activity.status === 'COMPLETED' && '已完成'}
-                      </span>
-                    </div>
+  // 窗口内容组件
+  const getWindowContent = (id: string) => {
+    switch (id) {
+      case 'dashboard':
+        return (
+          <div className="text-white">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {/* 统计卡片 */}
+              <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 rounded-xl">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-purple-100 text-sm">总会员</p>
+                    <p className="text-2xl font-bold text-white">156</p>
                   </div>
-                ))}
+                  <Users className="w-10 h-10 text-purple-200" />
+                </div>
               </div>
-            ) : (
-              <p className="text-gray-500 text-center py-8">{t('recentActivity.noActivity')}</p>
-            )}
-          </div>
-        </div>
-
-        {/* 快速操作 */}
-        <div className="bg-white rounded-lg shadow border border-gray-200">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">⚡ {t('quickActions.title')}</h2>
-          </div>
-          <div className="p-6">
-            <div className="space-y-3">
-              {quickActions.map((action, index) => (
-                <QuickAction key={index} {...action} />
-              ))}
+              
+              <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-6 rounded-xl">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-green-100 text-sm">活跃比赛</p>
+                    <p className="text-2xl font-bold text-white">8</p>
+                  </div>
+                  <Trophy className="w-10 h-10 text-green-200" />
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-r from-yellow-600 to-orange-600 p-6 rounded-xl">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-yellow-100 text-sm">今日收入</p>
+                    <p className="text-2xl font-bold text-white">¥12,450</p>
+                  </div>
+                  <DollarSign className="w-10 h-10 text-yellow-200" />
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gray-800/50 p-6 rounded-xl">
+              <h3 className="text-lg font-semibold mb-4">最近活动</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
+                  <span>新会员注册：张三</span>
+                  <span className="text-sm text-gray-400">2分钟前</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
+                  <span>周日锦标赛开始</span>
+                  <span className="text-sm text-gray-400">5分钟前</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
+                  <span>现金游戏桌1满员</span>
+                  <span className="text-sm text-gray-400">10分钟前</span>
+                </div>
+              </div>
             </div>
           </div>
+        );
+      
+      case 'members':
+        return (
+          <div className="text-white">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold">会员管理</h2>
+              <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
+                添加会员
+              </button>
+            </div>
+            <AIChat context="members" placeholder="询问会员相关问题..." />
+          </div>
+        );
+      
+      case 'tournaments':
+        return (
+          <div className="text-white">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold">比赛管理</h2>
+              <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
+                创建比赛
+              </button>
+            </div>
+            <AIChat context="tournaments" placeholder="询问比赛相关问题..." />
+          </div>
+        );
+      
+      case 'finance':
+        return (
+          <div className="text-white">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold">财务管理</h2>
+              <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
+                生成报表
+              </button>
+            </div>
+            <AIChat context="finance" placeholder="询问财务相关问题..." />
+          </div>
+        );
+      
+      case 'settings':
+        return (
+          <div className="text-white">
+            <h2 className="text-xl font-semibold mb-6">系统设置</h2>
+            <AIChat context="settings" placeholder="询问设置相关问题..." />
+          </div>
+        );
+      
+      case 'ai-assistant':
+        return <AIChat context="general" placeholder="您好！我是 PokerPal AI 助手，有什么可以帮您的吗？" />;
+      
+      default:
+        return (
+          <div className="text-white">
+            <h2 className="text-xl font-semibold mb-4">{id}</h2>
+            <AIChat context={id} placeholder={`询问${id}相关问题...`} />
+          </div>
+        );
+    }
+  };
+
+  // 打开窗口
+  const openWindow = (id: string, title: string) => {
+    // 检查窗口是否已经打开
+    if (openWindows.find(w => w.id === id)) {
+      setActiveWindow(id);
+      return;
+    }
+
+    const newWindow: OpenWindow = {
+      id,
+      title,
+      component: getWindowContent(id),
+      zIndex: nextZIndex,
+    };
+
+    setOpenWindows(prev => [...prev, newWindow]);
+    setActiveWindow(id);
+    setNextZIndex(prev => prev + 1);
+  };
+
+  // 关闭窗口
+  const closeWindow = (id: string) => {
+    setOpenWindows(prev => prev.filter(w => w.id !== id));
+    if (activeWindow === id) {
+      const remaining = openWindows.filter(w => w.id !== id);
+      setActiveWindow(remaining.length > 0 ? remaining[remaining.length - 1].id : null);
+    }
+  };
+
+  // 激活窗口
+  const focusWindow = (id: string) => {
+    setActiveWindow(id);
+    setOpenWindows(prev => 
+      prev.map(w => 
+        w.id === id ? { ...w, zIndex: nextZIndex } : w
+      )
+    );
+    setNextZIndex(prev => prev + 1);
+  };
+
+  // 侧边栏点击处理
+  const handleSidebarClick = (item: string) => {
+    if (item === 'logout') {
+      signOut();
+      return;
+    }
+
+    const titles: Record<string, string> = {
+      dashboard: '仪表板',
+      members: '会员管理',
+      tournaments: '比赛管理',
+      'ring-games': '现金游戏',
+      finance: '财务管理',
+      store: '积分商店',
+      achievements: '成就系统',
+      analytics: '数据分析',
+      settings: '系统设置',
+      profile: '个人资料',
+    };
+
+    openWindow(item, titles[item] || item);
+  };
+
+  // 初始化时打开默认窗口
+  useEffect(() => {
+    openWindow('dashboard', '仪表板');
+    openWindow('ai-assistant', 'AI 助手');
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 relative">
+      {/* 侧边栏 */}
+      <NewSidebar onItemClick={handleSidebarClick} activeItem={activeWindow || undefined} />
+
+      {/* 主内容区域 */}
+      <div className="ml-20 lg:ml-64 min-h-screen relative">
+        {/* 背景装饰 */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-20 w-64 h-64 bg-purple-600/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"></div>
+        </div>
+
+        {/* 窗口容器 */}
+        <div className="relative z-10">
+          {openWindows.map(window => (
+            <div key={window.id} style={{ zIndex: window.zIndex }}>
+              <Window
+                id={window.id}
+                title={window.title}
+                onClose={() => closeWindow(window.id)}
+                isActive={activeWindow === window.id}
+                onFocus={() => focusWindow(window.id)}
+                initialPosition={{ 
+                  x: 100 + (openWindows.length * 50), 
+                  y: 50 + (openWindows.length * 30) 
+                }}
+              >
+                {window.component}
+              </Window>
+            </div>
+          ))}
+        </div>
+
+        {/* 快速操作浮动按钮 */}
+        <div className="fixed bottom-6 right-6 z-40">
+          <button
+            onClick={() => openWindow('ai-assistant', 'AI 助手')}
+            className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
+            title="打开 AI 助手"
+          >
+            <Bot className="w-6 h-6" />
+          </button>
         </div>
       </div>
     </div>
