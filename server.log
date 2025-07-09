@@ -1,0 +1,996 @@
+
+> pokerpal-final@1.2.0 dev
+> next dev
+
+  ▲ Next.js 14.2.4
+  - Local:        http://localhost:3000
+  - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 2.4s
+ ○ Compiling /api/chat ...
+ ✓ Compiled /api/chat in 664ms (345 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+🔍 权限检查 - isAuthenticated: false actualUserId: undefined clubId: guest-poker-club-shanghai
+API availability check:
+hasValidXAI: false
+hasSiliconFlow: true
+XAI_API_KEY value: 请替换为新的X.AI API密钥...
+Guest mode - clubId: guest-poker-club-shanghai
+Selected club type: zh Club name: 上海扑克会所 AI name: 雅茜
+Trying SiliconFlow API...
+SiliconFlow API error 401: "Invalid token"
+SiliconFlow API failed: Error: SiliconFlow API error: 401 - "Invalid token"
+    at POST (webpack-internal:///(rsc)/./app/api/chat/route.ts:703:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:55038
+    at async ek.execute (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:45808)
+    at async ek.handle (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:56292)
+    at async doRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1377:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1599:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1507:28)
+    at async DevServer.renderPageComponent (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1931:24)
+    at async DevServer.renderToResponseImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1969:32)
+    at async DevServer.pipeImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:816:17)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:174:21)
+    at async handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:353:24)
+    at async requestHandlerImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:377:13)
+    at async Server.requestListener (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/start-server.js:141:13)
+Chat API Error: Error: SiliconFlow API error: 401 - "Invalid token"
+    at POST (webpack-internal:///(rsc)/./app/api/chat/route.ts:703:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:55038
+    at async ek.execute (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:45808)
+    at async ek.handle (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:56292)
+    at async doRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1377:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1599:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1507:28)
+    at async DevServer.renderPageComponent (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1931:24)
+    at async DevServer.renderToResponseImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1969:32)
+    at async DevServer.pipeImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:816:17)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:174:21)
+    at async handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:353:24)
+    at async requestHandlerImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:377:13)
+    at async Server.requestListener (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/start-server.js:141:13)
+ POST /api/chat 200 in 1071ms
+   Reload env: .env
+ ✓ Compiled in 663ms (546 modules)
+ ✓ Compiled /api/test-siliconflow in 30ms (100 modules)
+ POST /api/test-siliconflow 405 in 74ms
+ GET /api/test-siliconflow 200 in 222ms
+ ✓ Compiled /api/test-chat-debug in 28ms (102 modules)
+=== Chat Debug ===
+Request body: {
+  "test": "hello"
+}
+XAI_API_KEY exists: true
+XAI_API_KEY length: 16
+XAI_API_KEY first 10 chars: 请替换为新的X.AI
+Sending request to X.AI...
+Test chat debug error: TypeError: Cannot convert argument to a ByteString because the character at index 7 has a value of 35831 which is greater than 255.
+    at webidl.converters.ByteString (node:internal/deps/undici/undici:3889:17)
+    at Object.record<ByteString, ByteString> (node:internal/deps/undici/undici:3796:32)
+    at webidl.converters.HeadersInit (node:internal/deps/undici/undici:9023:67)
+    at new Headers (node:internal/deps/undici/undici:8851:36)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:50584
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/mrhardcandy/pokerpal-final/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/mrhardcandy/pokerpal-final/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/mrhardcandy/pokerpal-final/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/mrhardcandy/pokerpal-final/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/mrhardcandy/pokerpal-final/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/mrhardcandy/pokerpal-final/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NextTracerImpl.trace (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/trace/tracer.js:122:28)
+    at n (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:48532)
+    at POST (webpack-internal:///(rsc)/./app/api/test-chat-debug/route.ts:33:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:55038
+    at async ek.execute (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:45808)
+    at async ek.handle (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:56292)
+    at async doRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1377:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1599:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1507:28)
+    at async DevServer.renderPageComponent (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1931:24)
+    at async DevServer.renderToResponseImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1969:32)
+    at async DevServer.pipeImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:816:17)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:174:21)
+    at async handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:353:24)
+    at async requestHandlerImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:377:13)
+    at async Server.requestListener (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/start-server.js:141:13)
+ POST /api/test-chat-debug 200 in 59ms
+   Reload env: .env
+ ✓ Compiled in 84ms (303 modules)
+   Reload env: .env
+ ✓ Compiled in 46ms (303 modules)
+=== Chat Debug ===
+Request body: {
+  "test": "hello"
+}
+XAI_API_KEY exists: true
+XAI_API_KEY length: 84
+XAI_API_KEY first 10 chars: xai-3H4Um6
+Sending request to X.AI...
+Response status: 403
+Response headers: {
+  'access-control-allow-origin': '*',
+  'access-control-expose-headers': '*',
+  'cf-cache-status': 'DYNAMIC',
+  'cf-ray': '95c6f425fa11f7db-LAX',
+  connection: 'keep-alive',
+  'content-encoding': 'gzip',
+  'content-type': 'application/json',
+  date: 'Wed, 09 Jul 2025 09:56:50 GMT',
+  server: 'cloudflare',
+  'set-cookie': '__cf_bm=7EA4tn1_W.nB6z14KTESHLlfJn0dB4fTH_zdh5nuPdM-1752055010-1.0.1.1-8lsZDuGtzxXc3sOFaIVpzgQIQMiWHNrSuJJfbltf5eU7iT.NeS5fqVwqtH.Q_ws3xPLESGUFjY7qHbFLdS0aCJZmiqDcmBnhngJ1FGXymao; path=/; expires=Wed, 09-Jul-25 10:26:50 GMT; domain=.x.ai; HttpOnly; Secure; SameSite=None',
+  'strict-transport-security': 'max-age=31536000',
+  'transfer-encoding': 'chunked',
+  vary: 'origin, access-control-request-method, access-control-request-headers'
+}
+Response body: {"code":"The caller does not have permission to execute the specified operation","error":"API key is currently blocked: Blocked due to API key leak"}
+ POST /api/test-chat-debug 200 in 831ms
+ GET /api/test-siliconflow 200 in 212ms
+ ✓ Compiled /api/chat in 317ms (349 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+🔍 权限检查 - isAuthenticated: false actualUserId: undefined clubId: guest-poker-club-shanghai
+API availability check:
+hasValidXAI: true
+hasSiliconFlow: true
+XAI_API_KEY value: xai-3H4Um6vwPeZzxBu1...
+Guest mode - clubId: guest-poker-club-shanghai
+Selected club type: zh Club name: 上海扑克会所 AI name: 雅茜
+Trying X.AI API...
+X.AI API error 403: {"code":"The caller does not have permission to execute the specified operation","error":"API key is currently blocked: Blocked due to API key leak"}
+X.AI API failed: Error: X.AI API error: 403 - {"code":"The caller does not have permission to execute the specified operation","error":"API key is currently blocked: Blocked due to API key leak"}
+    at POST (webpack-internal:///(rsc)/./app/api/chat/route.ts:665:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:55038
+    at async ek.execute (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:45808)
+    at async ek.handle (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:56292)
+    at async doRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1377:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1599:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1507:28)
+    at async DevServer.renderPageComponent (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1931:24)
+    at async DevServer.renderToResponseImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1969:32)
+    at async DevServer.pipeImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:816:17)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:174:21)
+    at async handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:353:24)
+    at async requestHandlerImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:377:13)
+    at async Server.requestListener (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/start-server.js:141:13)
+Trying SiliconFlow API...
+SiliconFlow API error 401: "Invalid token"
+SiliconFlow API failed: Error: SiliconFlow API error: 401 - "Invalid token"
+    at POST (webpack-internal:///(rsc)/./app/api/chat/route.ts:703:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:55038
+    at async ek.execute (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:45808)
+    at async ek.handle (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:56292)
+    at async doRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1377:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1599:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1507:28)
+    at async DevServer.renderPageComponent (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1931:24)
+    at async DevServer.renderToResponseImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1969:32)
+    at async DevServer.pipeImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:816:17)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:174:21)
+    at async handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:353:24)
+    at async requestHandlerImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:377:13)
+    at async Server.requestListener (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/start-server.js:141:13)
+Chat API Error: Error: SiliconFlow API error: 401 - "Invalid token"
+    at POST (webpack-internal:///(rsc)/./app/api/chat/route.ts:703:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:55038
+    at async ek.execute (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:45808)
+    at async ek.handle (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:56292)
+    at async doRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1377:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1599:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1507:28)
+    at async DevServer.renderPageComponent (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1931:24)
+    at async DevServer.renderToResponseImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:1969:32)
+    at async DevServer.pipeImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/base-server.js:816:17)
+    at async /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:174:21)
+    at async handleRequest (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:353:24)
+    at async requestHandlerImpl (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/router-server.js:377:13)
+    at async Server.requestListener (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/server/lib/start-server.js:141:13)
+ POST /api/chat 200 in 1939ms
+ ✓ Compiled /middleware in 327ms (176 modules)
+[2025-07-09T09:57:52.928Z] GET / - ID: 5f10326e-8546-4c84-a265-85b005e0380f
+[2025-07-09T09:57:52.938Z] GET /zh - ID: fa91df37-ac05-4ebe-9723-ca6faa97f00e
+ ○ Compiling /[locale] ...
+ ✓ Compiled /[locale] in 4.4s (1639 modules)
+ ✓ Compiled in 139ms (638 modules)
+
+The `locale` parameter in `getRequestConfig` is deprecated, please switch to `await requestLocale`. See https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+
+A `locale` is expected to be returned from `getRequestConfig`, but none was returned. This will be an error in the next major version of next-intl.
+
+See: https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+ ⚠ Unsupported metadata viewport is configured in metadata export in /zh. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+IntlError: ENVIRONMENT_FALLBACK: There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone
+    at useTranslationsImpl (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:35:13)
+    at useTranslations (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:67:10)
+    at eval (webpack-internal:///(ssr)/./node_modules/next-intl/dist/development/react-client/index.js:22:14)
+    at UnifiedSidebar (webpack-internal:///(ssr)/./components/UnifiedSidebar.tsx:59:74)
+    at au (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50067)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:58612
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59270
+    at aN (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59278)
+    at Timeout._onTimeout (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:6939)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7) {
+  code: 'ENVIRONMENT_FALLBACK',
+  originalMessage: 'There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone'
+}
+IntlError: MISSING_MESSAGE: Could not resolve `HomePage.suggestions.guest` in messages for locale `zh`.
+    at getFallbackFromErrorAndNotify (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/createFormatter-QqAaZwGD.js:159:19)
+    at translateBaseFn (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/createFormatter-QqAaZwGD.js:184:14)
+    at translateFn (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/createFormatter-QqAaZwGD.js:258:20)
+    at getPromptSuggestions (webpack-internal:///(ssr)/./app/[locale]/page.tsx:419:42)
+    at HomePage (webpack-internal:///(ssr)/./app/[locale]/page.tsx:451:31)
+    at au (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871 {
+  code: 'MISSING_MESSAGE',
+  originalMessage: 'Could not resolve `HomePage.suggestions.guest` in messages for locale `zh`.'
+}
+ GET /zh 200 in 4819ms
+ ○ Compiling /api/auth/[...nextauth] ...
+ ✓ Compiled /api/auth/[...nextauth] in 1709ms (994 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+ GET /api/auth/session 200 in 2084ms
+ GET /api/auth/session 200 in 2084ms
+[2025-07-09T09:58:05.608Z] GET /zh - ID: b35c2cb1-d24a-441b-a7c6-11a141bec0e1
+
+The `locale` parameter in `getRequestConfig` is deprecated, please switch to `await requestLocale`. See https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+
+A `locale` is expected to be returned from `getRequestConfig`, but none was returned. This will be an error in the next major version of next-intl.
+
+See: https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+ ⚠ Unsupported metadata viewport is configured in metadata export in /zh. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+IntlError: ENVIRONMENT_FALLBACK: There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone
+    at useTranslationsImpl (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:35:13)
+    at useTranslations (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:67:10)
+    at eval (webpack-internal:///(ssr)/./node_modules/next-intl/dist/development/react-client/index.js:22:14)
+    at UnifiedSidebar (webpack-internal:///(ssr)/./components/UnifiedSidebar.tsx:59:74)
+    at au (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50067)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:58612
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59270
+    at aN (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59278)
+    at Timeout._onTimeout (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:6939)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7) {
+  code: 'ENVIRONMENT_FALLBACK',
+  originalMessage: 'There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone'
+}
+IntlError: MISSING_MESSAGE: Could not resolve `HomePage.suggestions.guest` in messages for locale `zh`.
+    at getFallbackFromErrorAndNotify (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/createFormatter-QqAaZwGD.js:159:19)
+    at translateBaseFn (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/createFormatter-QqAaZwGD.js:184:14)
+    at translateFn (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/createFormatter-QqAaZwGD.js:258:20)
+    at getPromptSuggestions (webpack-internal:///(ssr)/./app/[locale]/page.tsx:419:42)
+    at HomePage (webpack-internal:///(ssr)/./app/[locale]/page.tsx:451:31)
+    at au (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871 {
+  code: 'MISSING_MESSAGE',
+  originalMessage: 'Could not resolve `HomePage.suggestions.guest` in messages for locale `zh`.'
+}
+ GET /zh 200 in 167ms
+   Reload env: .env
+ ✓ Compiled in 243ms (800 modules)
+ ✓ Compiled /api/test-chat-debug in 217ms (100 modules)
+=== Chat Debug ===
+Request body: {
+  "test": "hello"
+}
+XAI_API_KEY exists: true
+XAI_API_KEY length: 84
+XAI_API_KEY first 10 chars: xai-P8EQgC
+Sending request to X.AI...
+Response status: 200
+Response headers: {
+  'access-control-allow-origin': '*',
+  'access-control-expose-headers': '*',
+  'cf-cache-status': 'DYNAMIC',
+  'cf-ray': '95c70a723a9b78d8-LAX',
+  connection: 'keep-alive',
+  'content-encoding': 'gzip',
+  'content-type': 'application/json',
+  date: 'Wed, 09 Jul 2025 10:12:04 GMT',
+  server: 'cloudflare',
+  'set-cookie': '__cf_bm=rGvfZisDk8edt.YVG_r4WTJshIUdSdM6fZk64ozb2e0-1752055924-1.0.1.1-8o3youyUuMWzrHtU6ohJmBXqRKGswPdZnSsguHzDZJr_6R_OOohbuwsPNkH0Ylgj5KLL6YLH8OEWpKhZeSAD.RdqQ8Khu6QPztX3OEGTA7E; path=/; expires=Wed, 09-Jul-25 10:42:04 GMT; domain=.x.ai; HttpOnly; Secure; SameSite=None',
+  'strict-transport-security': 'max-age=31536000',
+  'transfer-encoding': 'chunked',
+  vary: 'origin, access-control-request-method, access-control-request-headers',
+  'x-request-id': '00-c78c06c9cbb59ec5cce3668ed10145d7-b600525b00211eb7-01',
+  'x-zero-data-retention': 'false'
+}
+Response body: {"id":"c06f5bc1-ae9b-bc1e-4363-c63ce1fd75e9","object":"chat.completion","created":1752055923,"model":"grok-3-mini","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"First, the user said: \"Say 'Hello, API is working!' in response.\" This seems straightforward. They want me to output exactly that phrase.\n\nMy system prompt is: \"You are a helpful assistant.\" So, I should respond in a","refusal":null},"finish_reason":"length"}],"usage":{"prompt_tokens":26,"completion_tokens":0,"total_tokens":76,"prompt_tokens_details":{"text_tokens":26,"audio_tokens":0,"image_tokens":0,"cached_tokens":6},"completion_tokens_details":{"reasoning_tokens":50,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0},"num_sources_used":0},"system_fingerprint":"fp_98701f8c5d"}
+ POST /api/test-chat-debug 200 in 1849ms
+ ✓ Compiled /api/chat in 180ms (345 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+🔍 权限检查 - isAuthenticated: false actualUserId: undefined clubId: guest-poker-club-shanghai
+API availability check:
+hasValidXAI: true
+hasSiliconFlow: true
+XAI_API_KEY value: xai-P8EQgC3yLMwztMXK...
+Guest mode - clubId: guest-poker-club-shanghai
+Selected club type: zh Club name: 上海扑克会所 AI name: 雅茜
+Trying X.AI API...
+X.AI API call successful
+Raw AI response length: 205
+Raw AI response preview: 你好！😊  
+我是上海扑克会所的AI助手雅茜，很高兴为您服务。我们是位于外滩金融区的顶级扑克俱乐部，专为金融圈专业人士打造，提供高端的扑克体验和社交氛围。  
+
+今天是周三，我们有**金融精英夜赛**将于20:00开始，买入仅¥1000，适合商务人士来放松竞技！如果您感兴趣，我可以帮您了解更多详情或报名流程。  
+
+有什么问题需要帮忙吗？比如查询赛事安排、扑克规则，还是推荐我们的特色酒水如东方之...
+x.ai content processing: 205 → 203 chars
+AI Response (filtered): 你好！😊  
+我是上海扑克会所的AI助手雅茜，很高兴为您服务。我们是位于外滩金融区的顶级扑克俱乐部，专为金融圈专业人士打造，提供高端的扑克体验和社交氛围。  
+今天是周三，我们有**金融精英夜赛**将于20:00开始，买入仅¥1000，适合商务人士来放松竞技！如果您感兴趣，我可以帮您了解更多详情或报名流程。  
+有什么问题需要帮忙吗？比如查询赛事安排、扑克规则，还是推荐我们的特色酒水如东方之珠特调？~
+ POST /api/chat 200 in 4817ms
+ ✓ Compiled in 186ms (638 modules)
+ ✓ Compiled in 167ms (800 modules)
+[2025-07-09T10:32:46.529Z] HEAD /zh - ID: 13672304-1a15-4884-bfa6-168f535281da
+ ✓ Compiled /[locale] in 261ms (990 modules)
+
+The `locale` parameter in `getRequestConfig` is deprecated, please switch to `await requestLocale`. See https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+
+A `locale` is expected to be returned from `getRequestConfig`, but none was returned. This will be an error in the next major version of next-intl.
+
+See: https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+ ⚠ Unsupported metadata viewport is configured in metadata export in /zh. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+IntlError: ENVIRONMENT_FALLBACK: There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone
+    at useTranslationsImpl (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:35:13)
+    at useTranslations (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:67:10)
+    at eval (webpack-internal:///(ssr)/./node_modules/next-intl/dist/development/react-client/index.js:22:14)
+    at UnifiedSidebar (webpack-internal:///(ssr)/./components/UnifiedSidebar.tsx:59:74)
+    at au (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50067)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:58612
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59270
+    at aN (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59278)
+    at Timeout._onTimeout (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:6939)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7) {
+  code: 'ENVIRONMENT_FALLBACK',
+  originalMessage: 'There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone'
+}
+ HEAD /zh 200 in 413ms
+ ✓ Compiled in 72ms (176 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+🔍 权限检查 - isAuthenticated: false actualUserId: undefined clubId: guest-poker-club-shanghai
+API availability check:
+hasValidXAI: true
+hasSiliconFlow: true
+XAI_API_KEY value: xai-P8EQgC3yLMwztMXK...
+Guest mode - clubId: guest-poker-club-shanghai
+Selected club type: zh Club name: 上海扑克会所 AI name: 雅茜
+Trying X.AI API...
+X.AI API call successful
+Raw AI response length: 927
+Raw AI response preview: 😊 嗨！很高兴您询问这周的锦标赛安排！作为上海扑克会所的助手雅茜，我为您整理了本周的精彩赛事信息。我们的赛事每周都丰富多样，特别适合金融圈的专业人士参与。
+
+根据当前安排，这周的锦标赛如下（以周三为起点）：
+
+| 日期       | 赛事名称              | 时间          | 买入金额 | 亮点描述                  |
+|------------|--...
+x.ai content processing: 927 → 922 chars
+AI Response (filtered): 😊 嗨！很高兴您询问这周的锦标赛安排！作为上海扑克会所的助手雅茜，我为您整理了本周的精彩赛事信息。我们的赛事每周都丰富多样，特别适合金融圈的专业人士参与。
+根据当前安排，这周的锦标赛如下（以周三为起点）：
+| 日期       | 赛事名称              | 时间          | 买入金额 | 亮点描述                  |
+|------------|-----------------------|--------------|----------|---------------------------|
+| **周三（今天，7月9日）** | 金融精英夜赛        | 20:00-23:30 | ¥1000   | 针对精英玩家的激烈对决，适合商务人士放松社交！ |
+| **周四（7月10日）**   | 投资策略锦标赛      | 18:30-22:30 | ¥1200   | 结合扑克与投资策略的互动赛事，学习机会多多。  |
+| **周五（7月11日）**   | 商务人士周末热身赛  | 19:30-01:00 | ¥800    | 周末前热身，氛围轻松，适合团队聚会。         |
+| **周六（7月12日）**   | 周末金融圈大赛      | 15:00-00:00 | ¥1500   | **旗舰赛事！** 高额奖池和顶级玩家聚集，强烈推荐。 |
+| **周日（7月13日）**   | 外滩精英休闲赛      | 16:00-22:00 | ¥600    | 休闲型赛事，适合新手和老手周末放松。         |
+特别推荐周六的周末金融圈大赛，这是我们最受欢迎的赛事，奖金丰厚，还有机会赢取积分奖励如JOPT门票或VIP席位。每日赛事都设计得精彩刺激，随时欢迎您来参与哦！
+如果您想报名参加，请点击右上角的「Sign In / Sign Up」按钮登录或注册。登录后，您可以：
+✅ 直接报名赛事
+✅ 查看详细赛事规则和奖池
+✅ 追踪您的战绩和积分
+有任何其他问题，比如具体赛事规则或俱乐部特色，都随时告诉我哦！我们期待在扑克桌上见到您！🃏
+ POST /api/chat 200 in 6611ms
+[2025-07-09T10:49:25.238Z] HEAD /zh/dashboard - ID: e37cefcd-f959-4ef1-89a8-103a1218436e
+ ○ Compiling /[locale]/dashboard ...
+ ✓ Compiled /[locale]/dashboard in 1317ms (2375 modules)
+
+The `locale` parameter in `getRequestConfig` is deprecated, please switch to `await requestLocale`. See https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+
+A `locale` is expected to be returned from `getRequestConfig`, but none was returned. This will be an error in the next major version of next-intl.
+
+See: https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+ ⚠ Unsupported metadata viewport is configured in metadata export in /zh/dashboard. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+IntlError: ENVIRONMENT_FALLBACK: There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone
+    at useTranslationsImpl (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:35:13)
+    at useTranslations (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:67:10)
+    at eval (webpack-internal:///(ssr)/./node_modules/next-intl/dist/development/react-client/index.js:22:14)
+    at UnifiedSidebar (webpack-internal:///(ssr)/./components/UnifiedSidebar.tsx:59:74)
+    at au (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50067)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:58612
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59270
+    at aN (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59278)
+    at Timeout._onTimeout (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:6939)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7) {
+  code: 'ENVIRONMENT_FALLBACK',
+  originalMessage: 'There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone'
+}
+ ⚠ Unsupported metadata viewport is configured in metadata export in /zh/dashboard. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ HEAD /zh/dashboard 307 in 1799ms
+[2025-07-09T10:49:33.184Z] HEAD /zh/members - ID: a8757677-0f2e-4988-8065-f30abee35af7
+ ✓ Compiled /[locale]/members in 186ms (2387 modules)
+
+The `locale` parameter in `getRequestConfig` is deprecated, please switch to `await requestLocale`. See https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+
+A `locale` is expected to be returned from `getRequestConfig`, but none was returned. This will be an error in the next major version of next-intl.
+
+See: https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+ ⚠ Unsupported metadata viewport is configured in metadata export in /zh/members. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+IntlError: ENVIRONMENT_FALLBACK: There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone
+    at useTranslationsImpl (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:35:13)
+    at useTranslations (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:67:10)
+    at eval (webpack-internal:///(ssr)/./node_modules/next-intl/dist/development/react-client/index.js:22:14)
+    at UnifiedSidebar (webpack-internal:///(ssr)/./components/UnifiedSidebar.tsx:59:74)
+    at au (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50067)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:58612
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59270
+    at aN (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59278)
+    at Timeout._onTimeout (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:6939)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7) {
+  code: 'ENVIRONMENT_FALLBACK',
+  originalMessage: 'There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone'
+}
+ ⚠ Unsupported metadata viewport is configured in metadata export in /zh/members. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ HEAD /zh/members 307 in 582ms
+[2025-07-09T10:49:41.261Z] HEAD /zh/tournaments - ID: 026028aa-44b4-4ad4-be6a-cb81d75746e0
+ ✓ Compiled /[locale]/tournaments in 201ms (2393 modules)
+
+The `locale` parameter in `getRequestConfig` is deprecated, please switch to `await requestLocale`. See https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+
+A `locale` is expected to be returned from `getRequestConfig`, but none was returned. This will be an error in the next major version of next-intl.
+
+See: https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+ ⚠ Unsupported metadata viewport is configured in metadata export in /zh/tournaments. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+IntlError: ENVIRONMENT_FALLBACK: There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone
+    at useTranslationsImpl (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:35:13)
+    at useTranslations (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:67:10)
+    at eval (webpack-internal:///(ssr)/./node_modules/next-intl/dist/development/react-client/index.js:22:14)
+    at UnifiedSidebar (webpack-internal:///(ssr)/./components/UnifiedSidebar.tsx:59:74)
+    at au (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50067)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:58612
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59270
+    at aN (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59278)
+    at Timeout._onTimeout (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:6939)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7) {
+  code: 'ENVIRONMENT_FALLBACK',
+  originalMessage: 'There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone'
+}
+ ⚠ Unsupported metadata viewport is configured in metadata export in /zh/tournaments. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ HEAD /zh/tournaments 307 in 590ms
+[2025-07-09T10:49:47.907Z] HEAD /zh/auth/signin - ID: 779ff9ab-2b4b-4be8-9a46-5375d35e0dd5
+ ✓ Compiled /[locale]/auth/signin in 248ms (2408 modules)
+
+The `locale` parameter in `getRequestConfig` is deprecated, please switch to `await requestLocale`. See https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+
+A `locale` is expected to be returned from `getRequestConfig`, but none was returned. This will be an error in the next major version of next-intl.
+
+See: https://next-intl.dev/blog/next-intl-3-22#await-request-locale
+
+ ⚠ Unsupported metadata viewport is configured in metadata export in /zh/auth/signin. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+IntlError: ENVIRONMENT_FALLBACK: There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone
+    at useTranslationsImpl (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:35:13)
+    at useTranslations (webpack-internal:///(ssr)/./node_modules/use-intl/dist/development/react.js:67:10)
+    at eval (webpack-internal:///(ssr)/./node_modules/next-intl/dist/development/react-client/index.js:22:14)
+    at UnifiedSidebar (webpack-internal:///(ssr)/./components/UnifiedSidebar.tsx:59:74)
+    at au (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aj (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)
+    at aC (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ac (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at ab (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)
+    at aw (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)
+    at a_ (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50067)
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:58612
+    at /Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59270
+    at aN (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:59278)
+    at Timeout._onTimeout (/Users/mrhardcandy/pokerpal-final/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:6939)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7) {
+  code: 'ENVIRONMENT_FALLBACK',
+  originalMessage: 'There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone'
+}
+ HEAD /zh/auth/signin 200 in 532ms
+ ✓ Compiled in 622ms (176 modules)
+🔍 权限检查 - isAuthenticated: false actualUserId: undefined clubId: guest-poker-club-shanghai
+API availability check:
+hasValidXAI: true
+hasSiliconFlow: true
+XAI_API_KEY value: xai-P8EQgC3yLMwztMXK...
+Guest mode - clubId: guest-poker-club-shanghai
+Selected club type: zh Club name: 上海扑克会所 AI name: 雅茜
+Trying X.AI API...
+X.AI API call successful
+Raw AI response length: 591
+Raw AI response preview: 😊 当然很高兴为您介绍上海扑克会所的会员制度！我们的会员体系旨在奖励忠实玩家和金融圈朋友，让您的体验更丰富。
+
+### 会员制度概述：
+- **积分积累方式**：通过参与俱乐部赛事、现金桌游戏和活动，您可以积累积分。积分基于您的参与度和表现，例如赢得赛事或消费酒水等。
+- **等级体系**：虽然具体等级细节因个人数据而异，但一般包括初级会员、VIP会员和精英会员。等级越高，享有的专属福利越多。
+...
+x.ai content processing: 591 → 585 chars
+AI Response (filtered): 😊 当然很高兴为您介绍上海扑克会所的会员制度！我们的会员体系旨在奖励忠实玩家和金融圈朋友，让您的体验更丰富。
+### 会员制度概述：
+- **积分积累方式**：通过参与俱乐部赛事、现金桌游戏和活动，您可以积累积分。积分基于您的参与度和表现，例如赢得赛事或消费酒水等。
+- **等级体系**：虽然具体等级细节因个人数据而异，但一般包括初级会员、VIP会员和精英会员。等级越高，享有的专属福利越多。
+- **主要福利**：会员可以兑换各种奖励，比如：
+  - **高级商务礼品**（如高端配件或礼券）
+  - **JOPT赛事门票**（参加国际扑克锦标赛的机会）
+  - **金融论坛VIP席位**（参与高端行业交流）
+  - **私人理财咨询**（与专业人士一对一互动）
+这不仅能提升您的扑克体验，还能扩展金融圈社交网络！
+😊 抱歉，详细的会员等级制度和您的个人积分记录需要登录后才能查看具体内容。
+登录后您可以：
+✅ 查看您的当前等级和积分详情
+✅ 兑换专属奖励
+✅ 报名更多赛事和活动
+👉 请点击右上角的「Sign In / Sign Up」按钮登录或注册。注册很简单，就能加入我们的大家庭！
+另外，今天是2025年7月9日周三，我们有“金融精英夜赛”在20:00开始（买入¥1000），欢迎您尽快加入，一起切磋牌技和交朋友哦！如果有其他问题，随时告诉我~ 🎉
+ POST /api/chat 200 in 6645ms
+   Reload env: .env
+ ✓ Compiled in 289ms (1215 modules)
+ ✓ Compiled in 432ms (1053 modules)
+ ✓ Compiled in 150ms (1053 modules)
+ ✓ Compiled in 146ms (1053 modules)
+ ✓ Compiled in 212ms (1053 modules)
+ ✓ Compiled in 179ms (1053 modules)
+ ✓ Compiled /api/chat in 256ms (345 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+🔍 权限检查 - isAuthenticated: false actualUserId: undefined clubId: guest-poker-club-shanghai
+API availability check:
+hasValidXAI: true
+hasBackupXAI: true
+hasSiliconFlow: true
+XAI_API_KEY value: xai-P8EQgC3yLMwztMXK...
+XAI_BACKUP_API_KEY configured: true
+Guest mode - clubId: guest-poker-club-shanghai
+Selected club type: zh Club name: 上海扑克会所 AI name: 雅茜
+Trying X.AI API (primary)...
+X.AI API call successful (primary)
+Raw AI response length: 239
+Raw AI response preview: 😊 嗨，您好！我是上海扑克会所的AI助手雅茜。听起来您可能是在测试一些系统功能，不过我专注于提供扑克俱乐部相关服务，比如赛事信息和俱乐部活动。如果是关于API或其他技术支持，我暂时无法处理这些请求，需要您联系我们的管理员获取帮助。
+
+为了让您的体验更愉快，让我们聊聊俱乐部的事吧！今天是周三，我们有**金融精英夜赛**将于今晚20:00开始，买入只需¥1000，是金融圈朋友们不容错过的精彩对局。随...
+x.ai-primary content processing: 239 → 238 chars
+AI Response (filtered): 😊 嗨，您好！我是上海扑克会所的AI助手雅茜。听起来您可能是在测试一些系统功能，不过我专注于提供扑克俱乐部相关服务，比如赛事信息和俱乐部活动。如果是关于API或其他技术支持，我暂时无法处理这些请求，需要您联系我们的管理员获取帮助。
+为了让您的体验更愉快，让我们聊聊俱乐部的事吧！今天是周三，我们有**金融精英夜赛**将于今晚20:00开始，买入只需¥1000，是金融圈朋友们不容错过的精彩对局。随时欢迎您来参加，一起体验顶级的扑克氛围！有什么具体问题我可以帮您解答吗？ 😊
+ POST /api/chat 200 in 5688ms
+ ✓ Compiled in 175ms (1053 modules)
+ ✓ Compiled in 89ms (1560 modules)
+ ✓ Compiled /api/test-backup-api in 41ms (347 modules)
+=== Testing Backup API Logic ===
+Primary XAI API available: true
+Backup XAI API available: true
+Primary API key first 10 chars: xai-P8EQgC
+Backup API key first 10 chars: xai-aX2Fj4
+Testing backup X.AI API...
+Backup API response status: 200
+Backup API response: {"id":"f2e09fb6-d697-945e-1440-27aa04d7da34","object":"chat.completion","created":1752058981,"model":"grok-3-mini","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"First, the user said: \"Say 'Backup API is working!' in response.\" This seems straightforward. They want me to output exactly that phrase.\n\nMy system prompt is: \"You are a helpful assistant.\" So, I should respond in a way","refusal":null},"finish_reason":"length"}],"usage":{"prompt_tokens":25,"completion_tokens":0,"total_tokens":75,"prompt_tokens_details":{"text_tokens":25,"audio_tokens":0,"image_tokens":0,"cached_tokens":7},"completion_tokens_details":{"reasoning_tokens":50,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0},"num_sources_used":0},"system_fingerprint":"fp_98701f8c5d"}
+ POST /api/test-backup-api 200 in 1754ms

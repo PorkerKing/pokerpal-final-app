@@ -24,7 +24,8 @@ export async function GET(request: Request) {
         githubConfigured: !!process.env.GITHUB_CLIENT_ID && !!process.env.GITHUB_CLIENT_SECRET,
       },
       ai: {
-        configured: !!process.env.SILICONFLOW_API_KEY,
+        xai_configured: !!process.env.XAI_API_KEY,
+        siliconflow_configured: !!process.env.SILICONFLOW_API_KEY,
       },
       vercel: {
         url: process.env.VERCEL_URL || 'NOT SET',

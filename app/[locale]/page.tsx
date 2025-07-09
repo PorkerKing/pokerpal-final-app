@@ -132,12 +132,12 @@ export default function HomePage() {
   }, [messages, selectedClub?.id, session?.user]);
   const router = useRouter();
 
-  // 初始化俱乐部列表和重定向逻辑
+  // 初始化俱乐部列表 - 不自动重定向
   useEffect(() => {
     const initializeClubs = async () => {
       if (!selectedClub) {
         if (session) {
-          // 已登录用户：获取真实俱乐部数据
+          // 已登录用户：获取真实俱乐部数据，但不自动重定向
           try {
             const response = await fetch('/api/user/get-clubs');
             if (response.ok) {
@@ -145,8 +145,8 @@ export default function HomePage() {
               if (data.clubs && data.clubs.length > 0) {
                 setClubs(data.clubs);
                 setSelectedClub(data.clubs[0]);
-                // 如果用户已登录且有俱乐部，重定向到仪表盘
-                router.push('/dashboard');
+                // 不自动重定向到仪表盘，保持在首页
+                console.log('用户已登录，俱乐部数据已加载，但保持在首页');
               } else {
                 // 如果没有俱乐部，创建一个默认的
                 const defaultClubConfig = getDefaultClubByLocale(locale);
@@ -205,7 +205,7 @@ export default function HomePage() {
     if (status !== 'loading') {
       initializeClubs();
     }
-  }, [session, status, selectedClub, setClubs, setSelectedClub, router]);
+  }, [session, status, selectedClub, setClubs, setSelectedClub, locale]);
 
   // 处理登录
   const handleSignIn = useCallback(() => {
@@ -328,8 +328,8 @@ export default function HomePage() {
   const getPromptSuggestions = () => {
     try {
       if (!session?.user) {
-        // 访客建议
-        const guestSuggestions = t('suggestions.guest');
+        // 访客建议 - 使用getGuestSuggestions函数而不是翻译系统
+        const guestSuggestions = getGuestSuggestions(locale);
         return Array.isArray(guestSuggestions) ? guestSuggestions : [];
       }
 

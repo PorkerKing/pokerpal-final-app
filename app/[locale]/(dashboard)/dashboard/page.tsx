@@ -1,391 +1,308 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { useSelectedClub } from '@/stores/userStore';
-import Window from '@/components/Window';
 import AIChat from '@/components/AIChat';
-import SaaSFeatures from '@/components/SaaSFeatures';
-import { Z_INDEX } from '@/lib/z-index';
-import { 
-  Home,
-  Users, 
-  Trophy, 
-  DollarSign, 
-  Settings,
-  Store,
-  BarChart3,
-  Medal,
-  Clock,
-  UserCog,
-  Bot
-} from 'lucide-react';
+import { motion } from 'framer-motion';
 
-interface OpenWindow {
-  id: string;
-  title: string;
-  component: React.ReactNode;
-  zIndex: number;
-}
+// 引入Framer Motion
+const MotionDiv = motion.div;
 
 export default function DashboardPage() {
   const { data: session } = useSession();
-  const t = useTranslations();
+  const t = useTranslations('Dashboard');
   const selectedClub = useSelectedClub();
   const { stats, loading, error } = useDashboardData();
-  const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
-  const [activeWindow, setActiveWindow] = useState<string | null>(null);
-  const [nextZIndex, setNextZIndex] = useState<number>(Z_INDEX.WINDOW_BASE);
+  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
 
-  // 功能模块窗口内容组件
-  const getModuleContent = (id: string) => {
-    switch (id) {
-      case 'dashboard':
-        return (
-          <div className="text-white p-6">
-            {loading ? (
-              <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
-              </div>
-            ) : error ? (
-              <div className="bg-red-600/20 border border-red-500/50 rounded-xl p-6 mb-6">
-                <h3 className="text-red-300 font-semibold mb-2">数据加载失败</h3>
-                <p className="text-red-200">{error}</p>
-              </div>
-            ) : (
-              <>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                  {/* 统计卡片 */}
-                  <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 rounded-xl">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-purple-100 text-sm">总会员</p>
-                        <p className="text-2xl font-bold text-white">{stats.totalMembers}</p>
-                      </div>
-                      <Users className="w-10 h-10 text-purple-200" />
-                    </div>
-                  </div>
-                  
-                  <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-6 rounded-xl">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-green-100 text-sm">活跃比赛</p>
-                        <p className="text-2xl font-bold text-white">{stats.activeTournaments}</p>
-                      </div>
-                      <Trophy className="w-10 h-10 text-green-200" />
-                    </div>
-                  </div>
-                  
-                  <div className="bg-gradient-to-r from-yellow-600 to-orange-600 p-6 rounded-xl">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-yellow-100 text-sm">今日收入</p>
-                        <p className="text-2xl font-bold text-white">¥{stats.todayRevenue.toLocaleString()}</p>
-                      </div>
-                      <DollarSign className="w-10 h-10 text-yellow-200" />
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="bg-gray-800/50 p-6 rounded-xl">
-                  <h3 className="text-lg font-semibold mb-4">最近活动</h3>
-                  <div className="space-y-3">
-                    {stats.recentActivities.length > 0 ? (
-                      stats.recentActivities.map((activity) => (
-                        <div key={activity.id} className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
-                          <span>{activity.description}</span>
-                          <span className="text-sm text-gray-400">
-                            {new Date(activity.timestamp).toLocaleString('zh-CN', {
-                              month: 'short',
-                              day: 'numeric',
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            })}
-                          </span>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="text-gray-400 text-center py-8">
-                        暂无最近活动
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        );
-      
-      case 'members':
-        return (
-          <div className="text-white p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold">会员管理</h2>
-              <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
-                添加会员
-              </button>
-            </div>
-            {/* 会员列表数据表格 */}
-            <div className="bg-gray-800/50 rounded-xl p-4">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-sm font-bold">张</div>
-                    <div>
-                      <div className="font-semibold">张三</div>
-                      <div className="text-sm text-gray-400">MEMBER</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-semibold">¥1,250</div>
-                    <div className="text-sm text-gray-400">活跃</div>
-                  </div>
-                </div>
-                <div className="text-center text-gray-400 py-8">
-                  更多会员数据加载中...
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      
-      case 'tournaments':
-        return (
-          <div className="text-white p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold">比赛管理</h2>
-              <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
-                创建比赛
-              </button>
-            </div>
-            {/* 比赛列表 */}
-            <div className="bg-gray-800/50 rounded-xl p-4">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
-                  <div>
-                    <div className="font-semibold">周五夜锦标赛</div>
-                    <div className="text-sm text-gray-400">买入: ¥100 | 18:00开始</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-green-400 font-semibold">进行中</div>
-                    <div className="text-sm text-gray-400">12/20 人</div>
-                  </div>
-                </div>
-                <div className="text-center text-gray-400 py-8">
-                  更多比赛数据加载中...
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      
-      case 'finance':
-        return (
-          <div className="text-white p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold">财务管理</h2>
-              <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
-                生成报表
-              </button>
-            </div>
-            {/* 财务数据 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-800/50 rounded-xl p-4">
-                <h3 className="font-semibold mb-3">今日收入</h3>
-                <div className="text-2xl font-bold text-green-400">¥{stats.todayRevenue.toLocaleString()}</div>
-              </div>
-              <div className="bg-gray-800/50 rounded-xl p-4">
-                <h3 className="font-semibold mb-3">待处理提现</h3>
-                <div className="text-2xl font-bold text-yellow-400">¥8,500</div>
-              </div>
-            </div>
-          </div>
-        );
-      
-      case 'settings':
-        return (
-          <div className="text-white p-6">
-            <h2 className="text-xl font-semibold mb-6">系统设置</h2>
-            <div className="space-y-4">
-              <div className="bg-gray-800/50 rounded-xl p-4">
-                <h3 className="font-semibold mb-2">俱乐部信息</h3>
-                <p className="text-gray-400">管理俱乐部基本信息和配置</p>
-              </div>
-              <div className="bg-gray-800/50 rounded-xl p-4">
-                <h3 className="font-semibold mb-2">AI助手配置</h3>
-                <p className="text-gray-400">个性化AI助手设置</p>
-              </div>
-            </div>
-          </div>
-        );
-      
-      default:
-        return (
-          <div className="text-white p-6">
-            <h2 className="text-xl font-semibold mb-4">{id}</h2>
-            <div className="text-gray-400">功能模块开发中...</div>
-          </div>
-        );
-    }
+  // 模拟数据
+  const dashboardData = {
+    totalRevenue: 125600,
+    activeMembers: 342,
+    runningTournaments: 8,
+    userSatisfaction: 4.6,
+    recentTransactions: [
+      { id: 1, amount: 2500, type: 'win', user: '张三', time: '2小时前' },
+      { id: 2, amount: 1800, type: 'deposit', user: '李四', time: '3小时前' },
+      { id: 3, amount: 950, type: 'win', user: '王五', time: '4小时前' },
+    ],
+    topPlayers: [
+      { name: '张三', wins: 15, earnings: 25800 },
+      { name: '李四', wins: 12, earnings: 18500 },
+      { name: '王五', wins: 10, earnings: 15200 },
+    ]
   };
 
-  // 打开功能模块窗口
-  const openModuleWindow = (id: string, title: string) => {
-    // 如果窗口已经打开，聚焦到该窗口
-    if (openWindows.find(w => w.id === id)) {
-      focusWindow(id);
-      return;
-    }
-
-    const newWindow: OpenWindow = {
-      id,
-      title,
-      component: getModuleContent(id),
-      zIndex: nextZIndex,
-    };
-
-    setOpenWindows(prev => [...prev, newWindow]);
-    setActiveWindow(id);
-    setNextZIndex(prev => prev + 1);
-  };
-
-  // 关闭窗口
-  const closeWindow = (id: string) => {
-    setOpenWindows(prev => prev.filter(w => w.id !== id));
-    if (activeWindow === id) {
-      const remaining = openWindows.filter(w => w.id !== id);
-      setActiveWindow(remaining.length > 0 ? remaining[remaining.length - 1].id : null);
-    }
-  };
-
-  // 激活窗口
-  const focusWindow = (id: string) => {
-    setActiveWindow(id);
-    setOpenWindows(prev => 
-      prev.map(w => 
-        w.id === id ? { ...w, zIndex: nextZIndex } : w
-      )
+  // 滚动动画检测
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = parseInt(entry.target.getAttribute('data-index') || '0');
+            setVisibleCards(prev => new Set(prev).add(index));
+          }
+        });
+      },
+      { threshold: 0.1 }
     );
-    setNextZIndex(prev => prev + 1);
-  };
 
-  // 快速访问功能模块的辅助函数
-  const openQuickModule = (moduleId: string) => {
-    const titles: Record<string, string> = {
-      dashboard: '仪表板',
-      members: '会员管理',
-      tournaments: '比赛管理',
-      'ring-games': '现金游戏',
-      finance: '财务管理',
-      store: '积分商店',
-      achievements: '成就系统',
-      analytics: '数据分析',
-      settings: '系统设置',
-      profile: '个人资料',
+    const cards = document.querySelectorAll('.dashboard-card');
+    cards.forEach(card => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, []);
+
+  // 加载CDN资源
+  useEffect(() => {
+    // 加载Framer Motion
+    const script = document.createElement('script');
+    script.src = 'https://cdn.skypack.dev/framer-motion';
+    script.defer = true;
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
     };
+  }, []);
 
-    openModuleWindow(moduleId, titles[moduleId] || moduleId);
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 relative">
-      {/* 主内容区域 - AI聊天界面 */}
-      <div className="min-h-screen relative flex flex-col">
-        {/* 背景装饰 */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-20 w-64 h-64 bg-purple-600/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"></div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* 页面标题 */}
+        <MotionDiv 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8"
+        >
+          <h1 className="hero-text mb-2">仪表板</h1>
+          <p className="text-gray-400 text-lg">欢迎回来，{session?.user?.name || '管理员'}</p>
+        </MotionDiv>
 
-        {/* AI聊天主界面 */}
-        <div className="flex-1 relative p-3 md:p-6" style={{ zIndex: Z_INDEX.AI_CHAT }}>
-          <div className="h-full bg-black/20 backdrop-blur-sm border border-white/10 rounded-2xl">
-            <div className="h-full flex flex-col">
-              {/* 聊天头部 */}
-              <div className="flex items-center justify-between p-3 md:p-4 border-b border-white/10">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                    <Bot className="w-4 h-4 md:w-6 md:h-6 text-white" />
-                  </div>
-                  <div>
-                    <h1 className="text-base md:text-lg font-semibold text-white">PokerPal AI 助手</h1>
-                    <p className="text-xs md:text-sm text-gray-400">智能俱乐部管理助手</p>
-                  </div>
-                </div>
-                <div className="hidden md:block text-sm text-gray-400">
-                  点击左侧功能查看具体数据
-                </div>
-                <div className="md:hidden text-xs text-gray-400">
-                  点击菜单查看功能
-                </div>
+        {/* Bento Grid 布局 */}
+        <div className="bento-grid mb-8">
+          {/* 总收入卡片 */}
+          <MotionDiv
+            initial="hidden"
+            animate={visibleCards.has(0) ? "visible" : "hidden"}
+            variants={cardVariants}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="dashboard-card bento-wide data-card gradient-green"
+            data-index="0"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+                <i className="fas fa-dollar-sign text-green-400 text-xl icon-glow"></i>
               </div>
+              <span className="text-green-400 text-sm font-medium">+12.5%</span>
+            </div>
+            <div className="hero-number text-green-400">¥{dashboardData.totalRevenue.toLocaleString()}</div>
+            <p className="text-gray-300 text-lg mt-2">总收入</p>
+            <div className="line-chart mt-4"></div>
+          </MotionDiv>
 
-              {/* AI聊天和SaaS功能区域 */}
-              <div className="flex-1 overflow-hidden">
-                <div className="h-full flex flex-col lg:flex-row gap-4">
-                  {/* AI聊天区域 */}
-                  <div className="flex-1">
-                    <AIChat 
-                      context="general" 
-                      placeholder="您好！我是 PokerPal AI 助手，有什么可以帮您的吗？点击菜单可以查看具体功能数据..." 
-                    />
-                  </div>
-                  
-                  {/* SaaS功能面板 - 桌面端侧边显示 */}
-                  <div className="lg:w-96 lg:border-l lg:border-white/10 lg:pl-4">
-                    <div className="h-full">
-                      <SaaSFeatures className="h-full" />
+          {/* 活跃会员卡片 */}
+          <MotionDiv
+            initial="hidden"
+            animate={visibleCards.has(1) ? "visible" : "hidden"}
+            variants={cardVariants}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="dashboard-card data-card gradient-blue"
+            data-index="1"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                <i className="fas fa-users text-blue-400 text-xl icon-glow"></i>
+              </div>
+              <span className="text-blue-400 text-sm font-medium">+8.2%</span>
+            </div>
+            <div className="hero-number text-blue-400">{dashboardData.activeMembers}</div>
+            <p className="text-gray-300 text-lg mt-2">活跃会员</p>
+          </MotionDiv>
+
+          {/* 进行中的比赛 */}
+          <MotionDiv
+            initial="hidden"
+            animate={visibleCards.has(2) ? "visible" : "hidden"}
+            variants={cardVariants}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="dashboard-card data-card gradient-purple"
+            data-index="2"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
+                <i className="fas fa-trophy text-purple-400 text-xl icon-glow"></i>
+              </div>
+              <span className="text-purple-400 text-sm font-medium">实时</span>
+            </div>
+            <div className="hero-number text-purple-400">{dashboardData.runningTournaments}</div>
+            <p className="text-gray-300 text-lg mt-2">进行中的比赛</p>
+          </MotionDiv>
+
+          {/* 用户满意度 */}
+          <MotionDiv
+            initial="hidden"
+            animate={visibleCards.has(3) ? "visible" : "hidden"}
+            variants={cardVariants}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="dashboard-card data-card gradient-orange"
+            data-index="3"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center">
+                <i className="fas fa-star text-orange-400 text-xl icon-glow"></i>
+              </div>
+              <span className="text-orange-400 text-sm font-medium">优秀</span>
+            </div>
+            <div className="hero-number text-orange-400">{dashboardData.userSatisfaction}</div>
+            <p className="text-gray-300 text-lg mt-2">用户满意度</p>
+          </MotionDiv>
+
+          {/* 最近交易 */}
+          <MotionDiv
+            initial="hidden"
+            animate={visibleCards.has(4) ? "visible" : "hidden"}
+            variants={cardVariants}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="dashboard-card bento-tall data-card"
+            data-index="4"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-white">最近交易</h3>
+              <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                <i className="fas fa-exchange-alt text-purple-400 icon-glow"></i>
+              </div>
+            </div>
+            <div className="space-y-4">
+              {dashboardData.recentTransactions.map((transaction, index) => (
+                <MotionDiv
+                  key={transaction.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 * index }}
+                  className="flex items-center justify-between p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-200"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                      transaction.type === 'win' ? 'bg-green-500/20' : 'bg-blue-500/20'
+                    }`}>
+                      <i className={`fas ${transaction.type === 'win' ? 'fa-trophy' : 'fa-plus'} text-sm ${
+                        transaction.type === 'win' ? 'text-green-400' : 'text-blue-400'
+                      }`}></i>
+                    </div>
+                    <div>
+                      <p className="text-white font-medium">{transaction.user}</p>
+                      <p className="text-gray-400 text-sm">{transaction.time}</p>
                     </div>
                   </div>
-                </div>
+                  <div className="text-right">
+                    <p className={`font-semibold ${
+                      transaction.type === 'win' ? 'text-green-400' : 'text-blue-400'
+                    }`}>
+                      +¥{transaction.amount.toLocaleString()}
+                    </p>
+                    <p className="text-gray-400 text-sm">{transaction.type === 'win' ? '赢得' : '充值'}</p>
+                  </div>
+                </MotionDiv>
+              ))}
+            </div>
+          </MotionDiv>
+
+          {/* 顶级玩家 */}
+          <MotionDiv
+            initial="hidden"
+            animate={visibleCards.has(5) ? "visible" : "hidden"}
+            variants={cardVariants}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="dashboard-card bento-wide data-card"
+            data-index="5"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-white">顶级玩家</h3>
+              <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                <i className="fas fa-medal text-yellow-400 icon-glow"></i>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* 功能模块窗口叠加层 */}
-        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: Z_INDEX.WINDOW_BASE }}>
-          {openWindows.map(window => (
-            <div key={window.id} className="pointer-events-auto" style={{ zIndex: window.zIndex }}>
-              <Window
-                id={window.id}
-                title={window.title}
-                onClose={() => closeWindow(window.id)}
-                isActive={activeWindow === window.id}
-                onFocus={() => focusWindow(window.id)}
-                initialPosition={{ 
-                  x: Math.min(window.zIndex < 105 ? 50 : 350, window.zIndex * 20), 
-                  y: Math.min(window.zIndex < 105 ? 50 : 120, (window.zIndex - 100) * 25)
-                }}
-              >
-                {window.component}
-              </Window>
+            <div className="space-y-4">
+              {dashboardData.topPlayers.map((player, index) => (
+                <MotionDiv
+                  key={player.name}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 * index }}
+                  className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-lg border border-purple-500/20 hover:border-purple-500/40 transition-all duration-200"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <p className="text-white font-semibold">{player.name}</p>
+                      <p className="text-gray-400 text-sm">{player.wins} 胜</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-green-400 font-semibold">¥{player.earnings.toLocaleString()}</p>
+                    <p className="text-gray-400 text-sm">总收益</p>
+                  </div>
+                </MotionDiv>
+              ))}
             </div>
-          ))}
-        </div>
+          </MotionDiv>
 
-        {/* 功能提示浮动按钮 */}
-        {openWindows.length === 0 && (
-          <div className="absolute bottom-6 right-6" style={{ zIndex: Z_INDEX.TOOLTIP }}>
-            <div className="bg-purple-600/90 backdrop-blur-sm text-white px-4 py-3 rounded-xl shadow-lg animate-pulse">
-              <div className="text-sm font-medium mb-1">💡 试试点击左侧菜单</div>
-              <div className="text-xs text-purple-200">查看仪表板、会员管理等功能</div>
-            </div>
-          </div>
-        )}
-
-        {/* 快速访问按钮（移动端） */}
-        <div className="absolute bottom-6 left-6 md:hidden" style={{ zIndex: Z_INDEX.TOOLTIP }}>
-          <button
-            onClick={() => openQuickModule('dashboard')}
-            className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
-            title="打开仪表板"
+          {/* AI助手聊天 */}
+          <MotionDiv
+            initial="hidden"
+            animate={visibleCards.has(6) ? "visible" : "hidden"}
+            variants={cardVariants}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="dashboard-card bento-large data-card"
+            data-index="6"
           >
-            <Home className="w-5 h-5" />
-          </button>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-white">AI助手</h3>
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                <i className="fas fa-robot text-white icon-glow"></i>
+              </div>
+            </div>
+            <div className="h-96 bg-black/20 rounded-xl border border-white/10 overflow-hidden">
+              <AIChat 
+                context="dashboard"
+                placeholder="您好！我是 PokerPal AI 助手，可以帮您分析数据、管理俱乐部..."
+              />
+            </div>
+          </MotionDiv>
         </div>
+
+        {/* 快速操作按钮 */}
+        <MotionDiv
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="flex flex-wrap gap-4 mt-8"
+        >
+          <button className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-white font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 tech-glow">
+            <i className="fas fa-plus"></i>
+            创建比赛
+          </button>
+          <button className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl text-white font-medium hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 tech-glow">
+            <i className="fas fa-user-plus"></i>
+            邀请会员
+          </button>
+          <button className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl text-white font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 tech-glow">
+            <i className="fas fa-chart-line"></i>
+            查看报表
+          </button>
+        </MotionDiv>
       </div>
     </div>
   );

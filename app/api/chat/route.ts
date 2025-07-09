@@ -582,39 +582,56 @@ export async function POST(req: Request) {
     // 合并传入的history和数据库中的userHistory
     const combinedHistory = [...userHistory, ...(history || [])];
 
-    // 处理降级模式 - 当API不可用时
-    if (!process.env.XAI_API_KEY) {
-      console.log('X.AI API key not configured, using fallback response');
+    // 检查可用的AI API
+    const hasValidXAI = process.env.XAI_API_KEY && process.env.XAI_API_KEY !== "请替换为新的X.AI API密钥";
+    const hasBackupXAI = process.env.XAI_BACKUP_API_KEY && process.env.XAI_BACKUP_API_KEY !== "请替换为新的X.AI API密钥";
+    const hasSiliconFlow = !!process.env.SILICONFLOW_API_KEY;
+    
+    console.log('API availability check:');
+    console.log('hasValidXAI:', hasValidXAI);
+    console.log('hasBackupXAI:', hasBackupXAI);
+    console.log('hasSiliconFlow:', hasSiliconFlow);
+    console.log('XAI_API_KEY value:', process.env.XAI_API_KEY?.substring(0, 20) + '...');
+    console.log('XAI_BACKUP_API_KEY configured:', !!process.env.XAI_BACKUP_API_KEY);
+    
+    // 处理降级模式 - 当没有可用的AI API时
+    if (!hasValidXAI && !hasBackupXAI && !hasSiliconFlow) {
+      console.log('No valid AI API key configured, using fallback response');
       
-      const fallbackResponses = {
-        'zh': [
-          '很抱歉，AI服务暂时不可用。不过我可以为您提供一些基本信息：',
-          '目前我们的AI聊天功能正在维护中，但您仍然可以使用其他功能。',
-          '感谢您的耐心等待，我们正在努力恢复AI助手服务。'
-        ],
-        'zh-TW': [
-          '很抱歉，AI服務暫時不可用。不過我可以為您提供一些基本資訊：',
-          '目前我們的AI聊天功能正在維護中，但您仍然可以使用其他功能。',
-          '感謝您的耐心等待，我們正在努力恢復AI助手服務。'
-        ],
-        'en': [
-          'Sorry, AI service is temporarily unavailable. However, I can provide some basic information:',
-          'Our AI chat feature is currently under maintenance, but you can still use other features.',
-          'Thank you for your patience, we are working to restore the AI assistant service.'
-        ],
-        'ja': [
-          '申し訳ございませんが、AIサービスは一時的に利用できません。ただし、基本的な情報は提供できます：',
-          '現在、AIチャット機能はメンテナンス中ですが、他の機能はご利用いただけます。',
-          'ご迷惑をおかけして申し訳ございません。AIアシスタントサービスの復旧に努めております。'
-        ]
+      // 智能降级回复系统
+      const intelligentFallback = (message: string, locale: string) => {
+        const lowerMessage = message.toLowerCase();
+        
+        if (lowerMessage.includes('你好') || lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+          return locale === 'zh' ? '您好！欢迎来到PokerPal扑克俱乐部！👋\n\n虽然AI助手暂时不可用，但我很高兴为您介绍我们的俱乐部：\n\n🏆 **专业扑克体验** - 我们提供德州扑克、奥马哈等多种游戏\n🎯 **锦标赛系统** - 定期举办各种级别的比赛\n👥 **会员服务** - 完善的积分奖励和VIP特权\n🎪 **社交环境** - 结交志同道合的扑克爱好者\n\n您可以浏览仪表盘了解更多功能，或者联系我们的客服获得帮助！' :
+                   'Hello! Welcome to PokerPal Poker Club! 👋\n\nWhile our AI assistant is temporarily unavailable, I\'m happy to introduce our club:\n\n🏆 **Professional Poker Experience** - We offer Texas Hold\'em, Omaha and more\n🎯 **Tournament System** - Regular competitions at all levels\n👥 **Member Services** - Comprehensive rewards and VIP privileges\n🎪 **Social Environment** - Meet fellow poker enthusiasts\n\nYou can browse the dashboard for more features or contact our support for help!';
+        }
+        
+        if (lowerMessage.includes('俱乐部') || lowerMessage.includes('club') || lowerMessage.includes('介绍')) {
+          return locale === 'zh' ? '🏢 **关于我们的俱乐部**\n\n我们是一家专业的扑克俱乐部，致力于为玩家提供最佳的游戏体验：\n\n📍 **地理位置** - 便利的交通和舒适的环境\n🎮 **游戏种类** - 德州扑克、奥马哈、短牌等\n💰 **多样化赛事** - 从入门级到高级别的锦标赛\n🏆 **奖励系统** - 丰富的积分奖励和礼品兑换\n👨‍💼 **专业服务** - 经验丰富的荷官和客服团队\n🍸 **休闲设施** - 精选酒水和舒适的休息区\n\n想了解更多详情，请浏览我们的各个功能页面！' :
+                   '🏢 **About Our Club**\n\nWe are a professional poker club dedicated to providing the best gaming experience:\n\n📍 **Location** - Convenient transportation and comfortable environment\n🎮 **Game Varieties** - Texas Hold\'em, Omaha, Short Deck and more\n💰 **Diverse Events** - Tournaments from beginner to advanced levels\n🏆 **Reward System** - Rich point rewards and gift exchanges\n👨‍💼 **Professional Service** - Experienced dealers and customer service\n🍸 **Leisure Facilities** - Selected beverages and comfortable lounges\n\nTo learn more, please browse our various feature pages!';
+        }
+        
+        if (lowerMessage.includes('比赛') || lowerMessage.includes('锦标赛') || lowerMessage.includes('tournament')) {
+          return locale === 'zh' ? '🏆 **锦标赛信息**\n\n我们定期举办各种精彩的扑克锦标赛：\n\n⏰ **每日赛事** - 每天都有不同级别的比赛\n💎 **周末特别赛** - 高额奖金池的精彩对决\n🎯 **月度冠军赛** - 争夺最高荣誉的顶级赛事\n🏅 **新手友谊赛** - 适合初学者的入门比赛\n\n💰 **报名费用** - 从100元到5000元不等\n🎁 **丰厚奖品** - 现金奖励、纪念品和积分\n\n请访问锦标赛页面查看具体赛程和报名方式！' :
+                   '🏆 **Tournament Information**\n\nWe regularly host exciting poker tournaments:\n\n⏰ **Daily Events** - Different levels of competitions every day\n💎 **Weekend Specials** - High-stakes exciting showdowns\n🎯 **Monthly Championships** - Elite events for the highest honors\n🏅 **Beginner Friendly** - Entry-level competitions for newcomers\n\n💰 **Buy-ins** - From $15 to $750\n🎁 **Rich Prizes** - Cash rewards, memorabilia and points\n\nVisit the tournament page for schedules and registration!';
+        }
+        
+        if (lowerMessage.includes('会员') || lowerMessage.includes('member') || lowerMessage.includes('积分')) {
+          return locale === 'zh' ? '👥 **会员系统**\n\n加入我们的会员大家庭，享受更多特权：\n\n🌟 **会员等级**\n- 🥉 铜牌会员：基础积分奖励\n- 🥈 银牌会员：额外折扣和优先权\n- 🥇 金牌会员：专属活动和高级服务\n- 💎 钻石会员：最高级别的VIP体验\n\n🎁 **积分奖励**\n- 每次参与游戏获得积分\n- 积分可兑换现金、礼品和免费赛事\n- 推荐朋友获得额外奖励\n\n📱 **会员特权**\n- 优先报名热门赛事\n- 专属客服支持\n- 定期会员活动\n\n请访问会员页面了解更多详情！' :
+                   '👥 **Membership System**\n\nJoin our member family and enjoy more privileges:\n\n🌟 **Membership Levels**\n- 🥉 Bronze: Basic point rewards\n- 🥈 Silver: Extra discounts and priority\n- 🥇 Gold: Exclusive activities and premium service\n- 💎 Diamond: Highest level VIP experience\n\n🎁 **Point Rewards**\n- Earn points for every game\n- Redeem points for cash, gifts and free events\n- Refer friends for bonus rewards\n\n📱 **Member Benefits**\n- Priority registration for popular events\n- Dedicated customer support\n- Regular member activities\n\nVisit the member page for more details!';
+        }
+        
+        // 默认回复
+        return locale === 'zh' ? '🤖 **AI助手暂时不可用**\n\n很抱歉，我们的AI助手目前正在维护中。但您仍然可以：\n\n🎯 **浏览功能页面** - 查看仪表盘、锦标赛、会员等信息\n📞 **联系客服** - 获得人工协助\n🔍 **探索俱乐部** - 了解我们的服务和设施\n\n感谢您的耐心等待，我们正在努力恢复AI服务！' :
+               '🤖 **AI Assistant Temporarily Unavailable**\n\nSorry, our AI assistant is currently under maintenance. But you can still:\n\n🎯 **Browse Feature Pages** - Check dashboard, tournaments, members etc.\n📞 **Contact Support** - Get human assistance\n🔍 **Explore Club** - Learn about our services and facilities\n\nThank you for your patience, we are working to restore AI service!';
       };
-
-      const responses = fallbackResponses[locale as keyof typeof fallbackResponses] || fallbackResponses['zh'];
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      
+      const fallbackResponse = intelligentFallback(message, locale);
 
       return NextResponse.json({
         success: true,
-        reply: randomResponse,
+        reply: fallbackResponse,
         type: 'text'
       });
     }
@@ -704,21 +721,22 @@ export async function POST(req: Request) {
       top_p: 0.9
     };
 
-    // 调用X.AI API（带重试和超时）
+    // 调用AI API（优先使用X.AI，如果不可用则使用SiliconFlow）
     let response;
     let lastError;
-    const maxRetries = 1; // 减少重试次数，避免超过Vercel时间限制
+    let usedAPI = 'none';
     
-    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    // 尝试X.AI API（主 -> 备用）
+    const tryXAIAPI = async (apiKey: string, keyName: string) => {
+      console.log(`Trying X.AI API (${keyName})...`);
       try {
-        // 创建带超时的请求
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30秒超时
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
         
-        response = await fetch('https://api.x.ai/v1/chat/completions', {
+        const response = await fetch('https://api.x.ai/v1/chat/completions', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${process.env.XAI_API_KEY}`,
+            'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(xaiRequest),
@@ -728,27 +746,101 @@ export async function POST(req: Request) {
         clearTimeout(timeoutId);
         
         if (response.ok) {
-          break; // 成功，跳出重试循环
-        } else if (response.status === 429 && attempt < maxRetries) {
-          // 速率限制，等待后重试
-          console.log(`Rate limited (429), retrying attempt ${attempt + 1}...`);
-          await new Promise(resolve => setTimeout(resolve, (attempt + 1) * 3000));
-          continue;
-        } else if (response.status >= 500 && attempt < maxRetries) {
-          // 服务器错误，重试
-          console.log(`Server error (${response.status}), retrying attempt ${attempt + 1}...`);
-          await new Promise(resolve => setTimeout(resolve, (attempt + 1) * 2000));
-          continue;
+          console.log(`X.AI API call successful (${keyName})`);
+          return { response, usedAPI: `x.ai-${keyName}` };
         } else {
-          throw new Error(`X.AI API error: ${response.status} - ${await response.text().catch(() => 'Unknown error')}`);
+          const errorText = await response.text();
+          console.log(`X.AI API error ${response.status} (${keyName}): ${errorText}`);
+          throw new Error(`X.AI API error: ${response.status} - ${errorText}`);
         }
       } catch (error) {
-        lastError = error;
-        console.error(`API attempt ${attempt + 1} failed:`, error);
-        
-        if (attempt < maxRetries) {
-          await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+        console.error(`X.AI API failed (${keyName}):`, error);
+        throw error;
+      }
+    };
+
+    // 如果有有效的X.AI API密钥，优先使用主密钥
+    if (hasValidXAI || hasBackupXAI) {
+      // 先尝试主API密钥（如果有效）
+      if (hasValidXAI) {
+        try {
+          const result = await tryXAIAPI(process.env.XAI_API_KEY!, 'primary');
+          response = result.response;
+          usedAPI = result.usedAPI;
+        } catch (error) {
+          console.log('Primary X.AI API failed, trying backup...');
+          lastError = error;
+          
+          // 主API失败，尝试备用API
+          if (hasBackupXAI) {
+            try {
+              const result = await tryXAIAPI(process.env.XAI_BACKUP_API_KEY!, 'backup');
+              response = result.response;
+              usedAPI = result.usedAPI;
+            } catch (backupError) {
+              console.error('Backup X.AI API also failed:', backupError);
+              lastError = backupError;
+              response = null;
+            }
+          } else {
+            console.log('No backup X.AI API key configured');
+            response = null;
+          }
         }
+      } else if (hasBackupXAI) {
+        // 只有备用API可用
+        try {
+          const result = await tryXAIAPI(process.env.XAI_BACKUP_API_KEY!, 'backup');
+          response = result.response;
+          usedAPI = result.usedAPI;
+        } catch (error) {
+          console.error('Backup X.AI API failed:', error);
+          lastError = error;
+          response = null;
+        }
+      }
+    }
+    
+    // 如果X.AI失败或不可用，使用SiliconFlow
+    if (!response?.ok && hasSiliconFlow) {
+      console.log('Trying SiliconFlow API...');
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+        
+        const siliconFlowRequest = {
+          model: "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+          messages: xaiMessages,
+          stream: false,
+          max_tokens: 8000,
+          temperature: 0.7,
+          top_p: 0.9
+        };
+        
+        response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.SILICONFLOW_API_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(siliconFlowRequest),
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (response.ok) {
+          console.log('SiliconFlow API call successful');
+          usedAPI = 'siliconflow';
+        } else {
+          const errorText = await response.text();
+          console.log(`SiliconFlow API error ${response.status}: ${errorText}`);
+          throw new Error(`SiliconFlow API error: ${response.status} - ${errorText}`);
+        }
+      } catch (error) {
+        console.error('SiliconFlow API failed:', error);
+        lastError = error;
+        response = null;
       }
     }
     
@@ -774,7 +866,7 @@ export async function POST(req: Request) {
     console.log('Raw AI response length:', aiResponse.length);
     console.log('Raw AI response preview:', aiResponse.substring(0, 200) + '...');
 
-    // Grok模型内容处理（简化版）
+    // AI模型内容处理（根据使用的API调整）
     const originalLength = aiResponse.length;
     
     // 1. 基本的空行清理
@@ -783,7 +875,7 @@ export async function POST(req: Request) {
     // 2. 清理可能的多余标记词
     aiResponse = aiResponse.replace(/^(回复[：:]|答案[：:]|回答[：:]|Response:|Answer:|Reply:)\s*/i, '').trim();
     
-    console.log(`Grok content processing: ${originalLength} → ${aiResponse.length} chars`);
+    console.log(`${usedAPI} content processing: ${originalLength} → ${aiResponse.length} chars`);
     
     // 确保响应不为空
     if (!aiResponse || aiResponse.trim().length === 0) {
@@ -820,7 +912,7 @@ export async function POST(req: Request) {
               clubId: clubId,
               role: 'assistant',
               content: aiResponse,
-              metadata: { locale, conversationId, model: 'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B' }
+              metadata: { locale, conversationId, model: usedAPI === 'x.ai' ? 'grok-3-mini' : 'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B' }
             }
           })
         ]);

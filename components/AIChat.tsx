@@ -146,6 +146,12 @@ export default function AIChat({ context = 'general', placeholder }: AIChatProps
     setIsLoading(true);
 
     try {
+      // 准备对话历史
+      const history = messages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+
       // 调用AI API
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -153,8 +159,12 @@ export default function AIChat({ context = 'general', placeholder }: AIChatProps
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          messages: [...messages, userMessage],
-          context
+          message: userMessage.content,
+          history: history,
+          clubId: 'demo-dashboard', // 仪表盘上下文
+          locale: 'zh',
+          userId: session?.user ? (session.user as any).id : null,
+          conversationId: `dashboard-${Date.now()}`
         }),
       });
 
@@ -166,7 +176,7 @@ export default function AIChat({ context = 'general', placeholder }: AIChatProps
       
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.message || t('errorResponse'),
+        content: data.reply || data.message || t('errorResponse'),
         role: 'assistant',
         timestamp: new Date()
       };

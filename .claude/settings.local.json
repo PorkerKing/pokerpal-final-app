@@ -84,7 +84,9 @@
       "Bash(claude --version)",
       "Bash(npm outdated:*)",
       "Bash(DATABASE_URL=\"postgresql://postgres:Githubisgood1@db.pkjkbvvpthneaciyxskv.supabase.co:5432/postgres\" npx prisma db push)",
-      "Bash(./scripts/pre-deploy-check.sh:*)"
+      "Bash(./scripts/pre-deploy-check.sh:*)",
+      "Bash(open http://localhost:3000)",
+      "Bash(awk:*)"
     ],
     "deny": []
   }

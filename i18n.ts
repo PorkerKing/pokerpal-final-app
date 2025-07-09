@@ -8,5 +8,6 @@ export default getRequestConfig(async ({ locale }) => {
 
   return {
     messages: (await import(`./messages/${locale}.json`)).default,
+    timeZone: 'Asia/Shanghai' // 设置默认时区避免环境差异警告
   };
 }); 
